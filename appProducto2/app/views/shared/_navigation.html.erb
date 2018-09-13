@@ -1,0 +1,22 @@
+
+<nav class="navbar navbar-dark bg-dark">
+  <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="root" >Solicitudes</a>
+      </li>
+        <% if user_signed_in? %>
+<li class="nav-item">
+  <a class="nav-link" href="#"> <%= link_to 'Perfil',edit_user_registration_path %></a> 
+</li>
+              <li class="nav-item">
+                <%= link_to 'Salir', destroy_user_session_path, method: :delete %>
+              </li>
+          <li class="nav-item">
+             <a class="nav-link disabled" href="#"><%= current_user.name %></a>
+          </li>
+        <% else %>
+          <li><%= link_to 'Iniciar Sesion', new_user_session_path %></li>
+          <li><%= link_to 'Registro', new_user_registration_path %></li>
+        <% end %>
+</ul>
+</nav>

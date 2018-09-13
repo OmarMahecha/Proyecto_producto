@@ -1,0 +1,2 @@
+class Tiempo < ApplicationRecord
+end
