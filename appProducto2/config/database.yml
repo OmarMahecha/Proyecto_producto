@@ -29,7 +29,7 @@ development:
   timeout: 5000
   username: postgres
   password: Sm123456*
-  host: localhost
+  host: 14.14.14.51
   
 
   # The specified database role being used to connect to postgres.
@@ -70,7 +70,7 @@ test:
   timeout: 5000
   username: postgres
   password: Sm123456*
-  host: localhost
+  host: 14.14.14.51
 
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -100,5 +100,5 @@ production:
   timeout: 5000
   username: postgres
   password: Sm123456*
-  host: localhost
+  host: 14.14.14.51
  

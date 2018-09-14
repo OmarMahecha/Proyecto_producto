@@ -128,6 +128,6 @@ ActiveRecord::Schema.define(version: 2018_09_13_135006) do
   add_foreign_key "historicos", "estados"
   add_foreign_key "historicos", "solicitudes", column: "solicitud_id"
   add_foreign_key "historicos", "users"
-  add_foreign_key "solicitudes", "estados", column: "estado_id"
+  add_foreign_key "solicitudes", "estados"
   add_foreign_key "solicitudes", "users"
 end
