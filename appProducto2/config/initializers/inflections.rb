@@ -25,6 +25,5 @@ ActiveSupport::Inflector.inflections do |inflect|
     inflect.plural 'perfil', 'perfiles'
     inflect.plural 'estado', 'estados'
     inflect.plural 'historico', 'historicos'
-     inflect.plural 'alerta', 'alertas'
-
+    inflect.plural 'alerta', 'alertas'
 end 
