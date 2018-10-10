@@ -1,0 +1,2 @@
+class TipoAdjunto < ApplicationRecord
+end

@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fecha_cambio: 2018-09-05 19:03:14
+  observacion_historico: MyText
+
+two:
+  fecha_cambio: 2018-09-05 19:03:14
+  observacion_historico: MyText

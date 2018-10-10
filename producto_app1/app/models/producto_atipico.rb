@@ -1,0 +1,2 @@
+class ProductoAtipico < ApplicationRecord
+end

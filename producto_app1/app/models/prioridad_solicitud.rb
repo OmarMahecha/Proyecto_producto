@@ -1,0 +1,2 @@
+class PrioridadSolicitud < ApplicationRecord
+end

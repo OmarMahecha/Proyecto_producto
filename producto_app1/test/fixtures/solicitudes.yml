@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fecha_creacion: 2018-09-05 19:11:09
+  tiempo_oferta_comercial: 2018-09-05 19:11:09
+  es_prioridad: false
+  es_atipico: false
+
+two:
+  fecha_creacion: 2018-09-05 19:11:09
+  tiempo_oferta_comercial: 2018-09-05 19:11:09
+  es_prioridad: false
+  es_atipico: false

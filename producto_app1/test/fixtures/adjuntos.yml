@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fecha_adjunto: 2018-09-05 18:46:37
+  ruta_adjunto: MyText
+
+two:
+  fecha_adjunto: 2018-09-05 18:46:37
+  ruta_adjunto: MyText
