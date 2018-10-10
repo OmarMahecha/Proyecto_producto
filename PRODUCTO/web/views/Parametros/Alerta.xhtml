@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{usuarioBean.validaSession()}"> </f:event>
+        </f:metadata>
+    </h:head>
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="growl" life="2000" autoUpdate="true"/>
+                <h:form id="formAlerta" >
+
+                    <p:panel id="panelTablaAlerta" header="ALERTA" style="margin-bottom:5px;">
+                        <p:commandButton value="Nuevo Alerta" oncomplete="PF('dialogAlerta').show();" actionListener="#{alertaBean.prepararNuevoAlerta()}" update="formCreaAlerta:pCrearAlerta"/>
+                        <p:dataTable id="tablaAlerta" var="perf" value="#{alertaBean.listaAlertas}" paginator="true" paginatorPosition="top" rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50">
+                            <p:column headerText="ID ALERTA" filterBy="#{perf.idAlerta}" sortBy="#{perf.idAlerta}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.idAlerta}" style="margin:0 auto;"/>
+                            </p:column>
+                            <p:column headerText="ALERTA" filterBy="#{perf.mensaje}" sortBy="#{perf.mensaje}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.mensaje}"/>
+                            </p:column>
+
+                            <p:column headerText="Otras Acciones">
+                                <p:commandButton icon="ui-icon-pencil" update="formEditarAlerta:dlgEditarAlerta"  oncomplete="PF('dialogEditarAlerta').show();" title="Editar Alerta" style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{alertaBean.alerta}" value="#{perf}"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon=" ui-icon-closethick" update="formEliminarAlerta:dlgEliminarAlerta"  oncomplete="PF('dialogEliminarAlerta').show();" title="Eliminar Alerta " style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{alertaBean.alerta}" value="#{perf}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+                <h:form id="formCreaAlerta">
+                    <p:dialog header="CREAR ALERTA" hideEffect="explode" id="dlgAlerta" widgetVar="dialogAlerta" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+                        <p:panel id="panelAlerta" header="CREAR ALERTA" style="margin-bottom:5px;">
+                            <h:panelGrid id="pCrearAlerta" columns="2" >
+                                <p:outputLabel for="nomT" value="Mensaje:"/>
+                                <p:inputTextarea id="nomT" value="#{alertaBean.alerta.mensaje}" required="true" title="Ingresar Alerta" requiredMessage="Debe Ingresar un Alerta" />
+
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{alertaBean.nuevoAlerta()}"  value="Guardar" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEditarAlerta">
+                    <p:dialog hideEffect="explode" id="dlgEditarAlerta" header="EDITAR ALERTA" closable="false" widgetVar="dialogEditarAlerta" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEditarAlerta" columns="2"  >
+
+                            <p:outputLabel for="tie" value="Nombre Alerta: "/>
+                            <p:inputTextarea id="tie" value="#{alertaBean.alerta.mensaje}" required="true" title="Ingresar Alerta" requiredMessage="Debe Ingresar un nombre de Alerta" />
+                            
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{alertaBean.editarAlerta()}"   value="Guardar Cambios" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{alertaBean.prepararNuevoAlerta()}" oncomplete="PF('dialogEditarAlerta').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEliminarAlerta">
+                    <p:dialog hideEffect="explode" id="dlgEliminarAlerta" header="ELIMINAR ALERTA" closable="false" widgetVar="dialogEliminarAlerta" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEliminarAlerta" columns="2"  >
+
+                            <p:outputLabel for="tiem" value="Alerta: "/>
+                            <p:inputTextarea id="tiem" value="#{alertaBean.alerta.mensaje}" required="true" title="Alerta" disabled="true" />
+
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{alertaBean.eliminarAlerta()}"   value="ELIMINAR" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea eliminar registro?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{alertaBean.prepararNuevoAlerta()}" oncomplete="PF('dialogEliminarAlerta').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

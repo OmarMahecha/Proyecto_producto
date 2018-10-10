@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3/10/2018 12:48:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.TipoAdjunto" table="TIPO_ADJUNTO" schema="dbo" catalog="producto" optimistic-lock="version">
+        <id name="idTipoAdjunto" type="int">
+            <column name="ID_TIPO_ADJUNTO" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreTipoAdjunto" type="string">
+            <column name="nombre_tipo_adjunto" length="150" />
+        </property>
+    </class>
+</hibernate-mapping>

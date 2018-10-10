@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3/10/2018 12:48:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.Usuario" table="USUARIO" schema="dbo" catalog="producto" optimistic-lock="version">
+        <id name="idUsuario" type="int">
+            <column name="ID_USUARIO" />
+            <generator class="identity" />
+        </id>
+        <property name="usuario" type="string">
+            <column name="USUARIO" length="150" not-null="true" />
+        </property>
+        
+        <property name="password" type="string">
+            <column name="password" length="200" />
+        </property>
+        
+        <property name="isActivo" type="java.lang.Boolean">
+            <column name="isActivo" />
+        </property>
+        
+        <many-to-one name="idPerfil" column="ID_PERFIL" class="sys.model.Perfil"/>
+        <many-to-one name="cedula" column="cedula" class="sys.model.Funcionario"/>
+        
+    </class>
+</hibernate-mapping>

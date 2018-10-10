@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class name="sys.model.Cotizacion" table="COTIZACION" schema="dbo" catalog="PRODUCTO" optimistic-lock="version">
+  <id name="codigo" type="int">
+            <column name="Codigo" />
+            <generator class="assigned" />
+        </id>
+        <property name="cotizacion" type="string">
+            <column name="Cotizacion"  not-null="false" />
+        </property>
+        
+        <property name="codigoServicio" type="string">
+            <column name="CodigoServicio" length="20" not-null="false" />
+        </property>
+        
+        <property name="servicio" type="string">
+            <column name="Servicio" length="250" not-null="false" />
+        </property>
+        
+        <property name="cantidad" type="java.lang.Integer">
+            <column name="Cantidad"/>
+        </property>
+        
+        <property name="valorUnitario" type="java.lang.Integer">
+            <column name="VlrUnitario" />
+        </property>
+        
+        <property name="total" type="java.lang.Integer">
+            <column name="total" />
+        </property>
+        
+        <property name="nota" type="string">
+            <column name="nota" length="250" not-null="false" />
+        </property>
+        
+        <property name="iva" type="java.lang.Integer">
+            <column name="IVA" />
+        </property>
+        
+        <property name="nit" type="string">
+            <column name="Nit" length="15" not-null="false" />
+        </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class  name="sys.model.Funcionario" optimistic-lock="version" table="FUNCIONARIO" schema="dbo" catalog="PRODUCTO">
+          <id name="cedula" type="string">
+            <column name="CEDULA" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombres" type="string">
+            <column name="NOMBRES"  not-null="false" />
+        </property>
+        
+        <property name="cargo" type="string">
+            <column name="CARGO" length="35" not-null="false" />
+        </property>
+  </class>    
+</hibernate-mapping>

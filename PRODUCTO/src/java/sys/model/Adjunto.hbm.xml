@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3/10/2018 12:48:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.Adjunto" table="ADJUNTO" schema="dbo" catalog="producto" optimistic-lock="version">
+        <id name="idAdjunto" type="int">
+            <column name="ID_ADJUNTO" />
+            <generator class="identity" />
+        </id>
+       
+        <many-to-one name="idSolicitud" column="ID_SOLICITUD" class="sys.model.Solicitud"/>    
+        
+        <many-to-one name="idTipoAdjunto" column="ID_TIPO_ADJUNTO" class="sys.model.TipoAdjunto"/>
+        
+        <property name="fechaAdjunto" type="timestamp">
+            <column name="fecha_adjunto" length="23" not-null="true" />
+        </property>
+        
+        <many-to-one name="idUsuario" column="ID_USUARIO" class="sys.model.Usuario"/>
+        
+        <property name="rutaAdjunto" type="string">
+            <column name="ruta_adjunto" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

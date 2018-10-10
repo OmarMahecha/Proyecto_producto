@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{usuarioBean.validaSession()}"> </f:event>
+        </f:metadata>
+    </h:head>
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formUsuario" >
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:panel id="panelTabla" header="USUARIOS" style="margin-bottom:5px;">
+                        <p:commandButton value="Nuevo Usuario" oncomplete="PF('dialogUsuario').show();" actionListener="#{usuarioBean.preparaNuevoUsuario()}" update="formCreaUsuario:pCrearUsuario"/>
+                        <p:dataTable id="tablaUsuario" var="usu" value="#{usuarioBean.listaUsuarios}" paginator="true" paginatorPosition="top" rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50">
+                            <p:column headerText="ID" filterBy="#{usu.idUsuario}" sortBy="#{usu.idUsuario}" filterMatchMode="contains">
+                                <h:outputText value="#{usu.idUsuario}" style="margin:0 auto;"/>
+                            </p:column>
+
+                            <p:column headerText="USUARIO" filterBy="#{usu.usuario}" sortBy="#{usu.usuario}" filterMatchMode="contains">
+                                <h:outputText value="#{usu.usuario}"/>
+                            </p:column>
+
+                            <p:column headerText="NOMBRE" filterBy="#{usu.cedula.nombres}" sortBy="#{usu.cedula.nombres}" filterMatchMode="contains">
+                                <h:outputText value="#{usu.cedula.nombres}"/>
+                            </p:column>
+
+                            <p:column headerText="PERFIL" filterBy="#{usu.idPerfil.perfil}" sortBy="#{usu.idPerfil.perfil}" filterMatchMode="contains">
+                                <h:outputText value="#{usu.idPerfil.perfil}"/>
+                            </p:column>
+
+                            <p:column headerText="ACTIVO"  sortBy="#{usu.isActivo}" filterMatchMode="contains">
+                                <p:selectBooleanCheckbox value="#{usu.isActivo}"  disabled="true" />
+                            </p:column>
+                            <p:column headerText="Otras Acciones">
+                                <p:commandButton icon="ui-icon-pencil" update="formEditarUsuario:dlgEditarUsuario "  oncomplete="PF('dialogEditarUsuario').show();" title="Editar Usuario" style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usu}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+
+
+                <h:form id="formCreaUsuario">
+                    <p:dialog hideEffect="explode" id="dlgUsuario" widgetVar="dialogUsuario" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+                        <p:panel id="panel" header="CREAR USUARIO" style="margin-bottom:5px;">
+                            <p:growl id="growl" life="2000" autoUpdate="true"/>
+                            <h:panelGrid id="pCrearUsuario" columns="6" >
+                                <p:outputLabel for="per" value="Perfil :"/>
+                                <p:selectOneMenu id ="per" value="#{usuarioBean.perfil.idPerfil}" required="true" requiredMessage="Debe seleccionar un perfil">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
+                                    <f:selectItems value="#{perfilBean.listaPerfiles}" var="per" itemValue="#{per.idPerfil}" itemLabel="#{per.perfil}"/>
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="fun" value="Funcionario :"/>
+                                <p:selectOneMenu id ="fun" value="#{usuarioBean.funcionario.cedula}" required="true" requiredMessage="Debe seleccionar un funcionario" filter="true">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
+                                    <f:selectItems value="#{funcionarioBean.listaFuncionario}" var="fun" itemValue="#{fun.cedula}" itemLabel="#{fun.nombres}"/>
+                                </p:selectOneMenu>
+
+
+                                <p:outputLabel for="usu" value="Usuario: "/>
+                                <p:inputText id="usu" value="#{usuarioBean.usuario.usuario}" required="true" title="Ingresar Usuario" requiredMessage="Debe Ingresar un nombre de usuario" />
+
+
+                                <p:outputLabel for="pas1" value="Contraseña: "/>
+                                <p:password id="pas1" value="#{usuarioBean.usuario.password}" required="true" title="Ingresar Contraseña" requiredMessage="Debe Ingresar una contraseña de usuario" match="pas2"/>
+                                <p:outputLabel for="pas2" value="Confirmar Contraseña: "/>
+                                <p:password id="pas2" value="#{usuarioBean.usuario.password}" required="true" title="Confirmar Contraseña" requiredMessage="Debe Ingresar una contraseña de usuario"/>
+                                <p:outputLabel for="act" value="Activo: "/>
+                                <p:selectBooleanCheckbox id="act" value="#{usuarioBean.usuario.isActivo}"  required="true" />
+                            </h:panelGrid>
+
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{usuarioBean.nuevoUsuario()}"   value="Guardar" style="margin-left:20px;margin-bottom: 5px;" >
+                                        <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true">
+                                        <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                        <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                    </p:confirmDialog>
+                                </f:facet>
+                            </p:toolbar>
+                        </p:panel>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEditarUsuario">
+                    <p:dialog hideEffect="explode" id="dlgEditarUsuario" header="EDITAR USUARIO" closable="false" widgetVar="dialogEditarUsuario" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+                        <p:panel id="panelEdit" header="#{usuarioBean.usuario.cedula.nombres}" style="margin-bottom:5px;">
+                            <p:growl id="growl" life="2000" autoUpdate="true"/>
+
+                            <p:panel id="pRestablece">
+                                <p:outputLabel for="contra" value="Restablecer Contraseña: "/>
+                                <p:selectBooleanButton id="contra" value="#{usuarioBean.restablecer}" onLabel="Yes" offLabel="No" onIcon="ui-icon-check" offIcon="ui-icon-close" disabled="#{usuarioBean.restablecer}" style="width:60px" >
+                                    <p:ajax update="pRestablece" />
+                                </p:selectBooleanButton>
+                                <p:password id="paswo" value="#{usuarioBean.usuario.password}"  required="true" requiredMessage="Debe Ingresar contraseña" rendered="#{usuarioBean.restablecer}" />
+                            </p:panel>
+                            <p:separator/>
+                            <h:panelGrid id="pEditarUsuario" columns="6" >
+                                
+                                <p:outputLabel for="func" value="Funcionario :"/>
+                                <p:selectOneMenu id ="func" value="#{usuarioBean.funcionario.cedula}" required="true" requiredMessage="Debe seleccionar un Funcionario">
+                                    <f:selectItem  itemLabel="#{usuarioBean.usuario.cedula.nombres}" itemValue="#{usuarioBean.usuario.cedula.cedula}"/>
+                                    <f:selectItems value="#{funcionarioBean.listaFuncionario}" var="funci" itemValue="#{funci.cedula}" itemLabel="#{funci.nombres}"/>
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="per" value="Perfil :"/>
+                                <p:selectOneMenu id ="per" value="#{usuarioBean.perfil.idPerfil}" required="true" requiredMessage="Debe seleccionar un perfil">
+                                    <f:selectItem  itemLabel="#{usuarioBean.usuario.idPerfil.perfil}" itemValue="#{usuarioBean.usuario.idPerfil.idPerfil}"/>
+                                    <f:selectItems value="#{perfilBean.listaPerfiles}" var="per" itemValue="#{per.idPerfil}" itemLabel="#{per.perfil}"/>
+                                </p:selectOneMenu>
+
+
+                                <p:outputLabel for="usu" value="Usuario: "/>
+                                <p:inputText id="usu" value="#{usuarioBean.usuario.usuario}" required="true" title="Ingresar Usuario" requiredMessage="Debe Ingresar un nombre de usuario" />
+
+
+                                <p:outputLabel for="act" value="Activo: "/>
+                                <p:selectBooleanCheckbox id="act" value="#{usuarioBean.usuario.isActivo}"  required="true" />
+
+
+                            </h:panelGrid>
+
+                            <p:toolbar>
+                                <f:facet name="left">
+                                    <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{usuarioBean.actualizarUsuario()}"   value="Guardar Cambios" style="margin-left:20px;margin-bottom: 5px;" >
+                                        <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                    </p:commandButton>
+                                    <p:commandButton value="CANCELAR" action="#{usuarioBean.preparaNuevoUsuario()}" oncomplete="PF('dialogEditarUsuario').hide();" />
+                                    <p:confirmDialog global="true">
+                                        <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                        <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                    </p:confirmDialog>
+                                </f:facet>
+                            </p:toolbar>
+                        </p:panel>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

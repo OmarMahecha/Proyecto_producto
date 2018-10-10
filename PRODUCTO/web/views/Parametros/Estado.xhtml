@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{usuarioBean.validaSession()}"> </f:event>
+        </f:metadata>
+    </h:head>
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="growl" life="2000" autoUpdate="true"/>
+                <h:form id="formEstado" >
+
+                    <p:panel id="panelTablaEstado" header="ESTADO" style="margin-bottom:5px;">
+                        <p:commandButton value="Nuevo Estado" oncomplete="PF('dialogEstado').show();" actionListener="#{estadoBean.prepararNuevoEstado()}" update="formCreaEstado:pCrearEstado"/>
+                        <p:dataTable id="tablaEstado" var="perf" value="#{estadoBean.listaEstados}" paginator="true" paginatorPosition="top" rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50">
+                            <p:column headerText="ID ESTADO" filterBy="#{perf.idEstado}" sortBy="#{perf.idEstado}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.idEstado}" style="margin:0 auto;"/>
+                            </p:column>
+                            <p:column headerText="ESTADO" filterBy="#{perf.estado}" sortBy="#{perf.estado}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.estado}"/>
+                            </p:column>
+                            
+
+                            <p:column headerText="Otras Acciones">
+                                <p:commandButton icon="ui-icon-pencil" update="formEditarEstado:dlgEditarEstado"  oncomplete="PF('dialogEditarEstado').show();" title="Editar Estado" style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{estadoBean.estado}" value="#{perf}"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon=" ui-icon-closethick" update="formEliminarEstado:dlgEliminarEstado"  oncomplete="PF('dialogEliminarEstado').show();" title="Eliminar Estado " style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{estadoBean.estado}" value="#{perf}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+                <h:form id="formCreaEstado">
+                    <p:dialog header="CREAR ESTADO" hideEffect="explode" id="dlgEstado" widgetVar="dialogEstado" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+                        <p:panel id="panelEstado" header="CREAR ESTADO" style="margin-bottom:5px;">
+                            <h:panelGrid id="pCrearEstado" columns="2" >
+                                <p:outputLabel for="nomT" value="Nombre Estado :"/>
+                                <p:inputText id="nomT" value="#{estadoBean.estado.estado}" required="true" title="Ingresar Estado" requiredMessage="Debe Ingresar un Estado" />
+                                                              
+
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{estadoBean.nuevoEstado()}"  value="Guardar" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEditarEstado">
+                    <p:dialog hideEffect="explode" id="dlgEditarEstado" header="EDITAR ESTADO" closable="false" widgetVar="dialogEditarEstado" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEditarEstado" columns="2"  >
+
+                            <p:outputLabel for="tie" value="Nombre Estado: "/>
+                            <p:inputText id="tie" value="#{estadoBean.estado.estado}" required="true" title="Ingresar Estado" requiredMessage="Debe Ingresar un nombre de Estado" />
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{estadoBean.editarEstado()}"   value="Guardar Cambios" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{estadoBean.prepararNuevoEstado()}" oncomplete="PF('dialogEditarEstado').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEliminarEstado">
+                    <p:dialog hideEffect="explode" id="dlgEliminarEstado" header="ELIMINAR ESTADO" closable="false" widgetVar="dialogEliminarEstado" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEliminarEstado" columns="2"  >
+
+                            <p:outputLabel for="tiem" value="Estado: "/>
+                            <p:inputText id="tiem" value="#{estadoBean.estado.estado}" required="true" title="Estado" disabled="true" />
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{estadoBean.eliminarEstado()}"   value="ELIMINAR" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea eliminar registro?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{estadoBean.prepararNuevoEstado()}" oncomplete="PF('dialogEliminarEstado').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

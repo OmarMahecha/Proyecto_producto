@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{usuarioBean.validaSession()}"> </f:event>
+        </f:metadata>
+    </h:head>
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="growl" life="2000" autoUpdate="true"/>
+                <h:form id="formTiempo" >
+
+                    <p:panel id="panelTablaTiempo" header="TIEMPO" style="margin-bottom:5px;">
+                        <p:commandButton value="Nuevo Tiempo" oncomplete="PF('dialogTiempo').show();" actionListener="#{tiempoBean.prepararNuevoTiempo()}" update="formCreaTiempo:pCrearTiempo"/>
+                        <p:dataTable id="tablaTiempo" var="perf" value="#{tiempoBean.listaTiempos}" paginator="true" paginatorPosition="top" rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50">
+                            <p:column headerText="ID TIEMPO" filterBy="#{perf.idTiempo}" sortBy="#{perf.idTiempo}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.idTiempo}" style="margin:0 auto;"/>
+                            </p:column>
+                            <p:column headerText="TIEMPO" filterBy="#{perf.dias}" sortBy="#{perf.dias}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.dias} Dias, #{perf.horas} Horas, #{perf.minutos} minutos"/>
+                            </p:column>
+
+                            <p:column headerText="DETALLE" filterBy="#{perf.detalle}" sortBy="#{perf.detalle}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.detalle}"/>
+                            </p:column>
+
+                            <p:column headerText="Otras Acciones">
+                                <p:commandButton icon="ui-icon-pencil" update="formEditarTiempo:dlgEditarTiempo"  oncomplete="PF('dialogEditarTiempo').show();" title="Editar Tiempo" style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{tiempoBean.tiempo}" value="#{perf}"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon=" ui-icon-closethick" update="formEliminarTiempo:dlgEliminarTiempo"  oncomplete="PF('dialogEliminarTiempo').show();" title="Eliminar Tiempo " style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{tiempoBean.tiempo}" value="#{perf}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+                <h:form id="formCreaTiempo">
+                    <p:dialog header="CREAR TIEMPO" hideEffect="explode" id="dlgTiempo" widgetVar="dialogTiempo" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+                        <p:panel id="panelTiempo" header="CREAR TIEMPO" style="margin-bottom:5px;">
+                            <h:panelGrid id="pCrearTiempo" columns="2" >
+                                <p:outputLabel for="nomD" value="Total días :"/>
+                                <p:inputText id="nomD" value="#{tiempoBean.tiempo.dias}" required="true" title="Ingresar numero de dias" requiredMessage="Debe Ingresar numero de dias" />
+
+                                <p:outputLabel for="nomH" value="Total horas :"/>
+                                <p:inputText id="nomH" value="#{tiempoBean.tiempo.horas}" required="true" title="Ingresar numero de horas" requiredMessage="Debe Ingresar numero de horas" />
+
+                                <p:outputLabel for="nomM" value="Total minutos:"/>
+                                <p:inputText id="nomM" value="#{tiempoBean.tiempo.minutos}" required="true" title="Ingresar cantidad de minutos" requiredMessage="Debe Ingresar cantidad de minutos" />
+
+                                <p:outputLabel for="detT" value="Detalle Tiempo :"/>
+                                <p:inputTextarea id="detT" value="#{tiempoBean.tiempo.detalle}" required="true" title="Ingresar Tiempo" requiredMessage="Debe Ingresar un detalle de el tiempo que esta ingresando" />
+
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{tiempoBean.nuevoTiempo()}"  value="Guardar" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEditarTiempo">
+                    <p:dialog hideEffect="explode" id="dlgEditarTiempo" header="EDITAR TIEMPO" closable="false" widgetVar="dialogEditarTiempo" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEditarTiempo" columns="2"  >
+
+                            <p:outputLabel for="nomD" value="Total días :"/>
+                            <p:inputText id="nomD" value="#{tiempoBean.tiempo.dias}" required="true" title="Ingresar numero de dias" requiredMessage="Debe Ingresar numero de dias" />
+
+                            <p:outputLabel for="nomH" value="Total horas :"/>
+                            <p:inputText id="nomH" value="#{tiempoBean.tiempo.horas}" required="true" title="Ingresar numero de horas" requiredMessage="Debe Ingresar numero de horas" />
+
+                            <p:outputLabel for="nomM" value="Total minutos:"/>
+                            <p:inputText id="nomM" value="#{tiempoBean.tiempo.minutos}" required="true" title="Ingresar cantidad de minutos" requiredMessage="Debe Ingresar cantidad de minutos" />
+
+                            <p:outputLabel for="det" value="Detalle Tiempo: "/>
+                            <p:inputText id="det" value="#{tiempoBean.tiempo.detalle}" required="true" title="Ingresar Detalle Tiempo" requiredMessage="Debe Ingresar un Detalle para el Tiempo" />
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{tiempoBean.editarTiempo()}"   value="Guardar Cambios" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{tiempoBean.prepararNuevoTiempo()}" oncomplete="PF('dialogEditarTiempo').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEliminarTiempo">
+                    <p:dialog hideEffect="explode" id="dlgEliminarTiempo" header="ELIMINAR TIEMPO" closable="false" widgetVar="dialogEliminarTiempo" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEliminarTiempo" columns="2"  >
+
+                            <p:outputLabel for="nomD" value="Total días :"/>
+                            <p:inputText id="nomD" value="#{tiempoBean.tiempo.dias}" required="true" title="Numero de dias" requiredMessage="Numero de dias" disabled="true" >
+                                <f:validateRegex pattern="^\d+$"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="nomH" value="Total horas :"/>
+                            <p:inputText id="nomH" value="#{tiempoBean.tiempo.horas}" required="true" title="Numero de horas" requiredMessage="Numero de horas" disabled="true">
+                                <f:validateRegex pattern="^\d+$"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="nomM" value="Total minutos:"/>
+                            <p:inputText id="nomM" value="#{tiempoBean.tiempo.minutos}" required="true" title="Cantidad de minutos" requiredMessage="Cantidad de minutos" disabled="true">
+                                <f:validateRegex pattern="^\d+$"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="detal" value="Detalle Tiempo: "/>
+                            <p:inputText id="detal" value="#{tiempoBean.tiempo.detalle}" required="true" title="Detalle Tiempo" disabled="true" />
+
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{tiempoBean.eliminarTiempo()}"   value="ELIMINAR" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea eliminar registro?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{tiempoBean.prepararNuevoTiempo()}" oncomplete="PF('dialogEliminarTiempo').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

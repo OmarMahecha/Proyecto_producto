@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{usuarioBean.validaSession()}"> </f:event> 
+            <f:viewAction action="#{solicitudBean.prepararNuevaSolicitud()}"></f:viewAction>
+        </f:metadata>
+    </head>
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <h:form id="formNuevaSolicitud">
+
+                    <p:panel id="pan"  header="NUEVA SOLICITUD">  
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="grid1" columns="6" cellpadding="15" cellspacing="5" >
+
+                            <p:outputLabel  value="Identificacion cliente" for="ident"/>
+                            <p:inputText  id="ident" value="#{solicitudBean.solicitud.identificacionCliente}" required="true" requiredMessage="Debe ingresar la identificacion del cliente"/>
+
+                            <p:outputLabel  value="RazonSocial" for="razon"/>
+                            <p:inputText id="razon" value="#{solicitudBean.solicitud.nombreEmpresa}" required="true" />
+
+                            <p:outputLabel  value="Numero de Cotización" for="coti"/>
+                            <p:inputText id="coti" value="#{solicitudBean.solicitud.numeroCotizacion}" required="true" />
+                            
+                            <p:outputLabel  value="Nombre de Contacto" for="cont"/>
+                            <p:inputText  id="cont" value="#{solicitudBean.solicitud.nombreContacto}" required="false" requiredMessage="Debe ingresar nombre de contacto">
+                                <f:validateRegex pattern="^[a-zA-Z .]*$"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Cargo" for="carg"/>
+                            <p:inputText id="carg" value="#{solicitudBean.solicitud.cargoContacto}" required="true" requiredMessage="Debe ingresar Cargo">
+                                <f:validateRegex pattern="^[a-zA-Z .]*$"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Correo" for="corr"/>
+                            <p:inputText id="corr" value="#{solicitudBean.solicitud.correoContacto}" required="true" requiredMessage="Debe ingresar Correo">
+                                <f:validateRegex pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"/>
+                            </p:inputText>
+
+
+                            <p:outputLabel value="Direccion" for="dir"/>
+                            <p:inputText id="dir" value="#{solicitudBean.solicitud.direccionCliente}" required="true" requiredMessage="Debe ingresar Direccion"/>
+
+
+                            <p:outputLabel value="Telefono fijo o Celular de Contacto" for="tel"/>
+                            <p:inputText id="tel" value="#{solicitudBean.solicitud.celularTelefono}" required="true" requiredMessage="Debe ingresar Telefono de contacto">
+                                <f:validateRegex pattern="^\d+$"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Ciudad / Departamento" for="dep"/>
+                            <p:inputText id="dep" value="#{solicitudBean.solicitud.ciudadDepartamento}" required="true" requiredMessage="Debe ingresar Ciudad">
+                                <f:validateRegex pattern="^[a-zA-Z .]*$"/>
+                            </p:inputText>
+
+                        </h:panelGrid>
+                      
+                    </p:panel>    
+                    <p:commandButton value="Guardar" update=":formNuevaSolicitud:pan" actionListener="#{solicitudBean.nuevoCliente()}">
+
+                        <p:confirm message="¿Esta seguro que desea guardar solicitud?" header="Aviso" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
+                        <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                    </p:confirmDialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

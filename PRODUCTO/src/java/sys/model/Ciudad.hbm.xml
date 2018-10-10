@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+  <class  name="sys.model.Ciudad" optimistic-lock="version" table="CIUDAD" schema="dbo" catalog="PRODUCTO">
+          <id name="codigo" type="string">
+            <column name="CODIGO" />
+            <generator class="assigned" />
+        </id>
+        <property name="nomCiu" type="string">
+            <column name="NOMCIUD" />
+        </property>
+        
+        <property name="nomDpto" type="string">
+            <column name="NOMDPTO" />
+        </property>
+  </class>    
+</hibernate-mapping>

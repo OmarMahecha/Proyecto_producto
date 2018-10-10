@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3/10/2018 12:48:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.Solicitud" table="SOLICITUD" schema="dbo" catalog="producto" optimistic-lock="version">
+        <id name="idSolicitud" type="int">
+            <column name="ID_SOLICITUD" />
+            <generator class="identity" />
+        </id>
+        
+        <many-to-one name="idUsuario" column="ID_USUARIO" class="sys.model.Usuario"/>
+        
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="23" not-null="true" />
+        </property>
+        <property name="idCliente" type="string">
+            <column name="ID_CLIENTE" length="15" />
+        </property>
+
+        <many-to-one name="idEstadoActual" column="ID_ESTADO_ACTUAL" class="sys.model.Estado"/>    
+            
+        <property name="tiempoOfertaComercial" type="timestamp">
+            <column name="tiempo_oferta_comercial" length="23" />
+        </property>
+        <property name="esPrioridad" type="java.lang.Boolean">
+            <column name="es_prioridad" />
+        </property>
+        <property name="esAtipico" type="java.lang.Boolean">
+            <column name="es_atipico" />
+        </property>
+        <property name="tiempoAtipico" type="timestamp">
+            <column name="tiempo_atipico" length="23" />
+        </property>
+        <property name="observacionAtipico" type="string">
+            <column name="observacion_atipico" />
+        </property>
+        <property name="observacionPrioridad" type="string">
+            <column name="observacion_prioridad" />
+        </property>
+        
+         <property name="nombreEmpresa" type="string">
+            <column name="nombreEmpresa" length="50" />
+        </property>
+        <property name="nombreContacto" type="string">
+            <column name="nombreContacto" length="50" />
+        </property>
+        <property name="cargoContacto" type="string">
+            <column name="cargoContacto" length="50" />
+        </property>
+        <property name="correoContacto" type="string">
+            <column name="correoContacto" length="60" />
+        </property>
+        <property name="direccionCliente" type="string">
+            <column name="direccionCliente" length="50" />
+        </property>
+        <property name="celularTelefono" type="string">
+            <column name="celularTelefono" length="15" />
+        </property>
+        <property name="ciudadDepartamento" type="string">
+            <column name="ciudadDepartamento" length="80" />
+        </property>
+        <property name="numeroCotizacion" type="string">
+            <column name="numeroCotizacion" length="10" />
+        </property>
+        <property name="identificacionCliente" type="string">
+            <column name="identificacionCliente" length="15" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

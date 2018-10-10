@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{usuarioBean.validaSession()}"> </f:event>
+        </f:metadata>
+    </h:head>
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="growl" life="2000" autoUpdate="true"/>
+                <h:form id="formTipoAdjunto" >
+
+                    <p:panel id="panelTablaTipoAdjunto" header="TIPO ADJUNTO" style="margin-bottom:5px;">
+                        <p:commandButton value="Nuevo Tipo de Adjunto" oncomplete="PF('dialogTipoAdjunto').show();" actionListener="#{tipoAdjuntoBean.prepararNuevoTipoAdjunto()}" update="formCreaTipoAdjunto:pCrearTipoAdjunto"/>
+                        <p:dataTable id="tablaTipoAdjunto" var="perf" value="#{tipoAdjuntoBean.listaTipoAdjuntos}" paginator="true" paginatorPosition="top" rows="10"
+                                     rowsPerPageTemplate="10,20,30,40,50">
+                            <p:column headerText="ID TIPO ADJUNTO" filterBy="#{perf.idTipoAdjunto}" sortBy="#{perf.idTipoAdjunto}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.idTipoAdjunto}" style="margin:0 auto;"/>
+                            </p:column>
+                            <p:column headerText="TIPO ADJUNTO" filterBy="#{perf.nombreTipoAdjunto}" sortBy="#{perf.nombreTipoAdjunto}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.nombreTipoAdjunto}"/>
+                            </p:column>
+
+                            <p:column headerText="Otras Acciones">
+                                <p:commandButton icon="ui-icon-pencil" update="formEditarTipoAdjunto:dlgEditarTipoAdjunto"  oncomplete="PF('dialogEditarTipoAdjunto').show();" title="Editar Tipo Adjunto" style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{tipoAdjuntoBean.tipoAdjunto}" value="#{perf}"/>
+                                </p:commandButton>
+
+                                <p:commandButton icon=" ui-icon-closethick" update="formEliminarTipoAdjunto:dlgEliminarTipoAdjunto"  oncomplete="PF('dialogEliminarTipoAdjunto').show();" title="Eliminar Tipo Adjunto" style="margin:0 auto;" >
+                                    <f:setPropertyActionListener target="#{tipoAdjuntoBean.tipoAdjunto}" value="#{perf}"/>
+                                </p:commandButton>
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:panel>
+                </h:form>
+                <h:form id="formCreaTipoAdjunto">
+                    <p:dialog header="CREAR TIPO DE ADJUNTO" hideEffect="explode" id="dlgTipoAdjunto" widgetVar="dialogTipoAdjunto" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+                        <p:panel id="panelTipoAdjunto" header="CREAR TIPO DE ADJUNTO" style="margin-bottom:5px;">
+                            <h:panelGrid id="pCrearTipoAdjunto" columns="2" >
+                                <p:outputLabel for="nomP" value="Nombre Tipo Adjunto :"/>
+                                <p:inputText id="nomP" value="#{tipoAdjuntoBean.tipoAdjunto.nombreTipoAdjunto}" required="true" title="Ingresar Tipo de Adjunto" requiredMessage="Debe Ingresar un nombre de Tipo de Adjunto" />
+
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{tipoAdjuntoBean.nuevoTipoAdjunto()}"  value="Guardar" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEditarTipoAdjunto">
+                    <p:dialog hideEffect="explode" id="dlgEditarTipoAdjunto" header="EDITAR TIPO DE ADJUNTO" closable="false" widgetVar="dialogEditarTipoAdjunto" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEditarTipoAdjunto" columns="2"  >
+
+                            <p:outputLabel for="rol" value="Nombre Peril: "/>
+                            <p:inputText id="rol" value="#{tipoAdjuntoBean.tipoAdjunto.nombreTipoAdjunto}" required="true" title="Ingresar Tipo de Adjunto" requiredMessage="Debe Ingresar un nombre de Tipo de Adjunto" />
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{tipoAdjuntoBean.editarTipoAdjunto()}"   value="Guardar Cambios" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea guardar ?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{tipoAdjuntoBean.prepararNuevoTipoAdjunto()}" oncomplete="PF('dialogEditarTipoAdjunto').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEliminarTipoAdjunto">
+                    <p:dialog hideEffect="explode" id="dlgEliminarTipoAdjunto" header="ELIMINAR TIPO DE ADJUNTO" closable="false" widgetVar="dialogEliminarTipoAdjunto" showEffect="explode" modal="true" resizable="false" style="text-align:center;">
+
+                        <p:growl id="growl" life="2000" autoUpdate="true"/>
+                        <h:panelGrid id="pEliminarTipoAdjunto" columns="2"  >
+
+                            <p:outputLabel for="rol" value="Tipo de Adjunto: "/>
+                            <p:inputText id="rol" value="#{tipoAdjuntoBean.tipoAdjunto.nombreTipoAdjunto}" required="true" title="TipoAdjunto:" disabled="true" />
+
+                        </h:panelGrid>
+
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton icon="ui-icon-disk" type="submit" actionListener="#{tipoAdjuntoBean.eliminarTipoAdjunto()}"   value="ELIMINAR" style="margin-left:20px;margin-bottom: 5px;" >
+                                    <p:confirm message="¿Esta seguro que desea eliminar registro?" header="Aviso" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <p:commandButton value="CANCELAR" actionListener="#{tipoAdjuntoBean.prepararNuevoTipoAdjunto()}" oncomplete="PF('dialogEliminarTipoAdjunto').hide();" />
+                                <p:confirmDialog global="true">
+                                    <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes"/>
+                                    <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                                </p:confirmDialog>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Facelets Template</title>
+    </h:head>
+
+    <h:body>
+
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+
+                    <p:menuitem value="INICIO" immediate="true" icon="ui-icon-home" outcome="/faces/views/Solicitudes/solicitud.xhtml" />
+
+                    <p:submenu label="SOLICITUDES" icon="ui-icon-document" >
+                        <p:menuitem value="Ver Solicitudes" immediate="true" outcome="/faces/views/Solicitudes/solicitud.xhtml" /> 
+                        <p:menuitem value="Nueva Solicitud" immediate="true" outcome="/faces/views/Solicitudes/NuevaSolicitud.xhtml" /> 
+                    </p:submenu>
+
+                    <p:submenu label="USUARIOS" icon="ui-icon-person">
+                        <p:menuitem value="GESTIONAR USUARIOS" immediate="true" outcome="/faces/views/GestionUsuarios/Usuario.xhtml" />
+                        <p:menuitem value="GESTIONAR PERFILES" immediate="true" outcome="/faces/views/GestionUsuarios/Perfil.xhtml" />
+                    </p:submenu>
+                    
+                   <p:submenu label="PARAMETROS" icon="ui-icon-gear" >
+                    <p:menuitem value="TIPOS DE ADJUNTO" immediate="true" outcome="/faces/views/Parametros/TipoAdjunto.xhtml" />
+                    <p:menuitem value="TIEMPOS" immediate="true" outcome="/faces/views/Parametros/Tiempo.xhtml"/>
+                    <p:menuitem value="ALERTAS" immediate="true" outcome="/faces/views/Parametros/Alerta.xhtml"/>
+                    <p:menuitem value="ESTADOS" immediate="true" outcome="/faces/views/Parametros/Estado.xhtml"/>
+                    </p:submenu>
+                    <f:facet name="options">
+                        <p:outputLabel value="BIENVENID@ #{usuarioBean.logueado.cedula.nombres}, PERFIL: #{usuarioBean.logueado.idPerfil.perfil}" style="margin-right:10px; color: #141c4c"/>
+                        <p:commandButton type="submit" value="Salir" icon="ui-icon-extlink" actionListener="#{usuarioBean.logout()}" immediate="true" action="/faces/index.xhtml?faces-redirect=true" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+        <p:layoutUnit position="south" size="40">
+                <ui:insert name="footer">
+                    <f:facet name="footer" >
+                    <div  align="right" >
+                        <p class="text-muted"><ui:insert name="bottom">Copyright &#169; 2018 SISTEMA LINEA PRODUCTO Todos los Derechos Reservados</ui:insert></p> 
+                    </div>
+                    </f:facet>
+                </ui:insert>
+        </p:layoutUnit>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3/10/2018 12:48:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.Tiempo" table="TIEMPO" schema="dbo" catalog="producto" optimistic-lock="version">
+        <id name="idTiempo" type="int">
+            <column name="ID_TIEMPO" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="dias" type="int">
+            <column name="dias"/>
+        </property>
+        
+        <property name="horas" type="int">
+            <column name="horas"/>
+        </property>
+        
+        <property name="minutos" type="int">
+            <column name="minutos"/>
+        </property>
+        
+        <property name="detalle" type="string">
+            <column name="detalle" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
