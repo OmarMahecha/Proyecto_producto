@@ -14,9 +14,6 @@
         <property name="fechaCreacion" type="timestamp">
             <column name="fecha_creacion" length="23" not-null="true" />
         </property>
-        <property name="idCliente" type="string">
-            <column name="ID_CLIENTE" length="15" />
-        </property>
 
         <many-to-one name="idEstadoActual" column="ID_ESTADO_ACTUAL" class="sys.model.Estado"/>    
             
@@ -38,10 +35,7 @@
         <property name="observacionPrioridad" type="string">
             <column name="observacion_prioridad" />
         </property>
-        
-         <property name="nombreEmpresa" type="string">
-            <column name="nombreEmpresa" length="50" />
-        </property>
+
         <property name="nombreContacto" type="string">
             <column name="nombreContacto" length="50" />
         </property>
@@ -63,9 +57,8 @@
         <property name="numeroCotizacion" type="string">
             <column name="numeroCotizacion" length="10" />
         </property>
-        <property name="identificacionCliente" type="string">
-            <column name="identificacionCliente" length="15" />
-        </property>
+        
+         <many-to-one name="identificacionCliente" column="identificacionCliente" class="sys.model.Cliente"/>
         
     </class>
 </hibernate-mapping>

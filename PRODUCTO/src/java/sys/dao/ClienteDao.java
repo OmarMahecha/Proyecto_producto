@@ -17,5 +17,5 @@ import sys.model.Cliente;
 public interface ClienteDao {
     
         public List<Cliente> ListarClientes();
-        public Cliente obtenerClientePorCodigo(Session session, String id)throws Exception;
+        public Cliente obtenerClientePorCodigo(String id);
 }

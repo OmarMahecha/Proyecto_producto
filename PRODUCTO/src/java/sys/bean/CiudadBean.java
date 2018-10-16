@@ -23,7 +23,7 @@ public class CiudadBean implements Serializable {
 private Ciudad ciudad = new Ciudad();
 private List<Ciudad> listaCiudad;
 private List<Ciudad> listaPorDpto;
-    CiudadDao cDao = new CiudadDaoImp();
+    
     /**
      * Creates a new instance of CiudadBean
      */
@@ -39,6 +39,7 @@ private List<Ciudad> listaPorDpto;
     }
 
     public List<Ciudad> getListaCiudad() throws Exception {
+        CiudadDao cDao = new CiudadDaoImp();
         listaCiudad = cDao.listarCiudad();
         return listaCiudad;
     }
@@ -48,6 +49,7 @@ private List<Ciudad> listaPorDpto;
     }
 
     public List<Ciudad> getListaPorDpto(String dpto) throws Exception {
+        CiudadDao cDao = new CiudadDaoImp();
         listaPorDpto = cDao.listarCiudadPorDpto(dpto);
         return listaPorDpto;
     }

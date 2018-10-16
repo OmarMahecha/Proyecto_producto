@@ -13,7 +13,6 @@ public class Solicitud  implements java.io.Serializable {
      private int idSolicitud;
      private Usuario idUsuario;
      private Date fechaCreacion;
-     private String idCliente;
      private Estado idEstadoActual;
      private Date tiempoOfertaComercial;
      private Boolean esPrioridad;
@@ -21,7 +20,6 @@ public class Solicitud  implements java.io.Serializable {
      private Date tiempoAtipico;
      private String observacionAtipico;
      private String observacionPrioridad;
-      private String nombreEmpresa;
      private String nombreContacto;
      private String cargoContacto;
      private String correoContacto;
@@ -29,24 +27,22 @@ public class Solicitud  implements java.io.Serializable {
      private String celularTelefono;
      private String ciudadDepartamento;
      private String numeroCotizacion;
-     private String identificacionCliente;
+     private Cliente identificacionCliente;
 
     public Solicitud() {
     }
 
 	
-    public Solicitud(int idSolicitud, Usuario idUsuario, Date fechaCreacion, String idCliente, Estado idEstadoActual) {
+    public Solicitud(int idSolicitud, Usuario idUsuario, Date fechaCreacion, Estado idEstadoActual) {
         this.idSolicitud = idSolicitud;
         this.idUsuario = idUsuario;
         this.fechaCreacion = fechaCreacion;
-        this.idCliente = idCliente;
         this.idEstadoActual = idEstadoActual;
     }
-    public Solicitud(int idSolicitud, Usuario idUsuario, Date fechaCreacion, String idCliente, Estado idEstadoActual, Date tiempoOfertaComercial, Boolean esPrioridad, Boolean esAtipico, Date tiempoAtipico, String observacionAtipico, String observacionPrioridad, String nombreEmpresa, String nombreContacto, String cargoContacto, String correoContacto, String direccionCliente, String celularTelefono, String ciudadDepartamento, String numeroCotizacion, String identificacionCliente) {
+    public Solicitud(int idSolicitud, Usuario idUsuario, Date fechaCreacion,Estado idEstadoActual, Date tiempoOfertaComercial, Boolean esPrioridad, Boolean esAtipico, Date tiempoAtipico, String observacionAtipico, String observacionPrioridad, String nombreContacto, String cargoContacto, String correoContacto, String direccionCliente, String celularTelefono, String ciudadDepartamento, String numeroCotizacion, Cliente identificacionCliente) {
        this.idSolicitud = idSolicitud;
        this.idUsuario = idUsuario;
        this.fechaCreacion = fechaCreacion;
-       this.idCliente = idCliente;
        this.idEstadoActual = idEstadoActual;
        this.tiempoOfertaComercial = tiempoOfertaComercial;
        this.esPrioridad = esPrioridad;
@@ -54,7 +50,6 @@ public class Solicitud  implements java.io.Serializable {
        this.tiempoAtipico = tiempoAtipico;
        this.observacionAtipico = observacionAtipico;
        this.observacionPrioridad = observacionPrioridad;
-       this.nombreEmpresa = nombreEmpresa;
        this.nombreContacto = nombreContacto;
        this.cargoContacto = cargoContacto;
        this.correoContacto = correoContacto;
@@ -86,13 +81,7 @@ public class Solicitud  implements java.io.Serializable {
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
-    public String getIdCliente() {
-        return this.idCliente;
-    }
-    
-    public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
-    }
+
     public Estado getIdEstadoActual() {
         return this.idEstadoActual;
     }
@@ -143,13 +132,6 @@ public class Solicitud  implements java.io.Serializable {
         this.observacionPrioridad = observacionPrioridad;
     }
 
-    public String getNombreEmpresa() {
-        return nombreEmpresa;
-    }
-
-    public void setNombreEmpresa(String nombreEmpresa) {
-        this.nombreEmpresa = nombreEmpresa;
-    }
 
     public String getNombreContacto() {
         return nombreContacto;
@@ -207,15 +189,15 @@ public class Solicitud  implements java.io.Serializable {
         this.numeroCotizacion = numeroCotizacion;
     }
 
-    public String getIdentificacionCliente() {
+    public Cliente getIdentificacionCliente() {
         return identificacionCliente;
     }
 
-    public void setIdentificacionCliente(String identificacionCliente) {
+    public void setIdentificacionCliente(Cliente identificacionCliente) {
         this.identificacionCliente = identificacionCliente;
     }
 
-
+    
 
 
 }

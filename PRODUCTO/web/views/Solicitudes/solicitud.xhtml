@@ -36,9 +36,9 @@
                             <h:outputText value="#{soli.numeroCotizacion}" style="margin:0 auto;"/>
                         </p:column>
 
-                        <p:column headerText="Datos de Contacto" style="margin:0 auto;" filterBy="#{soli.nombreEmpresa}" sortBy="#{soli.nombreEmpresa}" filterMatchMode="contains">
+                        <p:column headerText="Datos de Contacto" style="margin:0 auto;" filterBy="#{soli.identificacionCliente.nombre}" sortBy="#{soli.identificacionCliente.nombre}" filterMatchMode="contains">
                             <p:commandLink update="formCrearSolicitud:dlgContacto" oncomplete="PF('dialogContacto').show();" title="Datos de contacto" style="margin:0 auto;">
-                                <h:outputText value="#{soli.nombreEmpresa}" style="margin:0 auto;"/>
+                                <h:outputText value="#{soli.identificacionCliente.nombre}" style="margin:0 auto;"/>
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/> 
                             </p:commandLink>
                         </p:column>
@@ -59,8 +59,16 @@
 
                         <p:column headerText="Usuario Creador" style="margin:0 auto;" filterBy="#{soli.idUsuario.usuario}" sortBy="#{soli.idUsuario.usuario}" filterMatchMode="contains">
                             <h:outputText value="#{soli.idUsuario.usuario}" style="margin:0 auto;"/>
-                        </p:column>                                                       
+                        </p:column> 
 
+                        <p:column headerText="Acciones">
+                            <p:commandButton icon="ui-icon-clipboard" update="formAdjuntarDocumento:datosAdjuntarDocumento" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAdjuntarDocumento').show();" title="Adjuntar documento a solicitud" style="margin:0 auto;" >
+                                <f:setPropertyActionListener target="#{adjuntoBean.idSoli}" value="#{soli.idSolicitud}"/>
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-document" update="formAbrirAdjunto:datosAbrirAdjunto" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAbrirAdjunto').show();" title="Ver Adjuntos" style="margin:0 auto;" >
+                                <f:setPropertyActionListener target="#{adjuntoBean.idSoli}" value="#{soli.idSolicitud}"/>
+                            </p:commandButton>
+                        </p:column> 
                     </p:dataTable>
 
 
@@ -75,7 +83,7 @@
 
                         <p:panelGrid columns="2" style="margin: 0 auto;">
                             <p:outputLabel value="Identificacion cliente"/>
-                            <h:outputText value="#{solicitudBean.solicitud.identificacionCliente}"/>
+                            <h:outputText value="#{solicitudBean.solicitud.identificacionCliente.identificacion}"/>
 
                             <p:outputLabel value="Nombre Contacto"/>
                             <h:outputText value="#{solicitudBean.solicitud.nombreContacto}"/>
@@ -103,9 +111,59 @@
 
                 </h:form>
 
+                <!-- Dialog adjuntar Documento -->
+                <h:form id="formAdjuntarDocumento">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgAdjuntarDocumento" header="ADJUNTAR" widgetVar="dialogAdjuntarDocumento" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:panelGrid id="datosAdjuntarDocumento" columns="1" >
+                            <p:selectOneMenu filter="true" filterMatchMode="contains" id="tipoA" value="#{adjuntoBean.tipo}" required="true" requiredMessage="Seleccione tipo de adjunto">
+                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Tipo de Adjunto" itemValue="#{null}"/>
+                                <f:selectItems var="tipoA" value="#{tipoAdjuntoBean.listaTipoAdjuntos}" itemLabel="#{tipoA.nombreTipoAdjunto}" itemValue="#{tipoA.idTipoAdjunto}"/>
+                            </p:selectOneMenu>
+
+                            <p:fileUpload label="Adjuntar" fileUploadListener="#{adjuntoBean.adminCargaArchivo}" auto="true" fileLimit="1" fileLimitMessage="Permite adjuntar un solo archivo" />
+                            <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="Enviar" actionListener="#{adjuntoBean.nuevoAdjunto()}">
+                            </p:commandButton>
+                        </p:panelGrid>
+
+                    </p:dialog> 
+                </h:form>
+
+                <h:form id="formAbrirAdjunto">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgAbrirAdjunto" header="DOCUMENTOS ADJUNTOS" widgetVar="dialogAbrirAdjunto" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:dataTable id="datosAbrirAdjunto" value="#{adjuntoBean.listaAdjuntos}" var="adj" emptyMessage="No Existe Adjunto en esta solicitud">
+                            <p:column headerText="TIPO DE ADJUNTO">
+                                <p:outputLabel id="tipo" value="#{adj.idTipoAdjunto.nombreTipoAdjunto}"/>                                 
+                            </p:column>
+                            <p:column headerText="FECHA DE ADJUNTO">
+                                <p:outputLabel id="fec" value="#{adj.fechaAdjunto}"/>                            
+                            </p:column>
+                            <p:column headerText="USUARIO QUE ADJUNTO">
+                                <p:outputLabel id="us" value="#{adj.idUsuario.usuario}"/>                            
+                            </p:column>
+
+                            <p:column headerText="NOMBRE DE ARCHIVO">
+                                <p:outputLabel id="nArc" value="#{adjuntoBean.getNombreArchivo(adj.rutaAdjunto)}"/>                            
+                            </p:column>
+
+                            <p:column headerText="ACCION">
+                                <p:commandButton value="Descargar" ajax="false" actionListener="#{adjuntoBean.downloadView(adj.rutaAdjunto)}" icon="ui-icon-arrowthick-1-s">
+                                    <p:fileDownload value="#{adjuntoBean.download}" />
+                                </p:commandButton>
+
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:dialog> 
+                </h:form>  
+
             </ui:define>
 
         </ui:composition>
 
     </body>
 </html>
+                          <!--      <p:commandButton icon="ui-icon-pin-s" action="#{adjuntoBean.abrirarchivo(adj.rutaAdjunto)}" title="Abrir" style="margin:0 auto;" rendered="#{adj.rutaAdjunto!= null}">
+                                </p:commandButton> -->

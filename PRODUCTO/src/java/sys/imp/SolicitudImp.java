@@ -29,7 +29,7 @@ public class SolicitudImp implements SolicitudDao{
         List<Solicitud> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u";
+        String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.identificacionCliente i";
         try{
 
            lista = session.createQuery(hql).list();

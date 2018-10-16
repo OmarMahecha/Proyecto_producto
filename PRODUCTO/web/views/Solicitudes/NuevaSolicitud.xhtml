@@ -21,17 +21,22 @@
 
                     <p:panel id="pan"  header="NUEVA SOLICITUD">  
                         <p:growl id="growl" life="2000" autoUpdate="true"/>
-                        <h:panelGrid id="grid1" columns="6" cellpadding="15" cellspacing="5" >
-
+                        <h:panelGrid id="grid3" columns="4" cellpadding="15" cellspacing="5" >
+                        <p:outputLabel value="Buscar cliente" style="color: black;" for="buscarcli"/>
+                            <p:inputText id="buscarcli" value="#{solicitudBean.idCliente}" style="background-color: #c2dfef;">
+                                <p:ajax event="blur" listener="#{solicitudBean.agregarDatosCliente()}" update="formNuevaSolicitud:grid1"/>
+                            </p:inputText>
+                        </h:panelGrid>
+                        <p:separator/>
+                        <h:panelGrid id="grid1" columns="4" cellpadding="15" cellspacing="5" >
                             <p:outputLabel  value="Identificacion cliente" for="ident"/>
-                            <p:inputText  id="ident" value="#{solicitudBean.solicitud.identificacionCliente}" required="true" requiredMessage="Debe ingresar la identificacion del cliente"/>
+                            <p:inputText  id="ident" value="#{solicitudBean.solicitud.identificacionCliente.identificacion}" required="true" requiredMessage="Debe ingresar la identificacion del cliente" readonly="true"/>
 
                             <p:outputLabel  value="RazonSocial" for="razon"/>
-                            <p:inputText id="razon" value="#{solicitudBean.solicitud.nombreEmpresa}" required="true" />
-
-                            <p:outputLabel  value="Numero de Cotización" for="coti"/>
-                            <p:inputText id="coti" value="#{solicitudBean.solicitud.numeroCotizacion}" required="true" />
-                            
+                            <p:inputText id="razon" value="#{solicitudBean.solicitud.identificacionCliente.nombre}" required="true" readonly="true"/>
+                        </h:panelGrid>
+                        <p:separator/>
+                            <h:panelGrid id="grid2" columns="4" cellpadding="15" cellspacing="5" >
                             <p:outputLabel  value="Nombre de Contacto" for="cont"/>
                             <p:inputText  id="cont" value="#{solicitudBean.solicitud.nombreContacto}" required="false" requiredMessage="Debe ingresar nombre de contacto">
                                 <f:validateRegex pattern="^[a-zA-Z .]*$"/>
@@ -58,9 +63,10 @@
                             </p:inputText>
 
                             <p:outputLabel value="Ciudad / Departamento" for="dep"/>
-                            <p:inputText id="dep" value="#{solicitudBean.solicitud.ciudadDepartamento}" required="true" requiredMessage="Debe ingresar Ciudad">
-                                <f:validateRegex pattern="^[a-zA-Z .]*$"/>
-                            </p:inputText>
+                            <p:selectOneMenu filter="true" filterMatchMode="contains" id="dep" value="#{solicitudBean.dpto}" required="true" requiredMessage="Debe ingresar Departamento de contacto">
+                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
+                                <f:selectItems var="dept" value="#{ciudadBean.listaCiudad}" itemLabel="#{dept.nomCiu} / #{dept.nomDpto}" itemValue="#{dept.nomCiu} / #{dept.nomDpto}"/>
+                            </p:selectOneMenu>
 
                         </h:panelGrid>
                       
