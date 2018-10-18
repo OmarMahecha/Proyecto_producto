@@ -20,59 +20,74 @@ import sys.util.HibernateUtil;
  *
  * @author omar.mahecha
  */
-public class CotizacionDaoImp implements CotizacionDao{
+public class CotizacionDaoImp implements CotizacionDao {
+
+    private Session session;
+    private Transaction t;
 
     @Override
-    public Cotizacion obtenerCotizacionPorNumero(Session session, String num) throws Exception {
-       String hql = "select min(c) FROM Cotizacion c  where cotizacion = :cotizacion";
-       Query q = session.createQuery(hql);
-        q.setParameter("cotizacion", num);
-
-        return (Cotizacion) q.uniqueResult();
+    public String obtenerCotizacionPorNumero(String cot, String nit) {
+        String cotizacion = null;
+        session = null;
+        t = null;
+        try {
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
+        String hql = "select min(c.cotizacion) FROM Cotizacion c  where cotizacion = :cotizacion and nit = :nit";
+        Query q = session.createQuery(hql);
+        q.setParameter("cotizacion", cot);
+        q.setParameter("nit", nit);
+        cotizacion = (String) q.uniqueResult();
+        t.commit();
+        session.close();
+        } catch (HibernateException e) {
+            System.out.println(e.getMessage() + " error consulta cotizacion");
+            t.rollback();
+        }
+        return cotizacion;
     }
 
     @Override
     public List<Cotizacion> ListarCotizaciones(String num) {
         List<Cotizacion> lista = null;
-         //SQLQuery query;
-         Query query;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        //SQLQuery query;
+        Query query;
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
 
-        String hql = "FROM Cotizacion where cotizacion = :cotizacion";     
-       // String hql="select * from Vista_cotizacion where Cotizacion = ?";
-        
-       
-        try{
-            query = session.createQuery(hql); 
+        String hql = "FROM Cotizacion where cotizacion = :cotizacion";
+        // String hql="select * from Vista_cotizacion where Cotizacion = ?";
+
+        try {
+            query = session.createQuery(hql);
             //createSQLQuery(hql);
             //query.setParameter(0, num);
             query.setParameter("cotizacion", num);
             //query.addEntity("Vista_cotizacion", Cotizacion.class);
             //query.setFirstResult(7 * max);
             lista = query.list();
-            t. commit();
+            t.commit();
             session.close();
-        }catch (HibernateException e){
-            System.out.println(e.getMessage()+" error consulta cotizacion");
+        } catch (HibernateException e) {
+            System.out.println(e.getMessage() + " error consulta cotizacion");
             t.rollback();
         }
-        
+
         return lista;
     }
 
     @Override
     public String totalCotizacion(String num) throws Exception {
         String total = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
         String hql = "SELECT CAST(sum(total) + ((sum(total)*iva)/100)AS string) as totales FROM Cotizacion as c where c.cotizacion = :cotizacion group by iva";
         Query q = session.createQuery(hql);
         q.setParameter("cotizacion", num);
         total = (String) q.uniqueResult();
-        t. commit();
+        t.commit();
         session.close();
         return total;
     }
-    
+
 }

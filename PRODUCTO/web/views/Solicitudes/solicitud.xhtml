@@ -33,7 +33,12 @@
                         </p:column>
 
                         <p:column headerText="Cotización Nro" style="margin:0 auto;" filterBy="#{soli.numeroCotizacion}" sortBy="#{soli.numeroCotizacion}" filterMatchMode="contains">
-                            <h:outputText value="#{soli.numeroCotizacion}" style="margin:0 auto;"/>
+                            <h:outputText value="#{soli.numeroCotizacion}" style="margin:0 auto;" rendered="#{soli.numeroCotizacion != null}"/>
+
+                            <p:commandLink update="formAgregarCotiza:dlgAgregarCotiza" oncomplete="PF('dialogAgregarCotiza').show();" title="Cotizacion" style="margin:0 auto;" rendered="#{soli.numeroCotizacion == null}">
+                                <h:outputText value="Agregar cotizacion" style="margin:0 auto;"/>
+                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/> 
+                            </p:commandLink>
                         </p:column>
 
                         <p:column headerText="Datos de Contacto" style="margin:0 auto;" filterBy="#{soli.identificacionCliente.nombre}" sortBy="#{soli.identificacionCliente.nombre}" filterMatchMode="contains">
@@ -62,18 +67,23 @@
                         </p:column> 
 
                         <p:column headerText="Acciones">
-                            <p:commandButton icon="ui-icon-clipboard" update="formAdjuntarDocumento:datosAdjuntarDocumento" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAdjuntarDocumento').show();" title="Adjuntar documento a solicitud" style="margin:0 auto;" >
+                            <p:commandButton icon="ui-icon-pin-w" update="formAdjuntarDocumento:datosAdjuntarDocumento" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAdjuntarDocumento').show();" title="Adjuntar documento a solicitud" style="margin:0 auto;" >
                                 <f:setPropertyActionListener target="#{adjuntoBean.idSoli}" value="#{soli.idSolicitud}"/>
                             </p:commandButton>
                             <p:commandButton icon="ui-icon-document" update="formAbrirAdjunto:datosAbrirAdjunto" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAbrirAdjunto').show();" title="Ver Adjuntos" style="margin:0 auto;" >
                                 <f:setPropertyActionListener target="#{adjuntoBean.idSoli}" value="#{soli.idSolicitud}"/>
                             </p:commandButton>
+                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnviaProf:datosEnviaProf" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnviaProf').show();" title="Enviar solicitud a profesional de certificacion" style="margin:0 auto;" >
+                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
+                            </p:commandButton>
+
+
                         </p:column> 
                     </p:dataTable>
 
 
 
-                    <!--dialog de viaticos -->
+                    
 
 
 
@@ -159,11 +169,63 @@
                     </p:dialog> 
                 </h:form>  
 
+                <h:form id="formAgregarCotiza">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgAgregarCotiza" header="AGREGAR COTIZACION" widgetVar="dialogAgregarCotiza" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <h:panelGrid id="cot1" columns="2" cellpadding="15" cellspacing="5" >
+                            <p:outputLabel value="Buscar Cotizacion" style="color: black;" for="buscarCoti"/>
+                            <p:inputText id="buscarCoti" value="#{solicitudBean.cotiza}" style="background-color: #c2dfef;">
+                                <p:ajax event="blur" listener="#{solicitudBean.agregarCotizacion()}" update="formAgregarCotiza:cot1"/>
+                            </p:inputText>
+                            <p:outputLabel  value="Cotizacion a ingresar" for="ident"/>
+                            <p:inputText  id="ident" value="#{solicitudBean.numConf}" required="true" requiredMessage="Debe ingresar la Cotizacion" readonly="true"/>
+                             <p:outputLabel for="obsCot" value="Observaciónes"/>
+                             <p:inputTextarea id="obsCot" value="#{solicitudBean.obs}" required="false" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+                        </h:panelGrid>
+                        <p:commandButton value="Confirmar" actionListener="#{solicitudBean.ingresaCotizacion()}">
+
+                            <p:confirm message="¿Esta seguro que desea guardar Cotizacion?" header="Aviso" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                        <p:confirmDialog global="true">
+                            <p:commandButton value="Si" type="button" icon="ui-icon-check" styleClass="ui-confirmdialog-yes" />
+                            <p:commandButton value="No" type="button" icon="ui-icon-close" styleClass="ui-confirmdialog-no"/>
+                        </p:confirmDialog>
+                    </p:dialog> 
+                </h:form>  
+                
+                <h:form id="formEnviaProf">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgEnviaProf" header="ENVIAR SOLICITUD A PROFESIONAL DE CERTIFICACION" widgetVar="dialogEnviaProf" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:panelGrid id="datosEnviaProf" columns="2" >
+
+                            <p:outputLabel for="obsEnviaProf" value="Observaciónes"/>
+                            <p:inputTextarea id="obsEnviaProf" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+
+                        </p:panelGrid>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.enviarAProfesional()}">
+                        </p:commandButton>
+                    </p:dialog> 
+                </h:form>
+                
+                <h:form id="formRechazaTecnica">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgRechazaTecnica" header="RECHAZAR SOLICITUD" widgetVar="dialogRechazaTecnica" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:panelGrid id="datosRechazaTecnica" columns="2" >
+
+                            <p:outputLabel for="obsR" value="Observaciónes"/>
+                            <p:inputTextarea id="obsR" value="#{solicitudBean.historico.observacion}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+
+                        </p:panelGrid>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.updateRechazaSolicitudTecnica()}">
+                        </p:commandButton>
+                    </p:dialog> 
+                </h:form>
+
             </ui:define>
 
         </ui:composition>
 
     </body>
 </html>
-                          <!--      <p:commandButton icon="ui-icon-pin-s" action="#{adjuntoBean.abrirarchivo(adj.rutaAdjunto)}" title="Abrir" style="margin:0 auto;" rendered="#{adj.rutaAdjunto!= null}">
-                                </p:commandButton> -->
+<!--      <p:commandButton icon="ui-icon-pin-s" action="" title="Abrir" style="margin:0 auto;" rendered="">
+      </p:commandButton> -->

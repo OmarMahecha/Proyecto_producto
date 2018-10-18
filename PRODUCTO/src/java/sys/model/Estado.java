@@ -39,7 +39,28 @@ public class Estado implements java.io.Serializable {
         this.estado = estado;
     }
    
+    public static final int CREADA = 1;
+    public static final int ENVIADA_A_PROFESIONAL_CERTIFICACION = 2;
+    public static final int RECHAZADA_POR_PROFESIONAL_CERTIFICACION = 3;
+    public static final int APROBADA_POR_PROFESIONAL_CERTIFICACION = 4;
+    public static final int COTIZACION_RELACIONADA = 5;
 
+    public int getCREADA() {
+        return CREADA;
+    }
+
+    public static int getENVIADA_A_PROFESIONAL_CERTIFICACION() {
+        return ENVIADA_A_PROFESIONAL_CERTIFICACION;
+    }
+
+    public static int getRECHAZADA_POR_PROFESIONAL_CERTIFICACION() {
+        return RECHAZADA_POR_PROFESIONAL_CERTIFICACION;
+    }
+
+    public static int getAPROBADA_POR_PROFESIONAL_CERTIFICACION() {
+        return APROBADA_POR_PROFESIONAL_CERTIFICACION;
+    }
+    
 
 
 

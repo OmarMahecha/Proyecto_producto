@@ -15,7 +15,9 @@ import javax.faces.context.FacesContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sys.dao.CotizacionDao;
+import sys.dao.SolicitudDao;
 import sys.imp.CotizacionDaoImp;
+import sys.imp.SolicitudImp;
 import sys.model.Cotizacion;
 import sys.model.Solicitud;
 import sys.util.HibernateUtil;
@@ -36,9 +38,10 @@ public class CotizacionBean implements Serializable {
     private String subt = "";
     private String iva = "";
     private String incluidoIva = "";
+    private String cotiza;
     Session session;
     Transaction transaction;
-    private Solicitud solicitud = new Solicitud();
+    private Solicitud solicitud;
 
     
     public CotizacionBean() {
@@ -133,6 +136,14 @@ public String getSubt() {
     public void setSolicitud(Solicitud solicitud) {
         this.solicitud = solicitud;
     }
+
+    public String getCotiza() {
+        return cotiza;
+    }
+
+    public void setCotiza(String cotiza) {
+        this.cotiza = cotiza;
+    }
     
     
     
@@ -140,7 +151,10 @@ public String getSubt() {
         cotizacion = new Cotizacion();
         this.numCotizacion = null;
         solicitud = new Solicitud();
+        cotiza = null;
     }
+    
+
     
     
 
