@@ -81,4 +81,26 @@ public class EstadoBean implements Serializable {
             RequestContext contextt = RequestContext.getCurrentInstance();
             contextt.execute("PF('dialogEliminarEstado').hide();");
     }
+    
+     public static final int CREADA = 1;
+    public static final int ENVIADA_A_PROFESIONAL_CERTIFICACION = 2;
+    public static final int RECHAZADA_POR_PROFESIONAL_CERTIFICACION = 5;
+    public static final int APROBADA_POR_PROFESIONAL_CERTIFICACION = 4;
+    public static final int COTIZACION_RELACIONADA = 6;
+
+    public int getCREADA() {
+        return CREADA;
+    }
+
+    public int getENVIADA_A_PROFESIONAL_CERTIFICACION() {
+        return ENVIADA_A_PROFESIONAL_CERTIFICACION;
+    }
+
+    public int getRECHAZADA_POR_PROFESIONAL_CERTIFICACION() {
+        return RECHAZADA_POR_PROFESIONAL_CERTIFICACION;
+    }
+
+    public int getAPROBADA_POR_PROFESIONAL_CERTIFICACION() {
+        return APROBADA_POR_PROFESIONAL_CERTIFICACION;
+    }
 }

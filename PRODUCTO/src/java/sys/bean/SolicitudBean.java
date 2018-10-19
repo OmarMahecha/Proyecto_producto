@@ -200,7 +200,7 @@ public class SolicitudBean implements Serializable {
             this.solicitud.setIdUsuario(us);
             SolicitudDao sDao = new SolicitudImp();
             sDao.newSolicitud(solicitud);
-            this.nuevoHistoricoSolicitud(solicitud, Estado.CREADA, "");
+            this.nuevoHistoricoSolicitud(solicitud, EstadoBean.CREADA, "");
             this.prepararNuevaSolicitud();
         } catch (Exception e) {
             System.out.println("Error al Guardar solicitud " + e.getMessage());
@@ -230,7 +230,7 @@ public class SolicitudBean implements Serializable {
         SolicitudDao sDao = new SolicitudImp();
         this.solicitud.setNumeroCotizacion(numConf);
         sDao.updateSolicitud(solicitud);
-        this.nuevoHistoricoSolicitud(solicitud, Estado.COTIZACION_RELACIONADA, this.obs);
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.COTIZACION_RELACIONADA, this.obs);
         this.prepararNuevaSolicitud();
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formCrearSolicitud");
@@ -263,7 +263,21 @@ public class SolicitudBean implements Serializable {
     }
 
     public void enviarAProfesional() {
-        this.nuevoHistoricoSolicitud(solicitud, Estado.ENVIADA_A_PROFESIONAL_CERTIFICACION, obs);
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_PROFESIONAL_CERTIFICACION, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogEnviaProf').hide();");
+    }
+    
+    public void aprobarProfesional() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.RECHAZADA_POR_PROFESIONAL_CERTIFICACION, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogRevPreTecnica').hide();");
+    }
+    
+    public void rechazarProfesional() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.APROBADA_POR_PROFESIONAL_CERTIFICACION, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogRevPreTecnica').hide();");
     }
 
 }
