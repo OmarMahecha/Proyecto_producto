@@ -27,19 +27,19 @@
 
                     <p:submenu label="SOLICITUDES" icon="ui-icon-document" >
                         <p:menuitem value="Ver Solicitudes" immediate="true" outcome="/faces/views/Solicitudes/solicitud.xhtml" /> 
-                        <p:menuitem value="Nueva Solicitud" immediate="true" outcome="/faces/views/Solicitudes/NuevaSolicitud.xhtml" /> 
+                        <p:menuitem value="Nueva Solicitud" immediate="true" outcome="/faces/views/Solicitudes/NuevaSolicitud.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR or usuarioBean.logueado.idPerfil.idPerfil == perfilBean.EJECUTIVO_COMERCIAL or usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ASISTENTE_COMERCIAL}" /> 
                     </p:submenu>
 
-                    <p:submenu label="USUARIOS" icon="ui-icon-person">
-                        <p:menuitem value="GESTIONAR USUARIOS" immediate="true" outcome="/faces/views/GestionUsuarios/Usuario.xhtml" />
-                        <p:menuitem value="GESTIONAR PERFILES" immediate="true" outcome="/faces/views/GestionUsuarios/Perfil.xhtml" />
+                    <p:submenu label="USUARIOS" icon="ui-icon-person" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}">
+                        <p:menuitem value="GESTIONAR USUARIOS" immediate="true" outcome="/faces/views/GestionUsuarios/Usuario.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}"/>
+                        <p:menuitem value="GESTIONAR PERFILES" immediate="true" outcome="/faces/views/GestionUsuarios/Perfil.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}"/>
                     </p:submenu>
                     
-                   <p:submenu label="PARAMETROS" icon="ui-icon-gear" >
-                    <p:menuitem value="TIPOS DE ADJUNTO" immediate="true" outcome="/faces/views/Parametros/TipoAdjunto.xhtml" />
-                    <p:menuitem value="TIEMPOS" immediate="true" outcome="/faces/views/Parametros/Tiempo.xhtml"/>
-                    <p:menuitem value="ALERTAS" immediate="true" outcome="/faces/views/Parametros/Alerta.xhtml"/>
-                    <p:menuitem value="ESTADOS" immediate="true" outcome="/faces/views/Parametros/Estado.xhtml"/>
+                   <p:submenu label="PARAMETROS" icon="ui-icon-gear" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}">
+                    <p:menuitem value="TIPOS DE ADJUNTO" immediate="true" outcome="/faces/views/Parametros/TipoAdjunto.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}"/>
+                    <p:menuitem value="TIEMPOS" immediate="true" outcome="/faces/views/Parametros/Tiempo.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}"/>
+                    <p:menuitem value="ALERTAS" immediate="true" outcome="/faces/views/Parametros/Alerta.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}"/>
+                    <p:menuitem value="ESTADOS" immediate="true" outcome="/faces/views/Parametros/Estado.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}"/>
                     </p:submenu>
                     <f:facet name="options">
                         <p:outputLabel value="BIENVENID@ #{usuarioBean.logueado.cedula.nombres}, PERFIL: #{usuarioBean.logueado.idPerfil.perfil}" style="margin-right:10px; color: #141c4c"/>
