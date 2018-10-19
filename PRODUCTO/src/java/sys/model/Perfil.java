@@ -35,6 +35,16 @@ public class Perfil  implements java.io.Serializable {
         this.perfil = perfil;
     }
 
+    public static final int EJECUTIVO_COMERCIAL  = 3;
+    public static final int ASISTENTE_COMERCIAL = 4;
+    public static final int PROFESIONAL_DE_CERTIFICACION = 5;
+    public static final int JEFE_DE_VENTAS = 6;
+    public static final int JEFE_CERTIFICACION = 9;
+    public static final int FINANCIERA = 9;
+
+
+    
+    
 
 
 

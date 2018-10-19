@@ -21,7 +21,7 @@ import sys.model.Perfil;
 @Named(value = "perfilBean")
 @SessionScoped
 public class PerfilBean implements Serializable {
-
+    
     private List<Perfil> listaPerfiles;
     private Perfil perfil;
 
@@ -81,5 +81,44 @@ public class PerfilBean implements Serializable {
             contextt.execute("PF('dialogEliminarPerfil').hide();");
         
     }
+    
+    
+    
+    private static final int ADMINISTRADOR = 1;
+    private static final int EJECUTIVO_COMERCIAL  = 3;
+    private static final int ASISTENTE_COMERCIAL = 4;
+    private static final int PROFESIONAL_DE_CERTIFICACION = 5;
+    private static final int JEFE_DE_VENTAS = 6;
+    private static final int JEFE_CERTIFICACION = 9;
+    private static final int FINANCIERA = 9;
+
+    public int getADMINISTRADOR() {
+        return ADMINISTRADOR;
+    }
+    
+    public int getEJECUTIVO_COMERCIAL() {
+        return EJECUTIVO_COMERCIAL;
+    }
+
+    public int getASISTENTE_COMERCIAL() {
+        return ASISTENTE_COMERCIAL;
+    }
+
+    public  int getPROFESIONAL_DE_CERTIFICACION() {
+        return PROFESIONAL_DE_CERTIFICACION;
+    }
+
+    public int getJEFE_DE_VENTAS() {
+        return JEFE_DE_VENTAS;
+    }
+
+    public int getJEFE_CERTIFICACION() {
+        return JEFE_CERTIFICACION;
+    }
+
+    public int getFINANCIERA() {
+        return FINANCIERA;
+    }
+    
 
 }

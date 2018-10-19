@@ -152,6 +152,7 @@ public String getSubt() {
         this.numCotizacion = null;
         solicitud = new Solicitud();
         cotiza = null;
+
     }
     
 
