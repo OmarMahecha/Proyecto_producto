@@ -15,7 +15,7 @@
         <ui:composition template="./../../plantilla/plantilla.xhtml">
 
             <ui:define id="pagi" name="content">
-                <h1>Solicitudes</h1>
+                <h1>Solicitud</h1>
                 <p:ajaxStatus onstart="PF('statusDialog').show()" onerror="#{context.getExternalContext().redirect('/SistemaDeLaboratorios/faces/Error.xhtml')}" onsuccess="PF('statusDialog').hide()" />
 
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
@@ -79,6 +79,9 @@
                             <p:commandButton icon="ui-icon-folder-collapsed" update="formRevPreTecnica:datosRevPreTecnica" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevPreTecnica').show();" title="Aprobación de Revisión Preliminar de Solicitud de Certificación" style="margin:0 auto;" >
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
+                            <p:commandButton icon="ui-icon-script" update="formHistorico:datosHistorico" actionListener="#{historicoBean.limpiaH()}" oncomplete="PF('dialogHistorico').show();" title="Ver Historico" style="margin:0 auto;" >
+                                <f:setPropertyActionListener target="#{historicoBean.idSolicitud}" value="#{soli.idSolicitud}"/>
+                            </p:commandButton>                            
 
                         </p:column> 
                     </p:dataTable>
@@ -211,6 +214,29 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="NO APROBAR" actionListener="#{solicitudBean.rechazarProfesional()}"></p:commandButton>
                     </p:dialog> 
                 </h:form>
+                
+                <h:form id="formHistorico">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgHistorico" header="HISTORICO DE SOLICITUD" widgetVar="dialogHistorico" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:dataTable id="datosHistorico" value="#{historicoBean.listaHistoricos}" var="history" emptyMessage="No Existe un historico en esta solicitud">
+                            <p:column headerText="ESTADO">
+                                <p:outputLabel id="status" value="#{history.idEstado.estado}"/>                                 
+                            </p:column>
+                            <p:column headerText="FECHA DE REGISTRO">
+                                <p:outputLabel id="dat" value="#{history.fechaActualizacion}"/>                            
+                            </p:column>
+                            <p:column headerText="OBSERVACION">
+                                <p:inputTextarea   style="width: 100% !important;"  id="Hobs" readonly="true" value="#{history.observacion}" rendered="#{history.observacion != ''}"/>  
+                                <p:outputLabel id="HobsD" value="El registro se envio sin observación" rendered="#{history.observacion == ''}"/> 
+                            </p:column>
+                            <p:column headerText="USUARIO">
+                                <p:outputLabel id="user" value="#{history.idUsuario.usuario}"/>                            
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </p:dialog> 
+                </h:form>  
             </ui:define>
 
         </ui:composition>

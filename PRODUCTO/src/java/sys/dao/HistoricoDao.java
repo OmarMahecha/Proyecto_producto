@@ -13,7 +13,7 @@ import sys.model.Historico;
  * @author omar.mahecha
  */
 public interface HistoricoDao {
-    public List<Historico> ListarHistorico();
+    public List<Historico> ListarHistorico(int soli);
     public void newHistorico(Historico historico);
     public void updateHistorico(Historico historico);
     public void deleteHistorico (Historico historico);

@@ -23,16 +23,16 @@ public class HistoricoImp implements HistoricoDao{
     private Session session;
     private Transaction t;
     @Override
-    public List<Historico> ListarHistorico() {
+    public List<Historico> ListarHistorico(int soli) {
         session = null;
         t = null;
         List<Historico> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT p FROM Historico p";
+        String hql="SELECT h FROM Historico h left join fetch h.idSolicitud s left join fetch h.idEstado e left join fetch h.idUsuario u where s.idSolicitud = :soli";
         try{
 
-           lista = session.createQuery(hql).list();
+           lista = session.createQuery(hql).setParameter("soli", soli).list();
             t.commit();
             session.close();
         }catch (HibernateException e){

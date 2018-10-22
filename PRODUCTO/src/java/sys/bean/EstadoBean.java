@@ -82,25 +82,97 @@ public class EstadoBean implements Serializable {
             contextt.execute("PF('dialogEliminarEstado').hide();");
     }
     
-     public static final int CREADA = 1;
-    public static final int ENVIADA_A_PROFESIONAL_CERTIFICACION = 2;
-    public static final int RECHAZADA_POR_PROFESIONAL_CERTIFICACION = 5;
-    public static final int APROBADA_POR_PROFESIONAL_CERTIFICACION = 4;
-    public static final int COTIZACION_RELACIONADA = 6;
+public static final int SOLICITUD_DE_CERTIFICACION_CREADA = 1;
+public static final int ENVIADA_A_REVISION_PRELIMINAR = 2;
+public static final int DEVUELTA_POR_PROFESIONAL = 4;
+public static final int REENVIADA_A_REVISION_PRELIMINAR = 5;
+public static final int SOLICITUD_DE_CERTIFICACION_APROBADA = 7;
+public static final int SOLICITUD_DE_CERTIFICACION_CANCELADA = 8;
+public static final int GENERANDO_SOLICITUD_DE_SERVICIO = 9;
+public static final int ENVIADA_A_EXPERTO_EN_EL_AREA = 10;
+public static final int DEVUELTA_POR_EXPERTO_EN_EL_AREA = 11;
+public static final int REENVIADA_A_EXPERTO_EN_EL_AREA = 12;
+public static final int ENVIADA_A__ASESOR_COMERCIAL = 13;
+public static final int OFERTA_COMERCIAL_ADJUNTA = 14;
+public static final int OFERTA_ENVIADA_A_PROFESIONAL = 15;
+public static final int OFERTA_COMERCIAL_DEVUELTA = 16;
+public static final int OFERTA_POR_AUTORIZAR = 17;
+public static final int OFERTA_COMERCIAL_AUTORIZADA = 18;
+public static final int ENVIADA_AL_CLIENTE = 19;
+public static final int ACEPTADA_POR_EL_CLIENTE = 20;
 
-    public int getCREADA() {
-        return CREADA;
+public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
+        return SOLICITUD_DE_CERTIFICACION_CREADA;
     }
 
-    public int getENVIADA_A_PROFESIONAL_CERTIFICACION() {
-        return ENVIADA_A_PROFESIONAL_CERTIFICACION;
+    public  int getENVIADA_A_REVISION_PRELIMINAR() {
+        return ENVIADA_A_REVISION_PRELIMINAR;
     }
 
-    public int getRECHAZADA_POR_PROFESIONAL_CERTIFICACION() {
-        return RECHAZADA_POR_PROFESIONAL_CERTIFICACION;
+    public  int getDEVUELTA_POR_PROFESIONAL() {
+        return DEVUELTA_POR_PROFESIONAL;
     }
 
-    public int getAPROBADA_POR_PROFESIONAL_CERTIFICACION() {
-        return APROBADA_POR_PROFESIONAL_CERTIFICACION;
+    public  int getREENVIADA_A_REVISION_PRELIMINAR() {
+        return REENVIADA_A_REVISION_PRELIMINAR;
     }
+
+    public  int getSOLICITUD_DE_CERTIFICACION_APROBADA() {
+        return SOLICITUD_DE_CERTIFICACION_APROBADA;
+    }
+
+    public  int getSOLICITUD_DE_CERTIFICACION_CANCELADA() {
+        return SOLICITUD_DE_CERTIFICACION_CANCELADA;
+    }
+
+    public  int getGENERANDO_SOLICITUD_DE_SERVICIO() {
+        return GENERANDO_SOLICITUD_DE_SERVICIO;
+    }
+
+    public  int getENVIADA_A_EXPERTO_EN_EL_AREA() {
+        return ENVIADA_A_EXPERTO_EN_EL_AREA;
+    }
+
+    public  int getDEVUELTA_POR_EXPERTO_EN_EL_AREA() {
+        return DEVUELTA_POR_EXPERTO_EN_EL_AREA;
+    }
+
+    public  int getREENVIADA_A_EXPERTO_EN_EL_AREA() {
+        return REENVIADA_A_EXPERTO_EN_EL_AREA;
+    }
+
+    public  int getENVIADA_A__ASESOR_COMERCIAL() {
+        return ENVIADA_A__ASESOR_COMERCIAL;
+    }
+
+    public  int getOFERTA_COMERCIAL_ADJUNTA() {
+        return OFERTA_COMERCIAL_ADJUNTA;
+    }
+
+    public  int getOFERTA_ENVIADA_A_PROFESIONAL() {
+        return OFERTA_ENVIADA_A_PROFESIONAL;
+    }
+
+    public  int getOFERTA_COMERCIAL_DEVUELTA() {
+        return OFERTA_COMERCIAL_DEVUELTA;
+    }
+
+    public  int getOFERTA_POR_AUTORIZAR() {
+        return OFERTA_POR_AUTORIZAR;
+    }
+
+    public  int getOFERTA_COMERCIAL_AUTORIZADA() {
+        return OFERTA_COMERCIAL_AUTORIZADA;
+    }
+
+    public  int getENVIADA_AL_CLIENTE() {
+        return ENVIADA_AL_CLIENTE;
+    }
+
+    public  int getACEPTADA_POR_EL_CLIENTE() {
+        return ACEPTADA_POR_EL_CLIENTE;
+    }
+
+
+
 }
