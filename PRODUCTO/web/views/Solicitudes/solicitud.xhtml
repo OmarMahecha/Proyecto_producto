@@ -211,7 +211,8 @@
 
                         </p:panelGrid>
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="APROBAR" actionListener="#{solicitudBean.aprobarProfesional()}"></p:commandButton>
-                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="NO APROBAR" actionListener="#{solicitudBean.rechazarProfesional()}"></p:commandButton>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="DEVOLVER" actionListener="#{solicitudBean.devolverProfesional()}"></p:commandButton>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="RECHAZAR" actionListener="#{solicitudBean.rechazarProfesional()}"></p:commandButton>
                     </p:dialog> 
                 </h:form>
                 

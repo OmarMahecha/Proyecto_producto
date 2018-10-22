@@ -278,5 +278,11 @@ public class SolicitudBean implements Serializable {
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogRevPreTecnica').hide();");
     }
+    
+    public void devolverProfesional() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.DEVUELTA_POR_PROFESIONAL, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogRevPreTecnica').hide();");
+    }
 
 }
