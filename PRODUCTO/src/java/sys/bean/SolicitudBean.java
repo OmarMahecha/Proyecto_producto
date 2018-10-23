@@ -284,6 +284,9 @@ public class SolicitudBean implements Serializable {
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogRevPreTecnica').hide();");
     }
+    
+
+    
 
 
 }

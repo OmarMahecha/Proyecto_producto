@@ -19,23 +19,23 @@ import sys.model.Usuario;
 @SessionScoped
 public class PermisosAplicacionBean implements Serializable {
 
-    private static boolean adjuntar;
-    private static boolean verAdjunto;
-    private static boolean enviarAProf;
-    private static boolean verHistorico;
-    private static boolean asociarCoti;
-    private static boolean enviarAExperto;
-    private static boolean enviarAJefe;
-    private static boolean apruebaJefe;
-    private static boolean apruebaProf;
-    private static boolean apruebaExperto;
-    private static boolean devuelveExperto;
-    private static boolean devuelveProf;
-    private static boolean devuelveJefe;
-    private static boolean enviarACliente;
-    private static boolean ApruebaCliente;
-    private static boolean RechazaCliente;
-    private static boolean creaSoli;
+    public static boolean adjuntar;
+    public static boolean verAdjunto;
+    public static boolean enviarAProf;
+    public static boolean verHistorico;
+    public static boolean asociarCoti;
+    public static boolean enviarAExperto;
+    public static boolean enviarAJefe;
+    public static boolean apruebaJefe;
+    public static boolean apruebaProf;
+    public static boolean apruebaExperto;
+    public static boolean devuelveExperto;
+    public static boolean devuelveProf;
+    public static boolean devuelveJefe;
+    public static boolean enviarACliente;
+    public static boolean ApruebaCliente;
+    public static boolean RechazaCliente;
+    public static boolean creaSoli;
 
     public PermisosAplicacionBean() {
     }
