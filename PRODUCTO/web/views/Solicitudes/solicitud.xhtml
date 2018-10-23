@@ -36,7 +36,7 @@
                         <p:column headerText="Cotización Nro" style="margin:0 auto;" filterBy="#{soli.numeroCotizacion}" sortBy="#{soli.numeroCotizacion}" filterMatchMode="contains">
                             <h:outputText value="#{soli.numeroCotizacion}" style="margin:0 auto;" rendered="#{soli.numeroCotizacion != null}"/>
 
-                            <p:commandLink update="formAgregarCotiza:dlgAgregarCotiza" oncomplete="PF('dialogAgregarCotiza').show();" title="Cotizacion" style="margin:0 auto;" rendered="#{soli.numeroCotizacion == null}" disabled="#{!permisosAplicacionBean.asociarCoti}">
+                            <p:commandLink update="formAgregarCotiza:dlgAgregarCotiza" oncomplete="PF('dialogAgregarCotiza').show();" title="Cotizacion" style="margin:0 auto;" rendered="#{soli.numeroCotizacion == null}">
                                 <h:outputText value="Agregar cotizacion" style="margin:0 auto;"/>
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/> 
                             </p:commandLink>

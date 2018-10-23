@@ -33,7 +33,6 @@ import sys.model.Estado;
 import sys.model.Historico;
 import sys.model.Solicitud;
 import sys.model.Usuario;
-
 /**
  *
  * @author omar.mahecha
@@ -279,4 +278,7 @@ public class SolicitudBean implements Serializable {
         contextt.execute("PF('dialogRevPreTecnica').hide();");
     }
     
+
+    
+
 }
