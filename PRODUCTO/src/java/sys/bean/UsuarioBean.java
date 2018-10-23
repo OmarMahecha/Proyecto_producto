@@ -218,5 +218,7 @@ public class UsuarioBean implements Serializable {
             this.preparaNuevoUsuario();
         }
     }
+    
+
 
 }

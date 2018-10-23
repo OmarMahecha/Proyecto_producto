@@ -84,13 +84,14 @@ public class PerfilBean implements Serializable {
     
     
     
-    private static final int ADMINISTRADOR = 1;
-    private static final int EJECUTIVO_COMERCIAL  = 3;
-    private static final int ASISTENTE_COMERCIAL = 4;
-    private static final int PROFESIONAL_DE_CERTIFICACION = 5;
-    private static final int JEFE_DE_VENTAS = 6;
-    private static final int JEFE_CERTIFICACION = 9;
-    private static final int FINANCIERA = 9;
+    public static final int ADMINISTRADOR = 1;
+    public static final int EJECUTIVO_COMERCIAL  = 3;
+    public static final int ASISTENTE_COMERCIAL = 4;
+    public static final int PROFESIONAL_DE_CERTIFICACION = 5;
+    public static final int JEFE_DE_VENTAS = 6;
+    public static final int EXPERTO_EN_AREA = 8;
+    public static final int JEFE_CERTIFICACION = 9;
+    public static final int FINANCIERA = 9;
 
     public int getADMINISTRADOR() {
         return ADMINISTRADOR;
@@ -118,6 +119,10 @@ public class PerfilBean implements Serializable {
 
     public int getFINANCIERA() {
         return FINANCIERA;
+    }
+
+    public int getEXPERTO_EN_AREA() {
+        return EXPERTO_EN_AREA;
     }
     
 
