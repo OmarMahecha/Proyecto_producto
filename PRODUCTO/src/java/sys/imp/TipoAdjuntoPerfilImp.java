@@ -11,8 +11,7 @@ import javax.faces.context.FacesContext;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import sys.dao.TipoAdjuntoDao;
-import sys.model.TipoAdjunto;
+import sys.dao.TipoAdjuntoPerfilDao;
 import sys.model.TipoAdjuntoPerfil;
 import sys.util.HibernateUtil;
 
@@ -20,17 +19,19 @@ import sys.util.HibernateUtil;
  *
  * @author omar.mahecha
  */
-public class TipoAdjuntoImp implements TipoAdjuntoDao{
+public class TipoAdjuntoPerfilImp implements TipoAdjuntoPerfilDao {
+
     private Session session;
     private Transaction t;
+
     @Override
-    public List<TipoAdjunto> ListarTipoAdjunto() {
+    public List<TipoAdjuntoPerfil> ListarTipoAdjuntoPerfil() {
         session = null;
         t = null;
-        List<TipoAdjunto> lista = null;
+        List<TipoAdjuntoPerfil> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT t FROM TipoAdjunto t";
+        String hql="select t from TipoAdjuntoPerfil t INNER JOIN FETCH t.idTipoAdjunto inner join fetch t.idPerfil";
         try{
 
            lista = session.createQuery(hql).list();
@@ -45,13 +46,13 @@ public class TipoAdjuntoImp implements TipoAdjuntoDao{
     }
 
     @Override
-    public void newTipoAdjunto(TipoAdjunto tipoAdjunto) {
+    public void newTipoAdjuntoPerfil(TipoAdjuntoPerfil tipoAdjuntoPerfil) {
         session = null;
         t = null;
         try{
        session = HibernateUtil.getSessionFactory().openSession();
        t = session.beginTransaction();
-       session.save(tipoAdjunto);
+       session.save(tipoAdjuntoPerfil);
        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"TipoAdjunto creada con éxito",null));
        t.commit();
         }catch (HibernateException e){
@@ -65,14 +66,14 @@ public class TipoAdjuntoImp implements TipoAdjuntoDao{
     }
 
     @Override
-    public void updateTipoAdjunto(TipoAdjunto tipoAdjunto) {
-          session = null;
+    public void updateTipoAdjuntoPerfil(TipoAdjuntoPerfil tipoAdjuntoPerfil) {
+        session = null;
         t = null;
         try{
         
         session= HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        session.update(tipoAdjunto);
+        session.update(tipoAdjuntoPerfil);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"TipoAdjunto Modificada con éxito",null));
         t.commit();
         }catch(HibernateException e){
@@ -86,13 +87,13 @@ public class TipoAdjuntoImp implements TipoAdjuntoDao{
     }
 
     @Override
-    public void deleteTipoAdjunto(TipoAdjunto tipoAdjunto) {
+    public void deleteTipoAdjuntoPerfil(TipoAdjuntoPerfil tipoAdjuntoPerfil) {
          session = null;
         t = null;
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             t = session.beginTransaction();
-            session.delete(tipoAdjunto);
+            session.delete(tipoAdjuntoPerfil);
             t.commit();
             
         }catch(HibernateException e){
@@ -106,10 +107,10 @@ public class TipoAdjuntoImp implements TipoAdjuntoDao{
     }
 
     @Override
-    public List<TipoAdjunto> ListarTipoAdjuntoPorPerfil(int perfil, int estado, int soli) {
+    public List<TipoAdjuntoPerfil> ListarTipoAdjuntoPorPerfil(int perfil, int estado, int soli) {
         session = null;
         t = null;
-        List<TipoAdjunto> lista = null;
+        List<TipoAdjuntoPerfil> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
         String hql="select a from TipoAdjuntoPerfil t INNER JOIN  t.idTipoAdjunto a  inner join t.idPerfil p inner join t.idEstado e where (p.idPerfil = :perfil and e.idEstado = :estado) and a.idTipoAdjunto not in (select t from Adjunto a inner join  a.idSolicitud  s inner join   a.idTipoAdjunto t where s.idSolicitud = :soli)";
@@ -125,7 +126,5 @@ public class TipoAdjuntoImp implements TipoAdjuntoDao{
         
         return lista;
     }
-    
-    
-}
 
+}

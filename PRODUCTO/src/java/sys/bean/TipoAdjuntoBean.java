@@ -9,10 +9,15 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import sys.dao.TipoAdjuntoDao;
 import sys.imp.TipoAdjuntoImp;
+import sys.imp.TipoAdjuntoPerfilImp;
+import sys.model.Solicitud;
 import sys.model.TipoAdjunto;
+import sys.model.TipoAdjuntoPerfil;
+import sys.model.Usuario;
 
 /**
  *
@@ -24,6 +29,9 @@ public class TipoAdjuntoBean implements Serializable {
 
  private List<TipoAdjunto> listaTipoAdjuntos;
     private TipoAdjunto tipoAdjunto;
+    private List<TipoAdjunto> listaTipoPorPerfil;
+    private int estado;
+    private int soli;
     /**
      * Creates a new instance of TipoAdjuntoBean
      */
@@ -52,6 +60,44 @@ public class TipoAdjuntoBean implements Serializable {
     public void setTipoAdjunto(TipoAdjunto tipoAdjunto) {
         this.tipoAdjunto = tipoAdjunto;
     }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
+
+    public int getSoli() {
+        return soli;
+    }
+
+    public void setSoli(int soli) {
+        this.soli = soli;
+    }
+    
+    
+
+    public List<TipoAdjunto> getListaTipoPorPerfil() { 
+        int id = 0;
+        FacesContext context = FacesContext.getCurrentInstance();
+        Usuario us = (Usuario) context.getExternalContext().getSessionMap().get("ULogueado");
+        id = us.getIdPerfil().getIdPerfil();
+        TipoAdjuntoImp sDao = new TipoAdjuntoImp();
+        listaTipoPorPerfil = sDao.ListarTipoAdjuntoPorPerfil(id, estado, soli);
+        this.estado =  0;
+        this.soli =  0;
+        return listaTipoPorPerfil;
+    }
+
+    public void setListaTipoPorPerfil(List<TipoAdjunto> listaTipoPorPerfil) {
+        this.listaTipoPorPerfil = listaTipoPorPerfil;
+    }
+
+  
+    
+    
     
         public void nuevoTipoAdjunto(){
         TipoAdjuntoDao tDao = new TipoAdjuntoImp();
@@ -82,5 +128,4 @@ public class TipoAdjuntoBean implements Serializable {
             contextt.execute("PF('dialogEliminarTipoAdjunto').hide();");
     }
 
-    
 }

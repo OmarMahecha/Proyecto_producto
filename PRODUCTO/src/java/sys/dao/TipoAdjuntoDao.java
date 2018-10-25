@@ -17,5 +17,5 @@ public interface TipoAdjuntoDao {
     public void newTipoAdjunto(TipoAdjunto tipoAdjunto);
     public void updateTipoAdjunto(TipoAdjunto tipoAdjunto);
     public void deleteTipoAdjunto (TipoAdjunto tipoAdjunto);
-
+    public List<TipoAdjunto> ListarTipoAdjuntoPorPerfil(int perfil, int estado, int soli);
 }
