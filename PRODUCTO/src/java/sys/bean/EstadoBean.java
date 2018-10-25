@@ -86,9 +86,8 @@ public static final int SOLICITUD_DE_CERTIFICACION_CREADA = 1;
 public static final int ENVIADA_A_REVISION_PRELIMINAR = 2;
 public static final int DEVUELTA_POR_PROFESIONAL = 4;
 public static final int REENVIADA_A_REVISION_PRELIMINAR = 5;
-public static final int SOLICITUD_DE_CERTIFICACION_APROBADA = 7;
+public static final int DOCUMENTACION_COMPLETA = 7;
 public static final int SOLICITUD_DE_CERTIFICACION_CANCELADA = 8;
-public static final int GENERANDO_SOLICITUD_DE_SERVICIO = 9;
 public static final int ENVIADA_A_EXPERTO_EN_EL_AREA = 10;
 public static final int DEVUELTA_POR_EXPERTO_EN_EL_AREA = 11;
 public static final int REENVIADA_A_EXPERTO_EN_EL_AREA = 12;
@@ -100,6 +99,7 @@ public static final int OFERTA_POR_AUTORIZAR = 17;
 public static final int OFERTA_COMERCIAL_AUTORIZADA = 18;
 public static final int ENVIADA_AL_CLIENTE = 19;
 public static final int ACEPTADA_POR_EL_CLIENTE = 20;
+public static final int SOLICITUD_ASIGNADA = 22;
 
 public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
         return SOLICITUD_DE_CERTIFICACION_CREADA;
@@ -117,16 +117,18 @@ public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
         return REENVIADA_A_REVISION_PRELIMINAR;
     }
 
-    public  int getSOLICITUD_DE_CERTIFICACION_APROBADA() {
-        return SOLICITUD_DE_CERTIFICACION_APROBADA;
+    public int getDOCUMENTACION_COMPLETA() {
+        return DOCUMENTACION_COMPLETA;
     }
+
+    public int getSOLICITUD_ASIGNADA() {
+        return SOLICITUD_ASIGNADA;
+    }
+
+
 
     public  int getSOLICITUD_DE_CERTIFICACION_CANCELADA() {
         return SOLICITUD_DE_CERTIFICACION_CANCELADA;
-    }
-
-    public  int getGENERANDO_SOLICITUD_DE_SERVICIO() {
-        return GENERANDO_SOLICITUD_DE_SERVICIO;
     }
 
     public  int getENVIADA_A_EXPERTO_EN_EL_AREA() {

@@ -55,4 +55,5 @@ Contributor(s):
   <table-filter match-name="COTIZACION"/>
   <table-filter match-name="CLIENTE"/>
   <table-filter match-name="CIUDAD"/>
+  <table-filter match-name="TIPO_ADJUNTO_PERFIL"/>
 </hibernate-reverse-engineering>

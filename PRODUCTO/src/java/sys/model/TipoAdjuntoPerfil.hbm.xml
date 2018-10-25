@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3/10/2018 12:48:52 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.TipoAdjuntoPerfil" table="TIPO_ADJUNTO_PERFIL" schema="dbo" catalog="producto" optimistic-lock="version">
+        <id name="idTipoAdjuntoPerfil" type="int">
+            <column name="ID_TIPO_ADJUNTO_PERFIL" />
+            <generator class="identity" />
+        </id>
+       
+        <many-to-one name="idTipoAdjunto" column="ID_TIPO_ADJUNTO" class="sys.model.TipoAdjunto"/>    
+        
+        <many-to-one name="idPerfil" column="ID_PERFIL" class="sys.model.Perfil"/>
+        
+        <many-to-one name="idEstado" column="ID_ESTADO" class="sys.model.Estado"/>
+        
+    </class>
+</hibernate-mapping>
