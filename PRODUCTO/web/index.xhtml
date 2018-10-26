@@ -18,7 +18,7 @@
                 
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                 <h:inputText style="opacity: 1;" value="#{usuarioBean.usuario.usuario}" required="true" requiredMessage="Debe ingresar el usuario" class="form-control" pt:placeholder="Usuario" pt:required=""/><br/>
-                <h:inputSecret style="opacity: 1;" value="#{usuarioBean.usuario.password}" required="true" requiredMessage="Debe ingresar la contraseña"  class="form-control" pt:placeholder="Contraseña" pt:required=""/><br/>
+                <h:inputSecret style="opacity: 1;" value="#{usuarioBean.usuario.password}" required="true" requiredMessage="Debe ingresar la contraseña"  class="form-control" pt:placeholder="Contraseña" pt:required=""/><br/><br/>
                 <p:commandButton style="opacity: 1;" value="Ingresar" class="btn btn-primary" action="#{usuarioBean.logueo()}" />
                 
             </h:form>
