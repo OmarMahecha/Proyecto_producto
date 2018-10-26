@@ -63,5 +63,6 @@ Contributor(s):
     <mapping resource="sys/model/Cotizacion.hbm.xml"/>
     <mapping resource="sys/model/Regional.hbm.xml"/>
     <mapping resource="sys/model/TipoAdjuntoPerfil.hbm.xml"/>
+    <mapping resource="sys/model/TipoCertificacion.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

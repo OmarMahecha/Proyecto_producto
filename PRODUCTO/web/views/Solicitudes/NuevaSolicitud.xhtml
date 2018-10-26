@@ -21,22 +21,11 @@
 
                     <p:panel id="pan"  header="NUEVA SOLICITUD">  
                         <p:growl id="growl" life="2000" autoUpdate="true"/>
-                        <h:panelGrid id="grid3" columns="4" cellpadding="15" cellspacing="5" >
-                        <p:outputLabel value="Buscar cliente" style="color: black;" for="buscarcli"/>
-                            <p:inputText id="buscarcli" value="#{solicitudBean.idCliente}" style="background-color: #c2dfef;">
-                                <p:ajax event="blur" listener="#{solicitudBean.agregarDatosCliente()}" update="formNuevaSolicitud:grid1"/>
-                            </p:inputText>
-                        </h:panelGrid>
-                        <p:separator/>
                         <h:panelGrid id="grid1" columns="4" cellpadding="15" cellspacing="5" >
-                            <p:outputLabel  value="Identificacion cliente" for="ident"/>
-                            <p:inputText  id="ident" value="#{solicitudBean.solicitud.identificacionCliente.identificacion}" required="true" requiredMessage="Debe ingresar la identificacion del cliente" readonly="true"/>
 
                             <p:outputLabel  value="RazonSocial" for="razon"/>
-                            <p:inputText id="razon" value="#{solicitudBean.solicitud.identificacionCliente.nombre}" required="true" readonly="true"/>
-                        </h:panelGrid>
-                        <p:separator/>
-                            <h:panelGrid id="grid2" columns="4" cellpadding="15" cellspacing="5" >
+                            <p:inputText id="razon" value="#{solicitudBean.solicitud.razonSocial}" required="true"/>
+
                             <p:outputLabel  value="Nombre de Contacto" for="cont"/>
                             <p:inputText  id="cont" value="#{solicitudBean.solicitud.nombreContacto}" required="false" requiredMessage="Debe ingresar nombre de contacto">
                                 <f:validateRegex pattern="^[a-zA-Z .]*$"/>
@@ -67,6 +56,15 @@
                                 <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
                                 <f:selectItems var="dept" value="#{ciudadBean.listaCiudad}" itemLabel="#{dept.nomCiu} / #{dept.nomDpto}" itemValue="#{dept.nomCiu} / #{dept.nomDpto}"/>
                             </p:selectOneMenu>
+                            
+                             <p:outputLabel value="Tipo De Certificacion" for="cer"/>
+                             <p:selectOneMenu filter="true" filterMatchMode="contains" id="cer" value="#{solicitudBean.tipoCert}" required="true" requiredMessage="Debe ingresar Tipo De Certificacion">
+                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
+                                <f:selectItems var="cert" value="#{tipoCertificacionBean.listaTipoCertificacions}" itemLabel="#{cert.tipoCertificacion}" itemValue="#{cert.idTipoCertificacion}"/>
+                            </p:selectOneMenu>
+                             
+                             <p:outputLabel value="Es Prioridad:" for="dir"/>
+                             <p:selectBooleanCheckbox value="#{solicitudBean.solicitud.esPrioridad}" required="true" requiredMessage="Marque si es prioriad" />
 
                         </h:panelGrid>
                       

@@ -143,5 +143,25 @@ public class UsuarioImp implements UsuarioDao, Serializable {
         
         return usuario;
     }
+
+    @Override
+    public List<Usuario> ListarUsuarioPorPerfil(int idPerfil) {
+               List<Usuario> lista = null;
+        Session session= null;
+         session = HibernateUtil.getSessionFactory().openSession();
+         Transaction t;
+         t = session.beginTransaction();
+         String hql = "select p as nombre from Usuario p inner join fetch  p.cedula c inner join  p.idPerfil per where per.idPerfil = :idPerfil";
+    try{
+        lista = session.createQuery(hql).setParameter("idPerfil", idPerfil).list();
+        t.commit();
+    }catch(HibernateException e){
+        System.out.println("error en lista de Usuarios por perfil"+e.getMessage());
+        t.rollback();
+    }finally{   
+            session.close();
+        }
+    return lista;
+    }
     
 }

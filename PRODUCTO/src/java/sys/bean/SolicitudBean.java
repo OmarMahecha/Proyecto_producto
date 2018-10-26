@@ -23,15 +23,18 @@ import sys.dao.ClienteDao;
 import sys.dao.CotizacionDao;
 import sys.dao.HistoricoDao;
 import sys.dao.SolicitudDao;
+import sys.dao.UsuarioDao;
 import sys.imp.ClienteDaoImp;
 import sys.imp.CotizacionDaoImp;
 import sys.imp.HistoricoImp;
 import sys.imp.SolicitudImp;
+import sys.imp.UsuarioImp;
 import sys.model.Cliente;
 import sys.model.Cotizacion;
 import sys.model.Estado;
 import sys.model.Historico;
 import sys.model.Solicitud;
+import sys.model.TipoCertificacion;
 import sys.model.Usuario;
 /**
  *
@@ -42,6 +45,7 @@ import sys.model.Usuario;
 public class SolicitudBean implements Serializable {
 
     private List<Solicitud> listaSolicitudes;
+    private List<Usuario> listaProfesionales;
     private Solicitud solicitud;
     private String idCliente;
     private Cliente cliente;
@@ -54,6 +58,8 @@ public class SolicitudBean implements Serializable {
     private Historico historico;
     private Estado estado;
     private String obs;
+    private int tipoCert;
+    private int usuario;
 
     /**
      * Creates a new instance of SolicitudBean
@@ -159,28 +165,42 @@ public class SolicitudBean implements Serializable {
         this.obs = obs;
     }
 
+    public int getTipoCert() {
+        return tipoCert;
+    }
+
+    public void setTipoCert(int tipoCert) {
+        this.tipoCert = tipoCert;
+    }
+
+    public int getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
+    }
+    
+    
+
+    public List<Usuario> getListaProfesionales() {
+        UsuarioDao uDao = new UsuarioImp();
+        listaProfesionales = uDao.ListarUsuarioPorPerfil(PerfilBean.PROFESIONAL_DE_CERTIFICACION);
+        return listaProfesionales;
+    }
+
+    public void setListaProfesionales(List<Usuario> listaProfesionales) {
+        this.listaProfesionales = listaProfesionales;
+    }
+    
+    
     public void prepararNuevaSolicitud() {
         this.solicitud = new Solicitud();
         this.dpto = null;
         this.numConf = null;
         this.cotiza = null;
-        this.obs = null;
-    }
-
-    public void agregarDatosCliente() {
-        ClienteDao cDao = new ClienteDaoImp();
-        this.cliente = cDao.obtenerClientePorCodigo(idCliente);
-        if (this.cliente != null) {
-            this.idCliente = null;
-            this.solicitud.setIdentificacionCliente(this.cliente);
-            this.cliente = new Cliente();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cliente encontrado en Ofimatica", null));
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cliente no encontrado en Ofimatica", null));
-            this.solicitud.setIdentificacionCliente(null);
-            this.idCliente = null;
-
-        }
+        this.tipoCert = 0;
+        this.usuario = 0;
     }
 
     public void nuevoCliente() {
@@ -189,10 +209,12 @@ public class SolicitudBean implements Serializable {
             Date fechaSolicitud = new Date();
             this.solicitud.setFechaCreacion(fechaSolicitud);
             Estado est = new Estado();
-            est.setIdEstado(1);
+            TipoCertificacion tCert = new TipoCertificacion();
+            tCert.setIdTipoCertificacion(tipoCert);
+            est.setIdEstado(EstadoBean.SOLICITUD_DE_CERTIFICACION_CREADA);
+            this.solicitud.setIdTipoCertificacion(tCert);
             this.solicitud.setIdEstadoActual(est);
             this.solicitud.setEsAtipico(Boolean.FALSE);
-            this.solicitud.setEsPrioridad(Boolean.FALSE);
             this.solicitud.setCiudadDepartamento(dpto);
             FacesContext context = FacesContext.getCurrentInstance();
             us = (Usuario) context.getExternalContext().getSessionMap().get("ULogueado");
@@ -208,11 +230,9 @@ public class SolicitudBean implements Serializable {
     }
 
     public void agregarCotizacion() {
-        String nit = null;
         this.numConf = null;
-        nit = this.solicitud.getIdentificacionCliente().getIdentificacion();
         CotizacionDao cDao = new CotizacionDaoImp();
-        this.numConf = cDao.obtenerCotizacionPorNumero(cotiza, nit);
+        this.numConf = cDao.obtenerCotizacionPorNumero(cotiza);
         if (this.numConf != null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cotizacion encontrada en ofimatica", null));
         } else {
@@ -229,6 +249,7 @@ public class SolicitudBean implements Serializable {
         SolicitudDao sDao = new SolicitudImp();
         this.solicitud.setNumeroCotizacion(numConf);
         sDao.updateSolicitud(solicitud);
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_ADJUNTA, obs);
         this.prepararNuevaSolicitud();
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formCrearSolicitud");
@@ -244,7 +265,6 @@ public class SolicitudBean implements Serializable {
     }
 
     public void nuevoHistoricoSolicitud(Solicitud soli, int estado, String obs) {
-        this.limpiaHistorico();
         Usuario us = new Usuario();
         Date fechaRegistro = new Date();
         this.estado.setIdEstado(estado);
@@ -261,9 +281,14 @@ public class SolicitudBean implements Serializable {
     }
 
     public void enviarAProfesional() {
+        Usuario prof = new Usuario();
+        prof.setIdUsuario(usuario);
+        this.solicitud.setIdProfesionalAsignado(prof);
+        editarSolicitud();
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogEnviaProf').hide();");
+        prepararNuevaSolicitud();
     }
     
     public void aprobarProfesional() {
@@ -285,7 +310,10 @@ public class SolicitudBean implements Serializable {
         contextt.execute("PF('dialogRevPreTecnica').hide();");
     }
     
-
+    public void editarSolicitud(){
+        SolicitudDao sDao = new SolicitudImp();
+        sDao.updateSolicitud(solicitud);          
+    }
     
 
 

@@ -23,5 +23,6 @@ public interface UsuarioDao {
     public void deleteUsuario (Usuario Usuario);
     public Usuario obtenerUsuarioPorId(int id);
     public Usuario obtenerUporUsuario(String nameUs);
+    public List<Usuario> ListarUsuarioPorPerfil(int idPerfil);
     
 }

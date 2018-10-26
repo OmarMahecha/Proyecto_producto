@@ -15,7 +15,7 @@ import sys.model.Cotizacion;
  */
 public interface CotizacionDao {
     public List<Cotizacion> ListarCotizaciones(String num);
-    public String obtenerCotizacionPorNumero(String cot, String nit);
+    public String obtenerCotizacionPorNumero(String cot);
     public String totalCotizacion(String num)throws Exception;
     
 }

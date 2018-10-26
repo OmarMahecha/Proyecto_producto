@@ -11,32 +11,33 @@ import javax.faces.context.FacesContext;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import sys.dao.SolicitudDao;
-import sys.model.Solicitud;
+import sys.dao.TipoCertificacionDao;
+import sys.model.TipoCertificacion;
 import sys.util.HibernateUtil;
 
 /**
  *
  * @author omar.mahecha
  */
-public class SolicitudImp implements SolicitudDao{
+public class TipoCertificacionImp implements TipoCertificacionDao{
     private Session session;
     private Transaction t;
+
     @Override
-    public List<Solicitud> ListarSolicitudes() {
+    public List<TipoCertificacion> ListarTipoCertificacion() {
         session = null;
         t = null;
-        List<Solicitud> lista = null;
+        List<TipoCertificacion> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion";
+        String hql="SELECT t FROM TipoCertificacion t";
         try{
 
            lista = session.createQuery(hql).list();
             t.commit();
             session.close();
         }catch (HibernateException e){
-            System.out.println(e.getMessage()+"error en lista solicitud");
+            System.out.println(e.getMessage()+"error en lista de Tipo de Certificacion");
             t.rollback();
         }
         
@@ -44,40 +45,40 @@ public class SolicitudImp implements SolicitudDao{
     }
 
     @Override
-    public void newSolicitud(Solicitud solicitud) throws Exception {
-        session = null;
+    public void newTipoCertificacion(TipoCertificacion tipo) {
+                session = null;
         t = null;
         try{
        session = HibernateUtil.getSessionFactory().openSession();
        t = session.beginTransaction();
-       session.save(solicitud);
-       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud creada con éxito",null));
+       session.save(tipo);
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Alerta creada con éxito",null));
        t.commit();
         }catch (HibernateException e){
             System.out.println(e.getMessage());
             t.rollback();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Solicitud no se pudo guardar, Informe al administrador",null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Alerta no se pudo guardar, Informe al administrador",null));
         }finally{
                 session.close();    
 
-        }  
+        } 
     }
 
     @Override
-    public void updateSolicitud(Solicitud solicitud) {
+    public void updateTipoCertificacion(TipoCertificacion tipo) {
           session = null;
         t = null;
         try{
         
         session= HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        session.update(solicitud);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud Modificada con éxito",null));
+        session.update(tipo);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Alerta Modificada con éxito",null));
         t.commit();
         }catch(HibernateException e){
             System.out.println(e.getMessage());
             t.rollback();
-                   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No fue posible modificar la solicitud, Informe al administrador",null));
+                   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"No fue posible modificar la Alerta, Informe al administrador",null));
         }finally{
                 session.close();
 
@@ -85,13 +86,13 @@ public class SolicitudImp implements SolicitudDao{
     }
 
     @Override
-    public void deleteSolicitud(Solicitud solicitud) {
-         session = null;
+    public void deleteTipoCertificacion(TipoCertificacion tipo) {
+           session = null;
         t = null;
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             t = session.beginTransaction();
-            session.delete(solicitud);
+            session.delete(tipo);
             t.commit();
             
         }catch(HibernateException e){
@@ -103,6 +104,4 @@ public class SolicitudImp implements SolicitudDao{
             
         }
     }
-    
-    
 }

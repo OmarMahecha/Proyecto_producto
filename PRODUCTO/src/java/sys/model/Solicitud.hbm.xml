@@ -17,21 +17,42 @@
 
         <many-to-one name="idEstadoActual" column="ID_ESTADO_ACTUAL" class="sys.model.Estado"/>    
             
-        <property name="tiempoOfertaComercial" type="timestamp">
-            <column name="tiempo_oferta_comercial" length="23" />
+        <property name="tiempoDiaOferta" type="java.lang.Integer">
+            <column name="tiempoDiaOferta" />
         </property>
+        
+        <property name="tiempoHoraOferta" type="java.lang.Integer">
+            <column name="tiempoHoraOferta" />
+        </property>
+        
+        <property name="tiempoMinutoOferta" type="java.lang.Integer">
+            <column name="tiempoMinutoOferta" />
+        </property>
+        
         <property name="esPrioridad" type="java.lang.Boolean">
             <column name="es_prioridad" />
         </property>
+        
         <property name="esAtipico" type="java.lang.Boolean">
             <column name="es_atipico" />
         </property>
-        <property name="tiempoAtipico" type="timestamp">
-            <column name="tiempo_atipico" length="23" />
+        
+        <property name="tiempoDiaAtipico" type="java.lang.Integer">
+            <column name="tiempoDiaAtipico" />
         </property>
+        
+        <property name="tiempoHoraAtipico" type="java.lang.Integer">
+            <column name="tiempoHoraAtipico" />
+        </property>
+        
+        <property name="tiempoMinutoAtipico" type="java.lang.Integer">
+            <column name="tiempoMinutoAtipico" />
+        </property>
+        
         <property name="observacionAtipico" type="string">
             <column name="observacion_atipico" />
         </property>
+        
         <property name="observacionPrioridad" type="string">
             <column name="observacion_prioridad" />
         </property>
@@ -58,7 +79,12 @@
             <column name="numeroCotizacion" length="10" />
         </property>
         
-         <many-to-one name="identificacionCliente" column="identificacionCliente" class="sys.model.Cliente"/>
+        <property name="razonSocial" type="string">
+            <column name="razonSocial" length="150" />
+        </property>
+        
+        <many-to-one name="idProfesionalAsignado" column="ID_PROFESIONAL_ASIGNADO" class="sys.model.Usuario" not-null="true"/>
+        <many-to-one name="idTipoCertificacion" column="ID_TIPO_CERTIFICACION" class="sys.model.TipoCertificacion"/>
         
     </class>
 </hibernate-mapping>

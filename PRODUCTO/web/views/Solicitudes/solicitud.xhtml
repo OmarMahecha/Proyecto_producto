@@ -42,9 +42,9 @@
                             </p:commandLink>
                         </p:column>
 
-                        <p:column headerText="Datos de Contacto" style="margin:0 auto;" filterBy="#{soli.identificacionCliente.nombre}" sortBy="#{soli.identificacionCliente.nombre}" filterMatchMode="contains">
+                        <p:column headerText="Datos de Contacto" style="margin:0 auto;" filterBy="#{soli.razonSocial}" sortBy="#{soli.razonSocial}" filterMatchMode="contains">
                             <p:commandLink update="formCrearSolicitud:dlgContacto" oncomplete="PF('dialogContacto').show();" title="Datos de contacto" style="margin:0 auto;">
-                                <h:outputText value="#{soli.identificacionCliente.nombre}" style="margin:0 auto;"/>
+                                <h:outputText value="#{soli.razonSocial}" style="margin:0 auto;"/>
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/> 
                             </p:commandLink>
                         </p:column>
@@ -65,7 +65,16 @@
 
                         <p:column headerText="Usuario Creador" style="margin:0 auto;" filterBy="#{soli.idUsuario.usuario}" sortBy="#{soli.idUsuario.usuario}" filterMatchMode="contains">
                             <h:outputText value="#{soli.idUsuario.usuario}" style="margin:0 auto;"/>
-                        </p:column> 
+                        </p:column>
+
+                        <p:column headerText="Tipo De Certificacion" style="margin:0 auto;" filterBy="#{soli.idTipoCertificacion.tipoCertificacion}" sortBy="#{soli.idTipoCertificacion.tipoCertificacion}" filterMatchMode="contains">
+                            <h:outputText value="#{soli.idTipoCertificacion.tipoCertificacion}" style="margin:0 auto;"/>
+                        </p:column>
+
+                        <p:column headerText="Profesional Asignado" style="margin:0 auto;" filterBy="#{soli.idProfesionalAsignado.usuario}" sortBy="#{soli.idProfesionalAsignado.usuario}" filterMatchMode="contains">
+                            <h:outputText value="#{soli.idProfesionalAsignado.usuario}" style="margin:0 auto;" rendered="#{soli.idProfesionalAsignado.usuario != null}"/>
+                            <h:outputText value="NO ASIGNADO" style="margin:0 auto;" rendered="#{soli.idProfesionalAsignado.usuario == null}"/>
+                        </p:column>
 
                         <p:column headerText="Acciones">
                             <p:commandButton icon="ui-icon-pin-w" update="formAdjuntarDocumento:datosAdjuntarDocumento" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAdjuntarDocumento').show();" title="Adjuntar documento a solicitud" style="margin:0 auto;" rendered="#{permisosAplicacionBean.adjuntar}">
@@ -93,8 +102,6 @@
                     <p:dialog id="dlgContacto" header="DATOS DE CONTACTO DEL CLIENTE"  footer="No. #{solicitudBean.solicitud.idSolicitud}" widgetVar="dialogContacto" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;">
 
                         <p:panelGrid columns="2" style="margin: 0 auto;">
-                            <p:outputLabel value="Identificacion cliente"/>
-                            <h:outputText value="#{solicitudBean.solicitud.identificacionCliente.identificacion}"/>
 
                             <p:outputLabel value="Nombre Contacto"/>
                             <h:outputText value="#{solicitudBean.solicitud.nombreContacto}"/>
@@ -177,8 +184,8 @@
                             </p:inputText>
                             <p:outputLabel  value="Cotizacion a ingresar" for="ident"/>
                             <p:inputText  id="ident" value="#{solicitudBean.numConf}" required="true" requiredMessage="Debe ingresar la Cotizacion" readonly="true"/>
-                             <p:outputLabel for="obsCot" value="Observaciónes"/>
-                             <p:inputTextarea id="obsCot" value="#{solicitudBean.obs}" required="false" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+                            <p:outputLabel for="obsCot" value="Observaciónes"/>
+                            <p:inputTextarea id="obsCot" value="#{solicitudBean.obs}" required="false" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
                         </h:panelGrid>
                         <p:commandButton value="Confirmar" actionListener="#{solicitudBean.ingresaCotizacion()}">
                             <p:confirm message="¿Esta seguro que desea guardar Cotizacion?" header="Aviso" icon="ui-icon-alert"/>
@@ -189,11 +196,17 @@
                         </p:confirmDialog>
                     </p:dialog> 
                 </h:form>  
-                
+
                 <h:form id="formEnviaProf">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgEnviaProf" header="ENVIAR SOLICITUD A PROFESIONAL DE CERTIFICACION" widgetVar="dialogEnviaProf" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
                         <p:panelGrid id="datosEnviaProf" columns="2" >
+
+                            <p:outputLabel value="Profesional de Certificacion" for="prof"/>
+                            <p:selectOneMenu filter="true" filterMatchMode="contains" id="prof" value="#{solicitudBean.usuario}" required="true" requiredMessage="Debe ingresar Departamento de contacto">
+                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
+                                <f:selectItems var="prof" value="#{solicitudBean.listaProfesionales}" itemLabel="#{prof.cedula.nombres}" itemValue="#{prof.idUsuario}"/>
+                            </p:selectOneMenu>
 
                             <p:outputLabel for="obsEnviaProf" value="Observaciónes"/>
                             <p:inputTextarea id="obsEnviaProf" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
@@ -202,7 +215,7 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.enviarAProfesional()}"></p:commandButton>
                     </p:dialog> 
                 </h:form>
-                
+
                 <h:form id="formRevPreTecnica">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgRevPreTecnica" header="Revisión Preliminar de Solicitud de Certificación" widgetVar="dialogRevPreTecnica" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
@@ -217,7 +230,7 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="RECHAZAR" actionListener="#{solicitudBean.rechazarProfesional()}"></p:commandButton>
                     </p:dialog> 
                 </h:form>
-                
+
                 <h:form id="formHistorico">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgHistorico" header="HISTORICO DE SOLICITUD" widgetVar="dialogHistorico" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center;" >

@@ -26,17 +26,16 @@ public class CotizacionDaoImp implements CotizacionDao {
     private Transaction t;
 
     @Override
-    public String obtenerCotizacionPorNumero(String cot, String nit) {
+    public String obtenerCotizacionPorNumero(String cot) {
         String cotizacion = null;
         session = null;
         t = null;
         try {
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql = "select min(c.cotizacion) FROM Cotizacion c  where cotizacion = :cotizacion and nit = :nit";
+        String hql = "select min(c.cotizacion) FROM Cotizacion c  where cotizacion = :cotizacion ";
         Query q = session.createQuery(hql);
         q.setParameter("cotizacion", cot);
-        q.setParameter("nit", nit);
         cotizacion = (String) q.uniqueResult();
         t.commit();
         session.close();

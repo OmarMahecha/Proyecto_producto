@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="sys.model.TipoCertificacion" table="TIPO_CERTIFICACION" schema="dbo" catalog="producto" optimistic-lock="version">
+        <id name="idTipoCertificacion" type="int">
+            <column name="ID_TIPO_CERTIFICACION" />
+            <generator class="identity" />
+        </id>
+        <property name="tipoCertificacion" type="string">
+            <column name="tipoCertificacion" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
+

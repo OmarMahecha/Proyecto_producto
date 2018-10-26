@@ -14,10 +14,8 @@ public class Solicitud  implements java.io.Serializable {
      private Usuario idUsuario;
      private Date fechaCreacion;
      private Estado idEstadoActual;
-     private Date tiempoOfertaComercial;
      private Boolean esPrioridad;
      private Boolean esAtipico;
-     private Date tiempoAtipico;
      private String observacionAtipico;
      private String observacionPrioridad;
      private String nombreContacto;
@@ -27,7 +25,15 @@ public class Solicitud  implements java.io.Serializable {
      private String celularTelefono;
      private String ciudadDepartamento;
      private String numeroCotizacion;
-     private Cliente identificacionCliente;
+     private String razonSocial;
+     private int tiempoDiaAtipico;
+     private int tiempoHoraAtipico;
+     private int tiempoMinutoAtipico;
+     private int tiempoDiaOferta;
+     private int tiempoHoraOferta;
+     private int tiempoMinutoOferta;
+     private Usuario idProfesionalAsignado;
+     private TipoCertificacion idTipoCertificacion;
 
     public Solicitud() {
     }
@@ -39,26 +45,37 @@ public class Solicitud  implements java.io.Serializable {
         this.fechaCreacion = fechaCreacion;
         this.idEstadoActual = idEstadoActual;
     }
-    public Solicitud(int idSolicitud, Usuario idUsuario, Date fechaCreacion,Estado idEstadoActual, Date tiempoOfertaComercial, Boolean esPrioridad, Boolean esAtipico, Date tiempoAtipico, String observacionAtipico, String observacionPrioridad, String nombreContacto, String cargoContacto, String correoContacto, String direccionCliente, String celularTelefono, String ciudadDepartamento, String numeroCotizacion, Cliente identificacionCliente) {
-       this.idSolicitud = idSolicitud;
-       this.idUsuario = idUsuario;
-       this.fechaCreacion = fechaCreacion;
-       this.idEstadoActual = idEstadoActual;
-       this.tiempoOfertaComercial = tiempoOfertaComercial;
-       this.esPrioridad = esPrioridad;
-       this.esAtipico = esAtipico;
-       this.tiempoAtipico = tiempoAtipico;
-       this.observacionAtipico = observacionAtipico;
-       this.observacionPrioridad = observacionPrioridad;
-       this.nombreContacto = nombreContacto;
-       this.cargoContacto = cargoContacto;
-       this.correoContacto = correoContacto;
-       this.direccionCliente = direccionCliente;
-       this.celularTelefono = celularTelefono;
-       this.ciudadDepartamento = ciudadDepartamento;
-       this.numeroCotizacion = numeroCotizacion;
-       this.identificacionCliente = identificacionCliente;
+
+    public Solicitud(int idSolicitud, Usuario idUsuario, Date fechaCreacion, Estado idEstadoActual, Boolean esPrioridad, Boolean esAtipico, String observacionAtipico, String observacionPrioridad, String nombreContacto, String cargoContacto, String correoContacto, String direccionCliente, String celularTelefono, String ciudadDepartamento, String numeroCotizacion, String razonSocial, int tiempoDiaAtipico, int tiempoHoraAtipico, int tiempoMinutoAtipico, int tiempoDiaOferta, int tiempoHoraOferta, int tiempoMinutoOferta, Usuario idProfesionalAsignado, TipoCertificacion idTipoCertificacion) {
+        this.idSolicitud = idSolicitud;
+        this.idUsuario = idUsuario;
+        this.fechaCreacion = fechaCreacion;
+        this.idEstadoActual = idEstadoActual;
+        this.esPrioridad = esPrioridad;
+        this.esAtipico = esAtipico;
+        this.observacionAtipico = observacionAtipico;
+        this.observacionPrioridad = observacionPrioridad;
+        this.nombreContacto = nombreContacto;
+        this.cargoContacto = cargoContacto;
+        this.correoContacto = correoContacto;
+        this.direccionCliente = direccionCliente;
+        this.celularTelefono = celularTelefono;
+        this.ciudadDepartamento = ciudadDepartamento;
+        this.numeroCotizacion = numeroCotizacion;
+        this.razonSocial = razonSocial;
+        this.tiempoDiaAtipico = tiempoDiaAtipico;
+        this.tiempoHoraAtipico = tiempoHoraAtipico;
+        this.tiempoMinutoAtipico = tiempoMinutoAtipico;
+        this.tiempoDiaOferta = tiempoDiaOferta;
+        this.tiempoHoraOferta = tiempoHoraOferta;
+        this.tiempoMinutoOferta = tiempoMinutoOferta;
+        this.idProfesionalAsignado = idProfesionalAsignado;
+        this.idTipoCertificacion = idTipoCertificacion;
     }
+
+
+    
+
    
     public int getIdSolicitud() {
         return this.idSolicitud;
@@ -89,13 +106,7 @@ public class Solicitud  implements java.io.Serializable {
     public void setIdEstadoActual(Estado idEstadoActual) {
         this.idEstadoActual = idEstadoActual;
     }
-    public Date getTiempoOfertaComercial() {
-        return this.tiempoOfertaComercial;
-    }
-    
-    public void setTiempoOfertaComercial(Date tiempoOfertaComercial) {
-        this.tiempoOfertaComercial = tiempoOfertaComercial;
-    }
+
     public Boolean getEsPrioridad() {
         return this.esPrioridad;
     }
@@ -110,13 +121,7 @@ public class Solicitud  implements java.io.Serializable {
     public void setEsAtipico(Boolean esAtipico) {
         this.esAtipico = esAtipico;
     }
-    public Date getTiempoAtipico() {
-        return this.tiempoAtipico;
-    }
-    
-    public void setTiempoAtipico(Date tiempoAtipico) {
-        this.tiempoAtipico = tiempoAtipico;
-    }
+
     public String getObservacionAtipico() {
         return this.observacionAtipico;
     }
@@ -189,12 +194,76 @@ public class Solicitud  implements java.io.Serializable {
         this.numeroCotizacion = numeroCotizacion;
     }
 
-    public Cliente getIdentificacionCliente() {
-        return identificacionCliente;
+    public String getRazonSocial() {
+        return razonSocial;
     }
 
-    public void setIdentificacionCliente(Cliente identificacionCliente) {
-        this.identificacionCliente = identificacionCliente;
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
+    }
+
+    public int getTiempoDiaAtipico() {
+        return tiempoDiaAtipico;
+    }
+
+    public void setTiempoDiaAtipico(int tiempoDiaAtipico) {
+        this.tiempoDiaAtipico = tiempoDiaAtipico;
+    }
+
+    public int getTiempoHoraAtipico() {
+        return tiempoHoraAtipico;
+    }
+
+    public void setTiempoHoraAtipico(int tiempoHoraAtipico) {
+        this.tiempoHoraAtipico = tiempoHoraAtipico;
+    }
+
+    public int getTiempoMinutoAtipico() {
+        return tiempoMinutoAtipico;
+    }
+
+    public void setTiempoMinutoAtipico(int tiempoMinutoAtipico) {
+        this.tiempoMinutoAtipico = tiempoMinutoAtipico;
+    }
+
+    public int getTiempoDiaOferta() {
+        return tiempoDiaOferta;
+    }
+
+    public void setTiempoDiaOferta(int tiempoDiaOferta) {
+        this.tiempoDiaOferta = tiempoDiaOferta;
+    }
+
+    public int getTiempoHoraOferta() {
+        return tiempoHoraOferta;
+    }
+
+    public void setTiempoHoraOferta(int tiempoHoraOferta) {
+        this.tiempoHoraOferta = tiempoHoraOferta;
+    }
+
+    public int getTiempoMinutoOferta() {
+        return tiempoMinutoOferta;
+    }
+
+    public void setTiempoMinutoOferta(int tiempoMinutoOferta) {
+        this.tiempoMinutoOferta = tiempoMinutoOferta;
+    }
+
+    public Usuario getIdProfesionalAsignado() {
+        return idProfesionalAsignado;
+    }
+
+    public void setIdProfesionalAsignado(Usuario idProfesionalAsignado) {
+        this.idProfesionalAsignado = idProfesionalAsignado;
+    }
+
+    public TipoCertificacion getIdTipoCertificacion() {
+        return idTipoCertificacion;
+    }
+
+    public void setIdTipoCertificacion(TipoCertificacion idTipoCertificacion) {
+        this.idTipoCertificacion = idTipoCertificacion;
     }
 
     
