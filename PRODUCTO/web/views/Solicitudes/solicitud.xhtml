@@ -84,7 +84,10 @@
                             <p:commandButton icon="ui-icon-document" update="formAbrirAdjunto:datosAbrirAdjunto" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAbrirAdjunto').show();" title="Ver Adjuntos" style="margin:0 auto;" rendered="#{permisosAplicacionBean.verAdjunto}">
                                 <f:setPropertyActionListener target="#{adjuntoBean.idSoli}" value="#{soli.idSolicitud}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnviaProf:datosEnviaProf" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnviaProf').show();" title="Enviar Revisión Preliminar de Solicitud de Certificación a Profesional de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.enviarAProf}">
+                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnviaProf:datosEnviaProf" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnviaProf').show();" title="Enviar Revisión Preliminar de Solicitud de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.enviarAProf}">
+                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-person" update="formAsignaProf:datosAsignaProf" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAsignaProf').show();" title="Asignar Profesional de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.enviarAProf}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
                             <p:commandButton icon="ui-icon-folder-collapsed" update="formRevPreTecnica:datosRevPreTecnica" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevPreTecnica').show();" title="Aprobación de Revisión Preliminar de Solicitud de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaProf}">
@@ -201,18 +204,31 @@
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgEnviaProf" header="ENVIAR SOLICITUD A PROFESIONAL DE CERTIFICACION" widgetVar="dialogEnviaProf" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
                         <p:panelGrid id="datosEnviaProf" columns="2" >
-
-                            <p:outputLabel value="Profesional de Certificacion" for="prof"/>
-                            <p:selectOneMenu filter="true" filterMatchMode="contains" id="prof" value="#{solicitudBean.usuario}" required="true" requiredMessage="Debe ingresar Departamento de contacto">
-                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
-                                <f:selectItems var="prof" value="#{solicitudBean.listaProfesionales}" itemLabel="#{prof.cedula.nombres}" itemValue="#{prof.idUsuario}"/>
-                            </p:selectOneMenu>
-
+                            
                             <p:outputLabel for="obsEnviaProf" value="Observaciónes"/>
                             <p:inputTextarea id="obsEnviaProf" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
 
                         </p:panelGrid>
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.enviarAProfesional()}"></p:commandButton>
+                    </p:dialog> 
+                </h:form>
+                
+                <h:form id="formAsignaProf">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgAsignaProf" header="ASIGNAR PROFESIONAL DE CERTIFICACION" widgetVar="dialogAsignaProf" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:panelGrid id="datosAsignaProf" columns="2" >
+
+                            <p:outputLabel value="Profesional de Certificacion" for="prof"/>
+                            <p:selectOneMenu filter="true" filterMatchMode="contains" id="prof" value="#{solicitudBean.usuario}" required="true" requiredMessage="Debe seleccionar Profesional de Certificación">
+                                <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
+                                <f:selectItems var="prof" value="#{solicitudBean.listaProfesionales}" itemLabel="#{prof.cedula.nombres}" itemValue="#{prof.idUsuario}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="obsAsignaProf" value="Observaciones"/>
+                            <p:inputTextarea id="obsAsignaProf" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+
+                        </p:panelGrid>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.asignarAProfesional()}"></p:commandButton>
                     </p:dialog> 
                 </h:form>
 

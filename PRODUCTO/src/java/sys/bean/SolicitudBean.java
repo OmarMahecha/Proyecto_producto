@@ -280,14 +280,21 @@ public class SolicitudBean implements Serializable {
         this.limpiaHistorico();
     }
 
-    public void enviarAProfesional() {
+    public void enviarAProfesional() {        
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogEnviaProf').hide();");
+        prepararNuevaSolicitud();
+    }
+    
+    public void asignarAProfesional() {
         Usuario prof = new Usuario();
         prof.setIdUsuario(usuario);
         this.solicitud.setIdProfesionalAsignado(prof);
         editarSolicitud();
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
-        contextt.execute("PF('dialogEnviaProf').hide();");
+        contextt.execute("PF('dialogAsignaProf').hide();");
         prepararNuevaSolicitud();
     }
     
