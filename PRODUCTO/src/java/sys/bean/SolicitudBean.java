@@ -315,6 +315,11 @@ public class SolicitudBean implements Serializable {
         sDao.updateSolicitud(solicitud);          
     }
     
+   /* public String calculoDeTiempo(int idSoli, int estado ){
+        
+        
+    }*/
+    
 
 
 }

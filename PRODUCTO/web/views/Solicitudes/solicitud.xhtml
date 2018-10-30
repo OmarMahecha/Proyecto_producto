@@ -24,7 +24,7 @@
                 </p:dialog>
                 <h:form id="formCrearSolicitud">
                     <p:dataTable id="tablaSolicitudes" paginator="true" paginatorPosition="top" rows="10" 
-                                 var="soli" value="#{solicitudBean.listaSolicitudes}" emptyMessage="No hay solicitudes para mostrar">
+                                 var="soli" value="#{solicitudBean.listaSolicitudes}" emptyMessage="No hay solicitudes para mostrar" rowStyleClass="#{soli.esPrioridad ? 'historicoPasado' : null}">
                         <p:column headerText="NUMERO" style="margin:0 auto;" filterBy="#{soli.idSolicitud}" sortBy="#{soli.idSolicitud}" filterMatchMode="contains">
                             <h:outputText value="#{soli.idSolicitud}" style="margin:0 auto;"/>
                         </p:column>
