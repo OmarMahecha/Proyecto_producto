@@ -280,14 +280,21 @@ public class SolicitudBean implements Serializable {
         this.limpiaHistorico();
     }
 
-    public void enviarAProfesional() {
+    public void enviarAProfesional() {        
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogEnviaProf').hide();");
+        prepararNuevaSolicitud();
+    }
+    
+    public void asignarAProfesional() {
         Usuario prof = new Usuario();
         prof.setIdUsuario(usuario);
         this.solicitud.setIdProfesionalAsignado(prof);
         editarSolicitud();
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
-        contextt.execute("PF('dialogEnviaProf').hide();");
+        contextt.execute("PF('dialogAsignaProf').hide();");
         prepararNuevaSolicitud();
     }
     
@@ -308,6 +315,30 @@ public class SolicitudBean implements Serializable {
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.DEVUELTA_POR_PROFESIONAL, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogRevPreTecnica').hide();");
+    }
+    
+    public void enviarExperto() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_EXPERTO_EN_EL_AREA, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogEnviaExp').hide();");
+    }
+    
+    public void enviarAsesorComercial() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A__ASESOR_COMERCIAL, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogRevSolicitud').hide();");
+    }
+    
+    public void devolverExperto() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.DEVUELTA_POR_EXPERTO_EN_EL_AREA, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogRevSolicitud').hide();");
+    }
+    
+    public void enviarAprobOC() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_ENVIADA_A_PROFESIONAL, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogEnvAprobOC').hide();");
     }
     
     public void editarSolicitud(){
