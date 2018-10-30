@@ -27,3 +27,15 @@ a:link:hover, a:visited:hover  {
   font-weight : bold;
   text-decoration : underline;
 }
+
+.historicoPasado{
+    background: #EF5350 !important;
+    background-image: none !important;
+    color: #000000 !important;
+}
+
+.historicoATiempo{
+    background: #54d2f2 !important;
+    background-image: none !important;
+    color: #000000 !important;
+}

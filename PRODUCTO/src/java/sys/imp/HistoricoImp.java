@@ -29,7 +29,7 @@ public class HistoricoImp implements HistoricoDao{
         List<Historico> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT h FROM Historico h left join fetch h.idSolicitud s left join fetch h.idEstado e left join fetch h.idUsuario u where s.idSolicitud = :soli";
+        String hql="SELECT h FROM Historico h left join fetch h.idSolicitud s left join fetch h.idEstado e left join fetch h.idUsuario u where s.idSolicitud = :soli order by h.fechaActualizacion desc";
         try{
 
            lista = session.createQuery(hql).setParameter("soli", soli).list();
@@ -102,6 +102,27 @@ public class HistoricoImp implements HistoricoDao{
                 session.close();
             
         }
+    }
+
+    @Override
+    public Historico obtieneUltimoHistorico(int soli) {
+        session = null;
+        t = null;
+        Historico historico = new Historico();
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
+        String hql="SELECT h FROM Historico h left join fetch h.idSolicitud s left join fetch h.idEstado e left join fetch h.idUsuario u where s.idSolicitud = :soli order by h.fechaActualizacion desc";
+        try{
+
+           historico = (Historico) session.createQuery(hql).setParameter("soli", soli).uniqueResult();
+            t.commit();
+            session.close();
+        }catch (HibernateException e){
+            System.out.println(e.getMessage()+"error en lista Historico");
+            t.rollback();
+        }
+        
+        return historico;
     }
     
     

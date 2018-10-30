@@ -17,5 +17,6 @@ public interface HistoricoDao {
     public void newHistorico(Historico historico);
     public void updateHistorico(Historico historico);
     public void deleteHistorico (Historico historico);
+    public Historico obtieneUltimoHistorico(int soli);
 
 }
