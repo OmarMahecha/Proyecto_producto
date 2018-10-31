@@ -111,14 +111,15 @@ public class HistoricoImp implements HistoricoDao{
         Historico historico = new Historico();
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT h FROM Historico h left join fetch h.idSolicitud s left join fetch h.idEstado e left join fetch h.idUsuario u where s.idSolicitud = :soli order by h.fechaActualizacion desc";
+        String hql="SELECT max(h) FROM Historico h left join  h.idSolicitud s left join  h.idEstado e left join  h.idUsuario u where s.idSolicitud = :soli";
         try{
 
            historico = (Historico) session.createQuery(hql).setParameter("soli", soli).uniqueResult();
+          
             t.commit();
             session.close();
         }catch (HibernateException e){
-            System.out.println(e.getMessage()+"error en lista Historico");
+            System.out.println(e.getMessage()+"error al obtener Historico");
             t.rollback();
         }
         

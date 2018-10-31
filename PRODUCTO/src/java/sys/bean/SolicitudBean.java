@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -346,10 +347,37 @@ public class SolicitudBean implements Serializable {
         sDao.updateSolicitud(solicitud);          
     }
     
-   /* public String calculoDeTiempo(int idSoli, int estado ){
-        
-        
-    }*/
+    public String calculoDeTiempo(int idSoli ){
+        String mensaje = null;
+        Date actual = new Date();
+        Historico historico = new Historico();
+        HistoricoDao his = new HistoricoImp();
+        historico = his.obtieneUltimoHistorico(idSoli);
+        if(historico != null){
+        System.out.println("ggggggggggggggggg"+actual.getTime()+"  pppppppppppppppppppppp"+historico.getFechaActualizacion().getTime());
+        System.out.print("kkkkkkkkkkkkkkkkkkkkk"+(actual.getTime()-historico.getFechaActualizacion().getTime())/1000);
+        int diferencia = (int) ((actual.getTime()-historico.getFechaActualizacion().getTime())/1000);
+         int dias=0;
+        int horas=0;
+        int minutos=0;
+        if(diferencia>86400) {
+            dias=(int)Math.floor(diferencia/86400);
+            diferencia=diferencia-(dias*86400);
+        }
+        if(diferencia>3600) {
+            horas=(int)Math.floor(diferencia/3600);
+            diferencia=diferencia-(horas*3600);
+        }
+        if(diferencia>60) {
+            minutos=(int)Math.floor(diferencia/60);
+            diferencia=diferencia-(minutos*60);
+        }
+    
+        mensaje = "Hay "+dias+" dias, "+horas+" horas, "+minutos+" minutos y "+diferencia+" segundos de diferencia";
+        }
+    
+    return mensaje;     
+    }
     
 
 
