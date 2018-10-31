@@ -29,7 +29,7 @@ public class TiempoImp implements TiempoDao{
         List<Tiempo> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT t FROM Tiempo t";
+        String hql="SELECT t FROM Tiempo t inner join fetch t.idEstado e";
         try{
 
            lista = session.createQuery(hql).list();

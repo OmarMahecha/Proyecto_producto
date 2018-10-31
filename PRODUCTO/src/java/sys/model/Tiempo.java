@@ -15,16 +15,18 @@ public class Tiempo  implements java.io.Serializable {
      private int horas;
      private int  minutos;
      private String detalle;
+     private Estado idEstado;
 
     public Tiempo() {
     }
 
-    public Tiempo(int idTiempo, int dias, int horas, int minutos, String detalle) {
+    public Tiempo(int idTiempo, int dias, int horas, int minutos, String detalle, Estado idEstado) {
        this.idTiempo = idTiempo;
        this.dias = dias;
        this.horas = horas;
        this.minutos = minutos;
        this.detalle = detalle;
+       this.idEstado = idEstado;
     }
    
     public int getIdTiempo() {
@@ -65,6 +67,14 @@ public class Tiempo  implements java.io.Serializable {
 
     public void setMinutos(int minutos) {
         this.minutos = minutos;
+    }
+
+    public Estado getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(Estado idEstado) {
+        this.idEstado = idEstado;
     }
 
 

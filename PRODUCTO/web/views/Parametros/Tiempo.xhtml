@@ -33,6 +33,10 @@
                                 <h:outputText value="#{perf.detalle}"/>
                             </p:column>
 
+                            <p:column headerText="ESTADO" filterBy="#{perf.idEstado.estado}" sortBy="#{perf.idEstado.estado}" filterMatchMode="contains">
+                                <h:outputText value="#{perf.idEstado.estado}"/>
+                            </p:column>
+
                             <p:column headerText="Otras Acciones">
                                 <p:commandButton icon="ui-icon-pencil" update="formEditarTiempo:dlgEditarTiempo"  oncomplete="PF('dialogEditarTiempo').show();" title="Editar Tiempo" style="margin:0 auto;" >
                                     <f:setPropertyActionListener target="#{tiempoBean.tiempo}" value="#{perf}"/>
@@ -63,6 +67,11 @@
                                 <p:outputLabel for="detT" value="Detalle Tiempo :"/>
                                 <p:inputTextarea id="detT" value="#{tiempoBean.tiempo.detalle}" required="true" title="Ingresar Tiempo" requiredMessage="Debe Ingresar un detalle de el tiempo que esta ingresando" />
 
+                                <p:outputLabel value="Estado Asociado" for="est"/>
+                                <p:selectOneMenu filter="true" filterMatchMode="contains" id="est" value="#{tiempoBean.idEstado}" required="true" requiredMessage="Debe Seleccionar Un Esatdo">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione Una Opción" itemValue="#{null}"/>
+                                    <f:selectItems var="est" value="#{estadoBean.listaEstados}" itemLabel="#{est.estado}" itemValue="#{est.idEstado}"/>
+                                </p:selectOneMenu>
                             </h:panelGrid>
                         </p:panel>
                         <p:toolbar>
@@ -97,6 +106,11 @@
                             <p:outputLabel for="det" value="Detalle Tiempo: "/>
                             <p:inputText id="det" value="#{tiempoBean.tiempo.detalle}" required="true" title="Ingresar Detalle Tiempo" requiredMessage="Debe Ingresar un Detalle para el Tiempo" />
 
+                            <p:outputLabel value="Estado Asociado" for="est"/>
+                            <p:selectOneMenu filter="true" filterMatchMode="contains" id="est" value="#{tiempoBean.idEstado}" required="true" requiredMessage="Debe Seleccionar Un Esatdo">
+                                <f:selectItem itemLabel="#{tiempoBean.tiempo.idEstado.estado}" itemValue="#{tiempoBean.tiempo.idEstado.idEstado}"/>
+                                <f:selectItems var="est" value="#{estadoBean.listaEstados}" itemLabel="#{est.estado}" itemValue="#{est.idEstado}"/>
+                            </p:selectOneMenu>
                         </h:panelGrid>
 
                         <p:toolbar>
@@ -122,24 +136,25 @@
                         <h:panelGrid id="pEliminarTiempo" columns="2"  >
 
                             <p:outputLabel for="nomD" value="Total días :"/>
-                            <p:inputText id="nomD" value="#{tiempoBean.tiempo.dias}" required="true" title="Numero de dias" requiredMessage="Numero de dias" disabled="true" >
+                            <p:inputText id="nomD" value="#{tiempoBean.tiempo.dias}" required="true" title="Numero de dias" requiredMessage="Numero de dias" readonly="true" >
                                 <f:validateRegex pattern="^\d+$"/>
                             </p:inputText>
 
                             <p:outputLabel for="nomH" value="Total horas :"/>
-                            <p:inputText id="nomH" value="#{tiempoBean.tiempo.horas}" required="true" title="Numero de horas" requiredMessage="Numero de horas" disabled="true">
+                            <p:inputText id="nomH" value="#{tiempoBean.tiempo.horas}" required="true" title="Numero de horas" requiredMessage="Numero de horas" readonly="true">
                                 <f:validateRegex pattern="^\d+$"/>
                             </p:inputText>
 
                             <p:outputLabel for="nomM" value="Total minutos:"/>
-                            <p:inputText id="nomM" value="#{tiempoBean.tiempo.minutos}" required="true" title="Cantidad de minutos" requiredMessage="Cantidad de minutos" disabled="true">
+                            <p:inputText id="nomM" value="#{tiempoBean.tiempo.minutos}" required="true" title="Cantidad de minutos" requiredMessage="Cantidad de minutos" readonly="true">
                                 <f:validateRegex pattern="^\d+$"/>
                             </p:inputText>
 
                             <p:outputLabel for="detal" value="Detalle Tiempo: "/>
-                            <p:inputText id="detal" value="#{tiempoBean.tiempo.detalle}" required="true" title="Detalle Tiempo" disabled="true" />
+                            <p:inputText id="detal" value="#{tiempoBean.tiempo.detalle}" required="true" title="Detalle Tiempo" readonly="true" />
 
-
+                            <p:outputLabel for="est" value="Estado: "/>
+                            <p:inputText id="est" value="#{tiempoBean.tiempo.idEstado.estado}" required="true" title="Estado de Tiempo" readonly="true" />
                         </h:panelGrid>
 
                         <p:toolbar>

@@ -24,5 +24,7 @@
         <property name="detalle" type="string">
             <column name="detalle" not-null="true" />
         </property>
+        
+         <many-to-one name="idEstado" column="idEstado" class="sys.model.Estado"/>
     </class>
 </hibernate-mapping>

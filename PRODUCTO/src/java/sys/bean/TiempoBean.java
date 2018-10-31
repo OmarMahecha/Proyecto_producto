@@ -12,6 +12,7 @@ import java.util.List;
 import org.primefaces.context.RequestContext;
 import sys.dao.TiempoDao;
 import sys.imp.TiempoImp;
+import sys.model.Estado;
 import sys.model.Tiempo;
 
 /**
@@ -24,6 +25,7 @@ public class TiempoBean implements Serializable {
 
    private List<Tiempo> listaTiempos;
     private Tiempo tiempo;
+    private int idEstado; 
     /**
      * Creates a new instance of TiempoBean
      */
@@ -32,6 +34,7 @@ public class TiempoBean implements Serializable {
     
     public void prepararNuevoTiempo(){
         this.tiempo = new Tiempo();
+        this.idEstado = 0;
     }
 
     public List<Tiempo> getListaTiempos() {
@@ -51,8 +54,19 @@ return listaTiempos;
     public void setTiempo(Tiempo tiempo) {
         this.tiempo = tiempo;
     }
+
+    public int getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }
     
         public void nuevoTiempo(){
+            Estado estado = new Estado();
+            estado.setIdEstado(idEstado);
+            this.tiempo.setIdEstado(estado);
         TiempoDao pDao = new TiempoImp();
         pDao.newTiempo(tiempo);
         prepararNuevoTiempo();
@@ -64,6 +78,9 @@ return listaTiempos;
     
     public void editarTiempo(){
         TiempoDao pDao = new TiempoImp();
+        Estado estado = new Estado();
+            estado.setIdEstado(idEstado);
+            this.tiempo.setIdEstado(estado);
         pDao.updateTiempo(tiempo);
         prepararNuevoTiempo();
         RequestContext context = RequestContext.getCurrentInstance();
