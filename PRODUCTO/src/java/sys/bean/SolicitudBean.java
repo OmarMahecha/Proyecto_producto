@@ -342,6 +342,30 @@ public class SolicitudBean implements Serializable {
         contextt.execute("PF('dialogEnvAprobOC').hide();");
     }
     
+    public void aprobarOfPL() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_POR_AUTORIZAR, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogAprobOfPL').hide();");
+    }
+    
+    public void devolverOfertaPL() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_DEVUELTA, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogAprobOfPL').hide();");
+    }
+    
+    public void aprobarOfJC() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_AUTORIZADA, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogAprobOfJC').hide();");
+    }
+    
+    public void devolverOfertaJC() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_DEVUELTA, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogAprobOfJC').hide();");
+    }
+    
     public void editarSolicitud(){
         SolicitudDao sDao = new SolicitudImp();
         sDao.updateSolicitud(solicitud);          
