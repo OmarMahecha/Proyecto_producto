@@ -100,6 +100,7 @@ public static final int OFERTA_COMERCIAL_AUTORIZADA = 18;
 public static final int ENVIADA_AL_CLIENTE = 19;
 public static final int ACEPTADA_POR_EL_CLIENTE = 20;
 public static final int SOLICITUD_ASIGNADA = 22;
+public static final int COTIZACION_ASIGNADA = 23;
 
 public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
         return SOLICITUD_DE_CERTIFICACION_CREADA;
@@ -173,6 +174,10 @@ public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
 
     public  int getACEPTADA_POR_EL_CLIENTE() {
         return ACEPTADA_POR_EL_CLIENTE;
+    }
+
+    public int getCOTIZACION_ASIGNADA() {
+        return COTIZACION_ASIGNADA;
     }
 
 

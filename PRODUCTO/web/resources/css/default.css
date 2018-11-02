@@ -28,10 +28,11 @@ a:link:hover, a:visited:hover  {
   text-decoration : underline;
 }
 
-.historicoPasado{
+.historicoPasado {
     background: #EF5350 !important;
     background-image: none !important;
     color: #000000 !important;
+
 }
 
 .historicoATiempo{
@@ -39,3 +40,4 @@ a:link:hover, a:visited:hover  {
     background-image: none !important;
     color: #000000 !important;
 }
+

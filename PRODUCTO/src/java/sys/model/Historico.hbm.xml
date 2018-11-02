@@ -20,5 +20,9 @@
         </property>
         
         <many-to-one name="idUsuario" column="ID_USUARIO" class="sys.model.Usuario"/>
+        
+        <property name="tiempoGestion" type="string">
+            <column name="tiempoGestion" />
+        </property>
     </class>
 </hibernate-mapping>

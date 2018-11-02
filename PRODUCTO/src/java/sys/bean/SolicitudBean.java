@@ -24,17 +24,20 @@ import sys.dao.ClienteDao;
 import sys.dao.CotizacionDao;
 import sys.dao.HistoricoDao;
 import sys.dao.SolicitudDao;
+import sys.dao.TiempoDao;
 import sys.dao.UsuarioDao;
 import sys.imp.ClienteDaoImp;
 import sys.imp.CotizacionDaoImp;
 import sys.imp.HistoricoImp;
 import sys.imp.SolicitudImp;
+import sys.imp.TiempoImp;
 import sys.imp.UsuarioImp;
 import sys.model.Cliente;
 import sys.model.Cotizacion;
 import sys.model.Estado;
 import sys.model.Historico;
 import sys.model.Solicitud;
+import sys.model.Tiempo;
 import sys.model.TipoCertificacion;
 import sys.model.Usuario;
 /**
@@ -250,7 +253,7 @@ public class SolicitudBean implements Serializable {
         SolicitudDao sDao = new SolicitudImp();
         this.solicitud.setNumeroCotizacion(numConf);
         sDao.updateSolicitud(solicitud);
-        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_ADJUNTA, obs);
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.COTIZACION_ASIGNADA, obs);
         this.prepararNuevaSolicitud();
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formCrearSolicitud");
@@ -259,29 +262,32 @@ public class SolicitudBean implements Serializable {
     }
 
     public void limpiaHistorico() {
-        this.estado = new Estado();
-        this.historico = new Historico();
         this.obs = null;
         this.solicitud = new Solicitud();
     }
 
     public void nuevoHistoricoSolicitud(Solicitud soli, int estado, String obs) {
+        Historico histori = new Historico();
         Usuario us = new Usuario();
+        Estado es = new Estado();
+        String gestion = this.calculoDeTiempo(soli.getIdSolicitud(), estado);
         Date fechaRegistro = new Date();
-        this.estado.setIdEstado(estado);
-        this.historico.setFechaActualizacion(fechaRegistro);
-        this.historico.setIdEstado(this.estado);
-        this.historico.setIdSolicitud(soli);
-        this.historico.setObservacion(obs);
+        es.setIdEstado(estado);
+        histori.setFechaActualizacion(fechaRegistro);
+        histori.setIdEstado(es);
+        histori.setIdSolicitud(soli);
+        histori.setObservacion(obs);
+        histori.setTiempoGestion(gestion);
         FacesContext context = FacesContext.getCurrentInstance();
         us = (Usuario) context.getExternalContext().getSessionMap().get("ULogueado");
-        this.historico.setIdUsuario(us);
+        histori.setIdUsuario(us);
         HistoricoDao HSDao = new HistoricoImp();
-        HSDao.newHistorico(historico);
+        HSDao.newHistorico(histori);
         this.limpiaHistorico();
     }
 
-    public void enviarAProfesional() {        
+    public void enviarAProfesional() {
+
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogEnviaProf').hide();");
@@ -293,7 +299,7 @@ public class SolicitudBean implements Serializable {
         prof.setIdUsuario(usuario);
         this.solicitud.setIdProfesionalAsignado(prof);
         editarSolicitud();
-        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.SOLICITUD_ASIGNADA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogAsignaProf').hide();");
         prepararNuevaSolicitud();
@@ -306,6 +312,7 @@ public class SolicitudBean implements Serializable {
     }
     
     public void rechazarProfesional() {
+
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.SOLICITUD_DE_CERTIFICACION_CANCELADA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogRevPreTecnica').hide();");
@@ -371,16 +378,39 @@ public class SolicitudBean implements Serializable {
         sDao.updateSolicitud(solicitud);          
     }
     
-    public String calculoDeTiempo(int idSoli ){
-        String mensaje = null;
-        Date actual = new Date();
+    public String calculoDeTiempo(int idSoli, int estado ){
+         String mensaje = "Sin Calcular";
+        Calendar actual = Calendar.getInstance();
+        Calendar permitida = Calendar.getInstance();
         Historico historico = new Historico();
         HistoricoDao his = new HistoricoImp();
+        TiempoDao tDao = new TiempoImp();
+        Tiempo tiempo = new Tiempo();
+        tiempo = tDao.BuscaTiempoPorEstado(estado);
         historico = his.obtieneUltimoHistorico(idSoli);
-        if(historico != null){
-        System.out.println("ggggggggggggggggg"+actual.getTime()+"  pppppppppppppppppppppp"+historico.getFechaActualizacion().getTime());
-        System.out.print("kkkkkkkkkkkkkkkkkkkkk"+(actual.getTime()-historico.getFechaActualizacion().getTime())/1000);
-        int diferencia = (int) ((actual.getTime()-historico.getFechaActualizacion().getTime())/1000);
+        if(historico != null && tiempo != null){
+        int diaPermitido = tiempo.getDias();
+        int horaPermitido = tiempo.getHoras();
+        int minutoPermitido = tiempo.getMinutos();
+        permitida.setTime(historico.getFechaActualizacion());
+        if (permitida.getTime().getDay() == Calendar.FRIDAY){
+            diaPermitido = diaPermitido+2;
+        } 
+        if(permitida.getTime().getHours()>13){
+            horaPermitido = (31-permitida.getTime().getHours());
+        }
+        permitida.add(Calendar.DATE, diaPermitido);
+        permitida.add(Calendar.HOUR, horaPermitido);
+        permitida.add(Calendar.MINUTE, minutoPermitido);
+        if(actual.compareTo(permitida) < 0){
+            mensaje = "A tiempo";
+        }else if(actual.compareTo(permitida) > 0){
+            mensaje = "Tiempo Vencido";
+        }else{
+            mensaje = "Proximo a vencer";
+        }
+        System.out.println("ggggggggggggggggg"+actual.getTime()+"  pppppppppppppppppppppp"+permitida.getTime());
+       /* int diferencia = (int) ((actual.getTime()-permitida.getTime())/1000);
          int dias=0;
         int horas=0;
         int minutos=0;
@@ -398,8 +428,8 @@ public class SolicitudBean implements Serializable {
         }
     
         mensaje = "Hay "+dias+" dias, "+horas+" horas, "+minutos+" minutos y "+diferencia+" segundos de diferencia";
+        }*/
         }
-    
     return mensaje;     
     }
     

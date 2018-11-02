@@ -169,6 +169,10 @@ public class AdjuntoBean implements Serializable {
 
                 AdjuntoDao pDao = new AdjuntoImp();
                 pDao.newAdjunto(adjunto);
+                if(tipo == TipoAdjuntoBean.getOFERTA_COMERCIAL()){
+                SolicitudBean sBean = new SolicitudBean();
+                sBean.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_ADJUNTA, "Documento adjunto");
+                }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay ningun archivo para adjuntar", null));
             }

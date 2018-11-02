@@ -81,13 +81,11 @@ public class TipoAdjuntoBean implements Serializable {
 
     public List<TipoAdjunto> getListaTipoPorPerfil() { 
         int id = 0;
-        FacesContext context = FacesContext.getCurrentInstance();
+    FacesContext context = FacesContext.getCurrentInstance();
         Usuario us = (Usuario) context.getExternalContext().getSessionMap().get("ULogueado");
         id = us.getIdPerfil().getIdPerfil();
         TipoAdjuntoImp sDao = new TipoAdjuntoImp();
         listaTipoPorPerfil = sDao.ListarTipoAdjuntoPorPerfil(id, estado, soli);
-        this.estado =  0;
-        this.soli =  0;
         return listaTipoPorPerfil;
     }
 
@@ -127,5 +125,12 @@ public class TipoAdjuntoBean implements Serializable {
             RequestContext contextt = RequestContext.getCurrentInstance();
             contextt.execute("PF('dialogEliminarTipoAdjunto').hide();");
     }
+    
+    private static final int OFERTA_COMERCIAL = 1;
+
+    public static int getOFERTA_COMERCIAL() {
+        return OFERTA_COMERCIAL;
+    }
+    
 
 }

@@ -21,10 +21,12 @@ public class PermisosAplicacionBean implements Serializable {
 
     public static boolean adjuntar;
     public static boolean verAdjunto;
-    public static boolean enviarAProf;
+    public static boolean enviarArevisionPreliminar;
+    public static boolean asignarProf;
     public static boolean verHistorico;
     public static boolean asociarCoti;
     public static boolean enviarAExperto;
+    public static boolean aprobacionProfesionalLogistico;
     public static boolean enviarAJefe;
     public static boolean apruebaJefe;
     public static boolean apruebaProf;
@@ -43,7 +45,8 @@ public class PermisosAplicacionBean implements Serializable {
     public void iniciaAcciones() {
         adjuntar = false;
         verAdjunto = false;
-        enviarAProf = false;
+        enviarArevisionPreliminar = false;
+        asignarProf = false;
         verHistorico = false;
         asociarCoti = false;
         enviarAExperto = false;
@@ -58,6 +61,8 @@ public class PermisosAplicacionBean implements Serializable {
         ApruebaCliente = false;
         RechazaCliente = false;
         creaSoli = false;
+        aprobacionProfesionalLogistico = false;
+
     }
 
     public boolean isAdjuntar() {
@@ -68,8 +73,20 @@ public class PermisosAplicacionBean implements Serializable {
         return verAdjunto;
     }
 
-    public boolean isEnviarAProf() {
-        return enviarAProf;
+    public boolean isEnviarArevisionPreliminar() {
+        return enviarArevisionPreliminar;
+    }
+
+    public void setEnviarArevisionPreliminar(boolean enviarArevisionPreliminar) {
+        PermisosAplicacionBean.enviarArevisionPreliminar = enviarArevisionPreliminar;
+    }
+
+    public boolean isAprobacionProfesionalLogistico() {
+        return aprobacionProfesionalLogistico;
+    }
+
+    public void setAprobacionProfesionalLogistico(boolean aprobacionProfesionalLogistico) {
+        PermisosAplicacionBean.aprobacionProfesionalLogistico = aprobacionProfesionalLogistico;
     }
 
     public boolean isVerHistorico() {
@@ -124,11 +141,19 @@ public class PermisosAplicacionBean implements Serializable {
         return RechazaCliente;
     }
 
-    public static boolean isCreaSoli() {
+    public boolean isCreaSoli() {
         return creaSoli;
     }
 
-    public static void setCreaSoli(boolean creaSoli) {
+    public boolean isAsignarProf() {
+        return asignarProf;
+    }
+
+    public void setAsignarProf(boolean asignarProf) {
+        PermisosAplicacionBean.asignarProf = asignarProf;
+    }
+
+    public void setCreaSoli(boolean creaSoli) {
         PermisosAplicacionBean.creaSoli = creaSoli;
     }
 
@@ -138,10 +163,6 @@ public class PermisosAplicacionBean implements Serializable {
 
     public void setVerAdjunto(boolean verAdjunto) {
         PermisosAplicacionBean.verAdjunto = verAdjunto;
-    }
-
-    public void setEnviarAProf(boolean enviarAProf) {
-        PermisosAplicacionBean.enviarAProf = enviarAProf;
     }
 
     public void setVerHistorico(boolean verHistorico) {
@@ -204,7 +225,8 @@ public class PermisosAplicacionBean implements Serializable {
             case PerfilBean.ADMINISTRADOR:
                 adjuntar = true;
                 verAdjunto = true;
-                enviarAProf = true;
+                enviarArevisionPreliminar = true;
+                asignarProf = true;
                 verHistorico = true;
                 asociarCoti = true;
                 enviarAExperto = true;
@@ -219,16 +241,15 @@ public class PermisosAplicacionBean implements Serializable {
                 ApruebaCliente = true;
                 RechazaCliente = true;
                 creaSoli = true;
+                aprobacionProfesionalLogistico = true;
                 break;
             case PerfilBean.ASISTENTE_COMERCIAL:
                 adjuntar = true;
                 verAdjunto = true;
-                enviarAProf = true;
+                enviarArevisionPreliminar = true;
+                asignarProf = false;
                 verHistorico = true;
                 asociarCoti = true;
-                enviarACliente = true;
-                ApruebaCliente = true;
-                RechazaCliente = true;
                 enviarAExperto = false;
                 enviarAJefe = false;
                 apruebaJefe = false;
@@ -237,17 +258,19 @@ public class PermisosAplicacionBean implements Serializable {
                 devuelveExperto = false;
                 devuelveProf = false;
                 devuelveJefe = false;
+                enviarACliente = true;
+                ApruebaCliente = true;
+                RechazaCliente = true;
                 creaSoli = true;
+                aprobacionProfesionalLogistico = false;
                 break;
             case PerfilBean.EJECUTIVO_COMERCIAL:
                 adjuntar = true;
                 verAdjunto = true;
-                enviarAProf = true;
+                enviarArevisionPreliminar = true;
+                asignarProf = false;
                 verHistorico = true;
                 asociarCoti = true;
-                enviarACliente = true;
-                ApruebaCliente = true;
-                RechazaCliente = true;
                 enviarAExperto = false;
                 enviarAJefe = false;
                 apruebaJefe = false;
@@ -256,16 +279,21 @@ public class PermisosAplicacionBean implements Serializable {
                 devuelveExperto = false;
                 devuelveProf = false;
                 devuelveJefe = false;
+                enviarACliente = true;
+                ApruebaCliente = true;
+                RechazaCliente = true;
                 creaSoli = true;
+                aprobacionProfesionalLogistico = false;
                 break;
             case PerfilBean.PROFESIONAL_DE_CERTIFICACION:
                 adjuntar = true;
                 verAdjunto = true;
-                enviarAProf = false;
+                enviarArevisionPreliminar = false;
+                asignarProf = false;
                 verHistorico = true;
                 asociarCoti = false;
                 enviarAExperto = true;
-                enviarAJefe = true;
+                enviarAJefe = false;
                 apruebaJefe = false;
                 apruebaProf = true;
                 apruebaExperto = false;
@@ -276,11 +304,13 @@ public class PermisosAplicacionBean implements Serializable {
                 ApruebaCliente = false;
                 RechazaCliente = false;
                 creaSoli = false;
+                aprobacionProfesionalLogistico = false;
                 break;
             case PerfilBean.EXPERTO_EN_AREA:
                 adjuntar = false;
                 verAdjunto = true;
-                enviarAProf = false;
+                enviarArevisionPreliminar = false;
+                asignarProf = false;
                 verHistorico = true;
                 asociarCoti = false;
                 enviarAExperto = false;
@@ -295,11 +325,13 @@ public class PermisosAplicacionBean implements Serializable {
                 ApruebaCliente = false;
                 RechazaCliente = false;
                 creaSoli = false;
+                aprobacionProfesionalLogistico = false;
                 break;
             case PerfilBean.JEFE_CERTIFICACION:
-                adjuntar = false;
+                adjuntar = true;
                 verAdjunto = true;
-                enviarAProf = false;
+                enviarArevisionPreliminar = false;
+                asignarProf = true;
                 verHistorico = true;
                 asociarCoti = false;
                 enviarAExperto = false;
@@ -314,7 +346,8 @@ public class PermisosAplicacionBean implements Serializable {
                 ApruebaCliente = false;
                 RechazaCliente = false;
                 creaSoli = false;
-                break;    
+                aprobacionProfesionalLogistico = false;
+                break;
         }
 
     }

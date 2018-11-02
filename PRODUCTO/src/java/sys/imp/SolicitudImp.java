@@ -32,7 +32,7 @@ public class SolicitudImp implements SolicitudDao{
         String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion";
         try{
 
-           lista = session.createQuery(hql).list();
+           lista = session.createQuery(hql).setMaxResults(100).list();
             t.commit();
             session.close();
         }catch (HibernateException e){

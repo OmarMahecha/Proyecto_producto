@@ -103,6 +103,28 @@ public class TiempoImp implements TiempoDao{
             
         }
     }
+
+    @Override
+    public Tiempo BuscaTiempoPorEstado(int estado) {
+        session = null;
+        t = null;
+        Tiempo tiempo = new Tiempo();
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
+        String hql="SELECT t FROM Tiempo t  left join fetch  t.idEstado e where e.idEstado = :estado";
+        try{
+
+           tiempo = (Tiempo) session.createQuery(hql).setParameter("estado", estado).uniqueResult();
+          
+            t.commit();
+            session.close();
+        }catch (HibernateException e){
+            System.out.println(e.getMessage()+"error al obtener Tiempo");
+            t.rollback();
+        }
+        
+        return tiempo;
+    }
     
     
 }

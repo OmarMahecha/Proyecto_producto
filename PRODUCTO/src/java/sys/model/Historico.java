@@ -16,26 +16,22 @@ public class Historico  implements java.io.Serializable {
      private Date fechaActualizacion;
      private String observacion;
      private Usuario idUsuario;
+     private String tiempoGestion;
 
     public Historico() {
     }
 
 	
-    public Historico(int idHistorico, Solicitud idSolicitud, Estado idEstado, Date fechaActualizacion, Usuario idUsuario) {
+    public Historico(int idHistorico, Solicitud idSolicitud, Estado idEstado, Date fechaActualizacion, Usuario idUsuario, String tiempoGestion, String observacion) {
         this.idHistorico = idHistorico;
         this.idSolicitud = idSolicitud;
         this.idEstado = idEstado;
         this.fechaActualizacion = fechaActualizacion;
         this.idUsuario = idUsuario;
+        this.tiempoGestion = tiempoGestion;
+        this.observacion = observacion;
     }
-    public Historico(int idHistorico, Solicitud idSolicitud, Estado idEstado, Date fechaActualizacion, String observacion, Usuario idUsuario) {
-       this.idHistorico = idHistorico;
-       this.idSolicitud = idSolicitud;
-       this.idEstado = idEstado;
-       this.fechaActualizacion = fechaActualizacion;
-       this.observacion = observacion;
-       this.idUsuario = idUsuario;
-    }
+
    
     public int getIdHistorico() {
         return this.idHistorico;
@@ -78,6 +74,14 @@ public class Historico  implements java.io.Serializable {
     
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getTiempoGestion() {
+        return tiempoGestion;
+    }
+
+    public void setTiempoGestion(String tiempoGestion) {
+        this.tiempoGestion = tiempoGestion;
     }
 
 

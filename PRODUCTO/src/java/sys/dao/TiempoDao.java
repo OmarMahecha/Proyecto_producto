@@ -17,5 +17,6 @@ public interface TiempoDao {
     public void newTiempo(Tiempo tiempo);
     public void updateTiempo(Tiempo tiempo);
     public void deleteTiempo (Tiempo tiempo);
+    public Tiempo BuscaTiempoPorEstado (int estado);
 
 }
