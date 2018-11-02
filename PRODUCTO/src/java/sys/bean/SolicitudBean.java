@@ -287,8 +287,12 @@ public class SolicitudBean implements Serializable {
     }
 
     public void enviarAProfesional() {
-
-        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
+        Estado est = new Estado();                
+        if(est.getIdEstado() == EstadoBean.DEVUELTA_POR_PROFESIONAL){
+            this.nuevoHistoricoSolicitud(solicitud, EstadoBean.SOLICITUD_ASIGNADA, obs);
+        } else {
+            this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
+        }        
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogEnviaProf').hide();");
         prepararNuevaSolicitud();
@@ -312,7 +316,6 @@ public class SolicitudBean implements Serializable {
     }
     
     public void rechazarProfesional() {
-
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.SOLICITUD_DE_CERTIFICACION_CANCELADA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogRevPreTecnica').hide();");
@@ -373,6 +376,24 @@ public class SolicitudBean implements Serializable {
         contextt.execute("PF('dialogAprobOfJC').hide();");
     }
     
+    public void aprobarOfCL() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ACEPTADA_POR_EL_CLIENTE, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogAprobOfCL').hide();");
+    }
+    
+    public void programarSE() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.PROGRAMACION_SERVICIO_EVALUACION, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogProgSE').hide();");
+    }
+    
+    public void programarAuditoria() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.PROGRAMA_AUDITORIA_Y_AUDITORIA_PRELIMINAR, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogProgAud').hide();");
+    }
+    
     public void editarSolicitud(){
         SolicitudDao sDao = new SolicitudImp();
         sDao.updateSolicitud(solicitud);          
@@ -410,7 +431,7 @@ public class SolicitudBean implements Serializable {
             mensaje = "Proximo a vencer";
         }
         System.out.println("ggggggggggggggggg"+actual.getTime()+"  pppppppppppppppppppppp"+permitida.getTime());
-       /* int diferencia = (int) ((actual.getTime()-permitida.getTime())/1000);
+    /* int diferencia = (int) ((actual.getTime()-permitida.getTime())/1000);
          int dias=0;
         int horas=0;
         int minutos=0;

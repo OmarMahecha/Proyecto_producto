@@ -111,6 +111,15 @@
                             <p:commandButton icon="ui-icon-unlocked" update="formAprobOfJC:datosAprobOfJC" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfJC').show();" title="Aprobar Oferta Comercial Jefe Certificacion" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaJefe and soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
+                            <p:commandButton icon="ui-icon-check" update="formAprobOfCL:datosAprobOfCL" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfCL').show();" title="Enviar Aprobacion de Cliente de Oferta Comercial" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente and soli.idEstadoActual.idEstado == estadoBean.ACEPTADA_POR_EL_CLIENTE} ">
+                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-calendar" update="formProgSE:datosProgSE" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgSE').show();" title="Programación Servicio de Evaluación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente}">
+                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
+                            </p:commandButton>
+                            <p:commandButton icon="ui-icon-print" update="formProgAud:datosProgAud" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgAud').show();" title="Enviar Programa de Auditoría y Auditoría Preliminar" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente}">
+                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
+                            </p:commandButton>
                             <p:commandButton icon="ui-icon-script" update="formHistorico:datosHistorico" actionListener="#{historicoBean.limpiaH()}" oncomplete="PF('dialogHistorico').show();" title="Ver Historico" style="margin:0 auto;" >
                                 <f:setPropertyActionListener target="#{historicoBean.idSolicitud}" value="#{soli.idSolicitud}"/>
                             </p:commandButton>                            
@@ -291,7 +300,7 @@
 
                 <h:form id="formEnvAprobOC">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
-                    <p:dialog id="dlgEnvAprobOC" header="" widgetVar="dialogEnvAprobOC" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                    <p:dialog id="dlgEnvAprobOC" header="Revisión de Solicitud de Certificación" widgetVar="dialogEnvAprobOC" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
                         <p:panelGrid id="datosEnvAprobOC" columns="2" >
                             <p:outputLabel for="obsR" value="Observaciónes"/>
                             <p:inputTextarea id="obsR" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
@@ -302,7 +311,7 @@
                 
                 <h:form id="formAprobOfPL">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
-                    <p:dialog id="dlgAprobOfPL" header="" widgetVar="dialogAprobOfPL" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                    <p:dialog id="dlgAprobOfPL" header="Aprobacion Oferta Comercial" widgetVar="dialogAprobOfPL" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
                         <p:panelGrid id="datosAprobOfPL" columns="2" >
                             <p:outputLabel for="obsR" value="Observaciónes"/>
                             <p:inputTextarea id="obsR" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
@@ -314,13 +323,46 @@
                 
                 <h:form id="formAprobOfJC">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
-                    <p:dialog id="dlgAprobOfJC" header="" widgetVar="dialogAprobOfJC" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                    <p:dialog id="dlgAprobOfJC" header="Enviar" widgetVar="dialogAprobOfJC" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
                         <p:panelGrid id="datosAprobOfJC" columns="2" >
                             <p:outputLabel for="obsR" value="Observaciónes"/>
                             <p:inputTextarea id="obsR" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
                         </p:panelGrid>
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="APROBAR" actionListener="#{solicitudBean.aprobarOfJC()}"></p:commandButton>                        
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="RECHAZAR" actionListener="#{solicitudBean.devolverOfertaJC()}"></p:commandButton>
+                    </p:dialog> 
+                </h:form>
+                
+                <h:form id="formAprobOfCL">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgAprobOfCL" header="Aprobacion de Oferta Comercial" widgetVar="dialogAprobOfCL" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:panelGrid id="datosAprobOfCL" columns="2" >
+                            <p:outputLabel for="obsR" value="Observaciónes"/>
+                            <p:inputTextarea id="obsR" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+                        </p:panelGrid>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="Guardar" actionListener="#{solicitudBean.aprobarOfCL()}"></p:commandButton>                                                
+                    </p:dialog> 
+                </h:form>
+                
+                <h:form id="formProgSE">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgProgSE" header="Programación Servicio de Evaluación" widgetVar="dialogProgSE" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:panelGrid id="datosProgSE" columns="2" >
+                            <p:outputLabel for="obsR" value="Observaciones"/>
+                            <p:inputTextarea id="obsR" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+                        </p:panelGrid>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.programarSE()}"></p:commandButton>                                                
+                    </p:dialog> 
+                </h:form>
+                
+                <h:form id="formProgAud">
+                    <p:growl id="growl" life="2000" autoUpdate="true"/>
+                    <p:dialog id="dlgProgAud" header="Programa de Auditoría y Auditoría Preliminar" widgetVar="dialogProgAud" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
+                        <p:panelGrid id="datosProgAud" columns="2" >
+                            <p:outputLabel for="obsR" value="Observaciones"/>
+                            <p:inputTextarea id="obsR" value="#{solicitudBean.obs}" required="true" requiredMessage="Ingrese una observación" minQueryLength="2" maxlength="500"/>
+                        </p:panelGrid>
+                        <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.programarAuditoria()}"></p:commandButton>                                                
                     </p:dialog> 
                 </h:form>
 

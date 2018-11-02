@@ -101,6 +101,8 @@ public static final int ENVIADA_AL_CLIENTE = 19;
 public static final int ACEPTADA_POR_EL_CLIENTE = 20;
 public static final int SOLICITUD_ASIGNADA = 22;
 public static final int COTIZACION_ASIGNADA = 23;
+public static final int PROGRAMACION_SERVICIO_EVALUACION = 24;
+public static final int PROGRAMA_AUDITORIA_Y_AUDITORIA_PRELIMINAR = 25;
 
 public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
         return SOLICITUD_DE_CERTIFICACION_CREADA;
@@ -125,8 +127,6 @@ public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
     public int getSOLICITUD_ASIGNADA() {
         return SOLICITUD_ASIGNADA;
     }
-
-
 
     public  int getSOLICITUD_DE_CERTIFICACION_CANCELADA() {
         return SOLICITUD_DE_CERTIFICACION_CANCELADA;
@@ -179,6 +179,13 @@ public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
     public int getCOTIZACION_ASIGNADA() {
         return COTIZACION_ASIGNADA;
     }
-
+    
+    public int getPROGRAMACION_SERVICIO_EVALUACION() {
+        return PROGRAMACION_SERVICIO_EVALUACION;
+    }
+    
+    public int getPROGRAMA_AUDITORIA_Y_AUDITORIA_PRELIMINAR() {
+        return PROGRAMA_AUDITORIA_Y_AUDITORIA_PRELIMINAR;
+    }
 
 }
