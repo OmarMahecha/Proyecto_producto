@@ -9,6 +9,8 @@
         <f:metadata>
             <f:event type="preRenderView" listener="#{usuarioBean.validaSession()}"> </f:event>
             <f:event type="preRenderView" listener="#{permisosAplicacionBean.validaPermisos()}"> </f:event>
+            <f:event type="preRenderView" listener="#{solicitudBean.setListaSolicitudes(usuarioBean.logueado)}"> </f:event>
+
         </f:metadata>
     </h:head>
     <body>
@@ -22,10 +24,18 @@
                 <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
                     <p:graphicImage name="images/cargando.gif" />
                 </p:dialog>
+                <h:form id="filtro">
+                    <p:panelGrid>
+                        <p:outputLabel  value="Buscar Cotizacion" for="filtrar"/>
+                        <p:inputText id="filtrar" value="" style="margin-left: 1%; margin-top: 1%"/>
+                        <p:commandButton icon="ui-icon-search"  title="Buscar por cotizacion" style="margin:0 auto;"/>
+                    </p:panelGrid>
+                </h:form>
                 <h:form id="formCrearSolicitud">
+                    
                     <p:dataTable id="tablaSolicitudes" paginator="true" paginatorPosition="top" rows="10" 
                                  var="soli" value="#{solicitudBean.listaSolicitudes}" emptyMessage="No hay solicitudes para mostrar" rowStyleClass="#{solicitudBean.calculoDeTiempo(soli.idSolicitud, soli.idEstadoActual.idEstado) == 'Tiempo Vencido' ? 'historicoPasado' : null}">
-                        <p:column headerText="NUMERO" style="margin:0 auto;" filterBy="#{soli.idSolicitud}" sortBy="#{soli.idSolicitud}" filterMatchMode="contains">
+                        <p:column headerText="NUMERO" style="margin:0 auto;" filterBy="#{soli.idSolicitud}" sortBy="#{soli.idSolicitud}">
                             <h:outputText value="#{soli.idSolicitud}" style="margin:0 auto;"/>
                         </p:column>
 
@@ -93,34 +103,34 @@
                             <p:commandButton icon="ui-icon-person" update="formAsignaProf:datosAsignaProf" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAsignaProf').show();" title="Asignar Profesional de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.asignarProf and soli.idEstadoActual.idEstado == estadoBean.ENVIADA_A_REVISION_PRELIMINAR }">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>                            
-                            <p:commandButton icon="ui-icon-folder-collapsed" update="formRevPreTecnica:datosRevPreTecnica" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevPreTecnica').show();" title="Aprobación de Revisión Preliminar de Solicitud de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaProf and (soli.idEstadoActual.idEstado == estadoBean.SOLICITUD_ASIGNADA or soli.idEstadoActual.idEstado == estadoBean.REENVIADA_A_REVISION_PRELIMINAR)}">
+                            <p:commandButton icon=" ui-icon-check" update="formRevPreTecnica:datosRevPreTecnica" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevPreTecnica').show();" title="Aprobación de Revisión Preliminar de Solicitud de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaProf and (soli.idEstadoActual.idEstado == estadoBean.SOLICITUD_ASIGNADA or soli.idEstadoActual.idEstado == estadoBean.REENVIADA_A_REVISION_PRELIMINAR)}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-folder-open" update="formEnviaExp:datosEnviaExp" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnviaExp').show();" title="Enviar Solicitud a Experto" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaProf and (soli.idEstadoActual.idEstado == estadoBean.DOCUMENTACION_COMPLETA or soli.idEstadoActual.idEstado == estadoBean.DEVUELTA_POR_EXPERTO_EN_EL_AREA)}">
+                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnviaExp:datosEnviaExp" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnviaExp').show();" title="Enviar Solicitud a Experto" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaProf and (soli.idEstadoActual.idEstado == estadoBean.DOCUMENTACION_COMPLETA or soli.idEstadoActual.idEstado == estadoBean.DEVUELTA_POR_EXPERTO_EN_EL_AREA)}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-flag" update="formRevSolicitud:datosRevSolicitud" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevSolicitud').show();" title="Revision Solicitud" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaExperto and (soli.idEstadoActual.idEstado == estadoBean.ENVIADA_A_EXPERTO_EN_EL_AREA or soli.idEstadoActual.idEstado == estadoBean.REENVIADA_A_EXPERTO_EN_EL_AREA)}">
+                            <p:commandButton icon="ui-icon-check" update="formRevSolicitud:datosRevSolicitud" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevSolicitud').show();" title="Revision Solicitud" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaExperto and (soli.idEstadoActual.idEstado == estadoBean.ENVIADA_A_EXPERTO_EN_EL_AREA or soli.idEstadoActual.idEstado == estadoBean.REENVIADA_A_EXPERTO_EN_EL_AREA)}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-link" update="formEnvAprobOC:datosEnvAprobOC" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnvAprobOC').show();" title="Enviar Aprobación Oferta Comercial" style="margin:0 auto;" rendered="#{permisosAplicacionBean.enviarArevisionPreliminar and soli.idEstadoActual.idEstado == estadoBean.COTIZACION_ASIGNADA}">
+                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnvAprobOC:datosEnvAprobOC" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnvAprobOC').show();" title="Enviar Aprobación Oferta Comercial" style="margin:0 auto;" rendered="#{permisosAplicacionBean.enviarArevisionPreliminar and soli.idEstadoActual.idEstado == estadoBean.COTIZACION_ASIGNADA}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-locked" update="formAprobOfPL:datosAprobOfPL" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfPL').show();" title="Aprobar Oferta Comercial Profesional Logistico" style="margin:0 auto;" rendered="#{permisosAplicacionBean.aprobacionProfesionalLogistico and soli.idEstadoActual.idEstado == estadoBean.OFERTA_ENVIADA_A_PROFESIONAL}">
+                            <p:commandButton icon=" ui-icon-check" update="formAprobOfPL:datosAprobOfPL" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfPL').show();" title="Aprobar Oferta Comercial Profesional Logistico" style="margin:0 auto;" rendered="#{permisosAplicacionBean.aprobacionProfesionalLogistico and soli.idEstadoActual.idEstado == estadoBean.OFERTA_ENVIADA_A_PROFESIONAL}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-unlocked" update="formAprobOfJC:datosAprobOfJC" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfJC').show();" title="Aprobar Oferta Comercial Jefe Certificacion" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaJefe and soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR}">
+                            <p:commandButton icon=" ui-icon-check" update="formAprobOfJC:datosAprobOfJC" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfJC').show();" title="Aprobar Oferta Comercial Jefe Certificacion" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaJefe and soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-check" update="formAprobOfCL:datosAprobOfCL" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfCL').show();" title="Enviar Aprobacion de Cliente de Oferta Comercial" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente and soli.idEstadoActual.idEstado == estadoBean.ACEPTADA_POR_EL_CLIENTE} ">
+                            <p:commandButton icon="ui-icon-check" update="formAprobOfCL:datosAprobOfCL" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfCL').show();" title="Enviar Aprobacion de Cliente de Oferta Comercial" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente and soli.idEstadoActual.idEstado == estadoBean.OFERTA_COMERCIAL_AUTORIZADA}">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-calendar" update="formProgSE:datosProgSE" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgSE').show();" title="Programación Servicio de Evaluación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente}">
+                            <p:commandButton icon="ui-icon-calendar" update="formProgSE:datosProgSE" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgSE').show();" title="Programación Servicio de Evaluación" style="margin:0 auto;" rendered="false" >
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-print" update="formProgAud:datosProgAud" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgAud').show();" title="Enviar Programa de Auditoría y Auditoría Preliminar" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente}">
+                            <p:commandButton icon="ui-icon-print" update="formProgAud:datosProgAud" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgAud').show();" title="Enviar Programa de Auditoría y Auditoría Preliminar" style="margin:0 auto;" rendered="false">
                                 <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
                             </p:commandButton>
-                            <p:commandButton icon="ui-icon-script" update="formHistorico:datosHistorico" actionListener="#{historicoBean.limpiaH()}" oncomplete="PF('dialogHistorico').show();" title="Ver Historico" style="margin:0 auto;" >
+                            <p:commandButton icon="ui-icon-clock" update="formHistorico:datosHistorico" oncomplete="PF('dialogHistorico').show();" title="Ver Historico" style="margin:0 auto;" >
                                 <f:setPropertyActionListener target="#{historicoBean.idSolicitud}" value="#{soli.idSolicitud}"/>
                             </p:commandButton>                            
 
@@ -308,7 +318,7 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.enviarAprobOC()}"></p:commandButton>                        
                     </p:dialog> 
                 </h:form>
-                
+
                 <h:form id="formAprobOfPL">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgAprobOfPL" header="Aprobacion Oferta Comercial" widgetVar="dialogAprobOfPL" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
@@ -320,7 +330,7 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="RECHAZAR" actionListener="#{solicitudBean.devolverOfertaPL()}"></p:commandButton>
                     </p:dialog> 
                 </h:form>
-                
+
                 <h:form id="formAprobOfJC">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgAprobOfJC" header="Enviar" widgetVar="dialogAprobOfJC" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
@@ -332,7 +342,7 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="RECHAZAR" actionListener="#{solicitudBean.devolverOfertaJC()}"></p:commandButton>
                     </p:dialog> 
                 </h:form>
-                
+
                 <h:form id="formAprobOfCL">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgAprobOfCL" header="Aprobacion de Oferta Comercial" widgetVar="dialogAprobOfCL" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
@@ -343,7 +353,7 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="Guardar" actionListener="#{solicitudBean.aprobarOfCL()}"></p:commandButton>                                                
                     </p:dialog> 
                 </h:form>
-                
+
                 <h:form id="formProgSE">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgProgSE" header="Programación Servicio de Evaluación" widgetVar="dialogProgSE" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
@@ -354,7 +364,7 @@
                         <p:commandButton update="formCrearSolicitud:tablaSolicitudes" value="GUARDAR" actionListener="#{solicitudBean.programarSE()}"></p:commandButton>                                                
                     </p:dialog> 
                 </h:form>
-                
+
                 <h:form id="formProgAud">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
                     <p:dialog id="dlgProgAud" header="Programa de Auditoría y Auditoría Preliminar" widgetVar="dialogProgAud" modal="true" resizable="false" showEffect="explode" hideEffect="explode" style="text-align:center;" >
@@ -368,8 +378,8 @@
 
                 <h:form id="formHistorico">
                     <p:growl id="growl" life="2000" autoUpdate="true"/>
-                    <p:dialog id="dlgHistorico" header="HISTORICO DE SOLICITUD" widgetVar="dialogHistorico" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center;" >
-                        <p:dataTable id="datosHistorico" value="#{historicoBean.listaHistoricos}" var="history" emptyMessage="No Existe un historico en esta solicitud">
+                    <p:dialog id="dlgHistorico" header="HISTORICO DE SOLICITUD" widgetVar="dialogHistorico" modal="true" resizable="true" showEffect="explode" hideEffect="explode">
+                        <p:dataTable id="datosHistorico" value="#{historicoBean.listaHistoricos}" var="history" emptyMessage="No Existe un historico en esta solicitud" rowStyleClass="#{history.tiempoGestion == 'Tiempo Vencido' ? 'historicoPasado' : null}">
                             <p:column headerText="ESTADO">
                                 <p:outputLabel id="status" value="#{history.idEstado.estado}"/>                                 
                             </p:column>
@@ -383,8 +393,8 @@
                             <p:column headerText="USUARIO">
                                 <p:outputLabel id="user" value="#{history.idUsuario.usuario}"/>                            
                             </p:column>
-                             <p:column headerText="Tiempo En Gestioon">
-                                 <p:outputLabel id="tGestion" value="#{history.tiempoGestion}"/>                            
+                            <p:column headerText="Tiempo En Gestioon">
+                                <p:outputLabel id="tGestion" value="#{history.tiempoGestion}"/>                            
                             </p:column>
 
                         </p:dataTable>

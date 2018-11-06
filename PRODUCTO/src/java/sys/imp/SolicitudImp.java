@@ -29,7 +29,7 @@ public class SolicitudImp implements SolicitudDao{
         List<Solicitud> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion";
+        String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion order by s.idSolicitud desc";
         try{
 
            lista = session.createQuery(hql).setMaxResults(100).list();
@@ -102,6 +102,49 @@ public class SolicitudImp implements SolicitudDao{
                 session.close();
             
         }
+    }
+
+    @Override
+    public List<Solicitud> buscarPorIdSoli(int id) {
+        session = null;
+        t = null;
+        List<Solicitud> lista = null;
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
+        String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion where s.idSolicitud= :id";
+        try{
+
+           lista = session.createQuery(hql).setParameter("id", id).setMaxResults(100).list();
+            t.commit();
+            session.close();
+        }catch (HibernateException e){
+            System.out.println(e.getMessage()+"error en lista solicitud");
+            t.rollback();
+        }
+        
+        return lista;
+    }
+
+
+    @Override
+    public List<Solicitud> ListarSolicitudesPorUsuario(int idUser, String hql) {
+        session = null;
+        t = null;
+        List<Solicitud> lista = null;
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
+        //"SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion order by s.idSolicitud desc";
+        try{
+
+           lista = session.createQuery(hql).setParameter("idUser", idUser).setMaxResults(100).list();
+            t.commit();
+            session.close();
+        }catch (HibernateException e){
+            System.out.println(e.getMessage()+"error en lista solicitud");
+            t.rollback();
+        }
+        
+        return lista;
     }
     
     

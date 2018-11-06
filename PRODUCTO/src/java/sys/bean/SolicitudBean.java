@@ -72,13 +72,34 @@ public class SolicitudBean implements Serializable {
     }
 
     public List<Solicitud> getListaSolicitudes() {
-        SolicitudImp sDao = new SolicitudImp();
-        listaSolicitudes = sDao.ListarSolicitudes();
         return listaSolicitudes;
     }
 
-    public void setListaSolicitudes(List<Solicitud> listaSolicitudes) {
-        this.listaSolicitudes = listaSolicitudes;
+    public void setListaSolicitudes(Usuario u) {
+        int usu;
+        switch (u.getIdPerfil().getIdPerfil()) {
+            case PerfilBean.EJECUTIVO_COMERCIAL:
+                {
+                    usu = u.getIdUsuario();
+                    SolicitudImp sDao = new SolicitudImp();
+                    String hql = "SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion where u.idUsuario = :idUser order by s.idSolicitud desc";
+                    listaSolicitudes = sDao.ListarSolicitudesPorUsuario(usu, hql);
+                    break;
+                }
+            case PerfilBean.PROFESIONAL_DE_CERTIFICACION:
+                {
+                    usu = u.getIdUsuario();
+                    SolicitudImp sDao = new SolicitudImp();
+                    String hql = "SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion where p.idUsuario =:idUser order by s.idSolicitud desc";
+                    listaSolicitudes = sDao.ListarSolicitudesPorUsuario(usu, hql);
+                    break;
+                }
+            default:
+                SolicitudImp sDao = new SolicitudImp();
+        listaSolicitudes = sDao.ListarSolicitudes();
+               
+                break;
+        }
     }
 
     public Solicitud getSolicitud() {

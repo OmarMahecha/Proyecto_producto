@@ -13,7 +13,9 @@ import sys.model.Solicitud;
  */
 public interface SolicitudDao {
     public List<Solicitud> ListarSolicitudes();
+    public List<Solicitud> ListarSolicitudesPorUsuario(int idUsuer, String hql);
     public void newSolicitud(Solicitud solicitud) throws Exception;
     public void updateSolicitud(Solicitud solicitud);
     public void deleteSolicitud (Solicitud solicitud);
+    public List<Solicitud> buscarPorIdSoli(int id);
 }

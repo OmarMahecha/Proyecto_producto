@@ -57,11 +57,5 @@ public class HistoricoBean implements Serializable {
         this.idSolicitud = idSolicitud;
     }
     
-    public void limpiaH(){
-        idSolicitud = 0;
-        setListaHistoricos(null);
-        
-    }
-    
     
 }
