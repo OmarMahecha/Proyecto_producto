@@ -24,7 +24,7 @@ public class HistoricoImp implements HistoricoDao{
     private Transaction t;
     @Override
     public List<Historico> ListarHistorico(int soli) {
-        session = null;
+         session = null;
         t = null;
         List<Historico> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();

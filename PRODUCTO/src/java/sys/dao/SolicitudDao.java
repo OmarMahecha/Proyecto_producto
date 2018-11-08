@@ -18,4 +18,5 @@ public interface SolicitudDao {
     public void updateSolicitud(Solicitud solicitud);
     public void deleteSolicitud (Solicitud solicitud);
     public List<Solicitud> buscarPorIdSoli(int id);
+    public List<Solicitud> buscarPorCotizacion(String cot);
 }

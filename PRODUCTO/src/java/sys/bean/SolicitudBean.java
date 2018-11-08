@@ -64,6 +64,8 @@ public class SolicitudBean implements Serializable {
     private String obs;
     private int tipoCert;
     private int usuario;
+    private String CotizacionBuscada;
+    private boolean apruebaPrioriTecnica;
 
     /**
      * Creates a new instance of SolicitudBean
@@ -100,6 +102,10 @@ public class SolicitudBean implements Serializable {
                
                 break;
         }
+    }
+    public void buscaPorCotizacion(){
+         SolicitudImp sDao = new SolicitudImp();
+        listaSolicitudes = sDao.buscarPorCotizacion(CotizacionBuscada);
     }
 
     public Solicitud getSolicitud() {
@@ -205,6 +211,23 @@ public class SolicitudBean implements Serializable {
     public void setUsuario(int usuario) {
         this.usuario = usuario;
     }
+
+    public boolean isApruebaPrioriTecnica() {
+        apruebaPrioriTecnica = this.solicitud.getEsPrioridad();
+        return apruebaPrioriTecnica;
+    }
+
+    public void setApruebaPrioriTecnica(boolean apruebaPrioriTecnica) {
+        this.apruebaPrioriTecnica = apruebaPrioriTecnica;
+    }
+
+    public String getCotizacionBuscada() {
+        return CotizacionBuscada;
+    }
+
+    public void setCotizacionBuscada(String CotizacionBuscada) {
+        this.CotizacionBuscada = CotizacionBuscada;
+    }
     
     
 
@@ -225,7 +248,7 @@ public class SolicitudBean implements Serializable {
         this.numConf = null;
         this.cotiza = null;
         this.tipoCert = 0;
-        this.usuario = 0;
+        this.usuario = 0;   
     }
 
     public void nuevoCliente() {
@@ -307,9 +330,8 @@ public class SolicitudBean implements Serializable {
         this.limpiaHistorico();
     }
 
-    public void enviarAProfesional() {
-        Estado est = new Estado();                
-        if(est.getIdEstado() == EstadoBean.DEVUELTA_POR_PROFESIONAL){
+    public void enviarAProfesional() {                
+        if(this.solicitud.getIdEstadoActual().getIdEstado() == EstadoBean.DEVUELTA_POR_PROFESIONAL){
             this.nuevoHistoricoSolicitud(solicitud, EstadoBean.SOLICITUD_ASIGNADA, obs);
         } else {
             this.nuevoHistoricoSolicitud(solicitud, EstadoBean.ENVIADA_A_REVISION_PRELIMINAR, obs);
@@ -379,6 +401,27 @@ public class SolicitudBean implements Serializable {
         contextt.execute("PF('dialogAprobOfPL').hide();");
     }
     
+     public void aprobarPrioridadComercial() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.PRIORIDAD_APROBADA_POR_COMERCIAL, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogApruebaPrioridad').hide();");
+    }
+     public void rechazarPrioridadComercial() {
+        this.solicitud.setEsPrioridad(Boolean.FALSE);
+        editarSolicitud();
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.PRIORIDAD_NO_APROBADA_POR_COMERCIAL, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogApruebaPrioridad').hide();");
+        prepararNuevaSolicitud();
+    }
+     
+     public void apruebaPrioridadTecnica(){
+                 this.solicitud.setEsPrioridad(apruebaPrioriTecnica);
+                 this.editarSolicitud();
+                 RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formAsignaProf:datosAsignaProf");
+     }
+    
     public void devolverOfertaPL() {
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_DEVUELTA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
@@ -445,14 +488,7 @@ public class SolicitudBean implements Serializable {
         permitida.add(Calendar.HOUR, horaPermitido);
         permitida.add(Calendar.MINUTE, minutoPermitido);
         if(actual.compareTo(permitida) < 0){
-            mensaje = "A tiempo";
-        }else if(actual.compareTo(permitida) > 0){
-            mensaje = "Tiempo Vencido";
-        }else{
-            mensaje = "Proximo a vencer";
-        }
-        System.out.println("ggggggggggggggggg"+actual.getTime()+"  pppppppppppppppppppppp"+permitida.getTime());
-    /* int diferencia = (int) ((actual.getTime()-permitida.getTime())/1000);
+             int diferencia = (int) ((permitida.getTimeInMillis()-actual.getTimeInMillis())/1000);
          int dias=0;
         int horas=0;
         int minutos=0;
@@ -466,11 +502,15 @@ public class SolicitudBean implements Serializable {
         }
         if(diferencia>60) {
             minutos=(int)Math.floor(diferencia/60);
-            diferencia=diferencia-(minutos*60);
         }
     
-        mensaje = "Hay "+dias+" dias, "+horas+" horas, "+minutos+" minutos y "+diferencia+" segundos de diferencia";
-        }*/
+        mensaje = "Vence Dentro de "+dias+" dia(s), "+horas+" horas y "+minutos+" minutos";
+        
+        }else if(actual.compareTo(permitida) > 0){
+            mensaje = "Tiempo Vencido";
+        }else{
+            mensaje = "Proximo a vencer";
+        }
         }
     return mensaje;     
     }

@@ -38,6 +38,7 @@ public class PermisosAplicacionBean implements Serializable {
     public static boolean ApruebaCliente;
     public static boolean RechazaCliente;
     public static boolean creaSoli;
+    public static boolean aprobarPrioridad;
 
     public PermisosAplicacionBean() {
     }
@@ -62,6 +63,7 @@ public class PermisosAplicacionBean implements Serializable {
         RechazaCliente = false;
         creaSoli = false;
         aprobacionProfesionalLogistico = false;
+        aprobarPrioridad = false;
 
     }
 
@@ -147,6 +149,14 @@ public class PermisosAplicacionBean implements Serializable {
 
     public boolean isAsignarProf() {
         return asignarProf;
+    }
+
+    public boolean isAprobarPrioridad() {
+        return aprobarPrioridad;
+    }
+
+    public void setAprobarPrioridad(boolean aprobarPrioridad) {
+        PermisosAplicacionBean.aprobarPrioridad = aprobarPrioridad;
     }
 
     public void setAsignarProf(boolean asignarProf) {
@@ -242,6 +252,7 @@ public class PermisosAplicacionBean implements Serializable {
                 RechazaCliente = true;
                 creaSoli = true;
                 aprobacionProfesionalLogistico = true;
+                aprobarPrioridad = true;
                 break;
             case PerfilBean.ASISTENTE_COMERCIAL:
                 adjuntar = true;
@@ -263,6 +274,7 @@ public class PermisosAplicacionBean implements Serializable {
                 RechazaCliente = true;
                 creaSoli = true;
                 aprobacionProfesionalLogistico = false;
+                aprobarPrioridad = false;
                 break;
             case PerfilBean.EJECUTIVO_COMERCIAL:
                 adjuntar = true;
@@ -284,6 +296,7 @@ public class PermisosAplicacionBean implements Serializable {
                 RechazaCliente = true;
                 creaSoli = true;
                 aprobacionProfesionalLogistico = false;
+                aprobarPrioridad = false;
                 break;
             case PerfilBean.PROFESIONAL_DE_CERTIFICACION:
                 adjuntar = true;
@@ -305,6 +318,7 @@ public class PermisosAplicacionBean implements Serializable {
                 RechazaCliente = false;
                 creaSoli = false;
                 aprobacionProfesionalLogistico = false;
+                aprobarPrioridad = false;
                 break;
             case PerfilBean.EXPERTO_EN_AREA:
                 adjuntar = false;
@@ -326,6 +340,7 @@ public class PermisosAplicacionBean implements Serializable {
                 RechazaCliente = false;
                 creaSoli = false;
                 aprobacionProfesionalLogistico = false;
+                aprobarPrioridad = false;
                 break;
             case PerfilBean.JEFE_CERTIFICACION:
                 adjuntar = true;
@@ -347,7 +362,30 @@ public class PermisosAplicacionBean implements Serializable {
                 RechazaCliente = false;
                 creaSoli = false;
                 aprobacionProfesionalLogistico = false;
+                aprobarPrioridad = false;
                 break;
+            case PerfilBean.JEFE_DE_VENTAS:
+                adjuntar = true;
+                verAdjunto = true;
+                enviarArevisionPreliminar = true;
+                asignarProf = false;
+                verHistorico = true;
+                asociarCoti = true;
+                enviarAExperto = false;
+                enviarAJefe = false;
+                apruebaJefe = false;
+                apruebaProf = false;
+                apruebaExperto = false;
+                devuelveExperto = false;
+                devuelveProf = false;
+                devuelveJefe = false;
+                enviarACliente = true;
+                ApruebaCliente = true;
+                RechazaCliente = true;
+                creaSoli = true;
+                aprobacionProfesionalLogistico = false;
+                aprobarPrioridad = true;
+                break;    
         }
 
     }
