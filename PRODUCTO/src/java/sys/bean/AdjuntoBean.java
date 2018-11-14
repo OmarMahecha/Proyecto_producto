@@ -29,7 +29,9 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.UploadedFile;
 import sys.dao.AdjuntoDao;
+import sys.dao.TipoAdjuntoPerfilDao;
 import sys.imp.AdjuntoImp;
+import sys.imp.TipoAdjuntoPerfilImp;
 import sys.model.Adjunto;
 import sys.model.Solicitud;
 import sys.model.TipoAdjunto;
@@ -55,6 +57,9 @@ public class AdjuntoBean implements Serializable {
     private byte[] contenido;
     private DefaultStreamedContent download;
     private String ruta;
+    private int idAdjunto;
+    private String rutaEliminar;
+    private int estadoEliminar;
     /**
      * Creates a new instance of AdjuntoBean
      */
@@ -134,6 +139,30 @@ public class AdjuntoBean implements Serializable {
     public void setRuta(String ruta) {
         this.ruta = ruta;
     }
+
+    public int getIdAdjunto() {
+        return idAdjunto;
+    }
+
+    public void setIdAdjunto(int idAdjunto) {
+        this.idAdjunto = idAdjunto;
+    }
+
+    public String getRutaEliminar() {
+        return rutaEliminar;
+    }
+
+    public void setRutaEliminar(String rutaEliminar) {
+        this.rutaEliminar = rutaEliminar;
+    }
+
+    public int getEstadoEliminar() {
+        return estadoEliminar;
+    }
+
+    public void setEstadoEliminar(int estadoEliminar) {
+        this.estadoEliminar = estadoEliminar;
+    }
     
     
 
@@ -146,6 +175,8 @@ public class AdjuntoBean implements Serializable {
         this.idSoli = 0;
         this.tipo=0;
         this.ruta= null;
+        this.estadoEliminar = 0;
+
     }
 
     public void nuevoAdjunto() {
@@ -206,14 +237,21 @@ public class AdjuntoBean implements Serializable {
             contextt.execute("PF('dialogEditarAdjunto').hide();");*/
     }
 
-    public void eliminarAdjunto() {
+    public void eliminarAdjunto(int idAdjunto, String rutaAEliminar) {
         AdjuntoDao pDao = new AdjuntoImp();
-        pDao.deleteAdjunto(adjunto);
+        this.adjunto.setIdAdjunto(idAdjunto);
+        this.adjunto.setRutaAdjunto(rutaAEliminar);
+        File fichero = new File(adjunto.getRutaAdjunto());
+        if(fichero.delete()){
+            pDao.deleteAdjunto(adjunto);
+        }else{
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No Fue Posible Eliminar El Archivo", null)); 
+        }
         prepararNuevoAdjunto();
-        /*  RequestContext context = RequestContext.getCurrentInstance();
-            context.update("formAdjunto");
-            RequestContext contextt = RequestContext.getCurrentInstance();
-            contextt.execute("PF('dialogEliminarAdjunto').hide();");*/
+                /*  RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formAdjunto");
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogEliminarAdjunto').hide();");*/
     }
 
     public void adminCargaArchivo(FileUploadEvent event) {
@@ -266,6 +304,21 @@ public class AdjuntoBean implements Serializable {
       ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
       setDownload(new DefaultStreamedContent(input, externalContext.getMimeType(file.getName()), file.getName()));
     }
+     
+     public boolean validaEliminacion(int idTipoAdjunto, int  idUsuario){
+         boolean habilitado = false;
+         int idPerfil = 0;
+         int idEstado = this.estadoEliminar;
+         Usuario us = new Usuario();
+         FacesContext context = FacesContext.getCurrentInstance();
+        us = (Usuario) context.getExternalContext().getSessionMap().get("ULogueado");
+        idPerfil = us.getIdPerfil().getIdPerfil();
+        if(us.getIdUsuario() == idUsuario){
+         TipoAdjuntoPerfilDao tAPDao = new TipoAdjuntoPerfilImp();
+         habilitado = tAPDao.buscaPermisoBorrar(idPerfil,idEstado, idTipoAdjunto);
+        }
+         return habilitado;
+     }
     
     
 

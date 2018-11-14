@@ -92,6 +92,7 @@ public class PerfilBean implements Serializable {
     public static final int EXPERTO_EN_AREA = 8;
     public static final int JEFE_CERTIFICACION = 9;
     public static final int FINANCIERA = 9;
+    public static final int PROFESIONAL_LOGISTICO = 11;
 
     public int getADMINISTRADOR() {
         return ADMINISTRADOR;
@@ -123,6 +124,10 @@ public class PerfilBean implements Serializable {
 
     public int getEXPERTO_EN_AREA() {
         return EXPERTO_EN_AREA;
+    }
+
+    public int getPROFESIONAL_LOGISTICO() {
+        return PROFESIONAL_LOGISTICO;
     }
     
 

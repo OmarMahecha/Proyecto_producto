@@ -49,6 +49,7 @@ import sys.model.Usuario;
 public class SolicitudBean implements Serializable {
 
     private List<Solicitud> listaSolicitudes;
+    private List<Solicitud> listaPorCoti;
     private List<Usuario> listaProfesionales;
     private Solicitud solicitud;
     private String idCliente;
@@ -105,7 +106,16 @@ public class SolicitudBean implements Serializable {
     }
     public void buscaPorCotizacion(){
          SolicitudImp sDao = new SolicitudImp();
-        listaSolicitudes = sDao.buscarPorCotizacion(CotizacionBuscada);
+        listaPorCoti = sDao.buscarPorCotizacion(CotizacionBuscada);
+        this.CotizacionBuscada = null;
+    }
+
+    public List<Solicitud> getListaPorCoti() {
+        return listaPorCoti;
+    }
+
+    public void setListaPorCoti(List<Solicitud> listaPorCoti) {
+        this.listaPorCoti = listaPorCoti;
     }
 
     public Solicitud getSolicitud() {
@@ -390,22 +400,34 @@ public class SolicitudBean implements Serializable {
     }
     
     public void enviarAprobOC() {
-        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_ENVIADA_A_PROFESIONAL, obs);
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_POR_AUTORIZAR, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogEnvAprobOC').hide();");
     }
     
     public void aprobarOfPL() {
-        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_POR_AUTORIZAR, obs);
+        if(solicitud.getIdEstadoActual().getIdEstado() == EstadoBean.OFERTA_POR_AUTORIZAR){
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_POR_AUTORIZAR_JEFE_CERTIFICACION, obs);
+        }else{
+            this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_POR_AUTORIZAR_JEFE_VENTAS, obs);
+        }
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogAprobOfPL').hide();");
     }
     
-     public void aprobarPrioridadComercial() {
-        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.PRIORIDAD_APROBADA_POR_COMERCIAL, obs);
+     public void aprobarOfJefeVentas() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_AUTORIZADA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogApruebaPrioridad').hide();");
     }
+     
+     public void devolverOfertaJefeVentas() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_DEVUELTA, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogAprobOfPL').hide();");
+    }
+     
+     
      public void rechazarPrioridadComercial() {
         this.solicitud.setEsPrioridad(Boolean.FALSE);
         editarSolicitud();
@@ -429,7 +451,11 @@ public class SolicitudBean implements Serializable {
     }
     
     public void aprobarOfJC() {
-        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_AUTORIZADA, obs);
+        if(solicitud.getIdEstadoActual().getIdEstado() == EstadoBean.OFERTA_POR_AUTORIZAR){
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_POR_AUTORIZAR_PROFESIONAL_LOGISTICO, obs);
+        }else{
+            this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_POR_AUTORIZAR_JEFE_VENTAS, obs);
+        }
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogAprobOfJC').hide();");
     }

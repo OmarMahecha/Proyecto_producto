@@ -93,9 +93,9 @@ public static final int DEVUELTA_POR_EXPERTO_EN_EL_AREA = 11;
 public static final int REENVIADA_A_EXPERTO_EN_EL_AREA = 12;
 public static final int ENVIADA_A__ASESOR_COMERCIAL = 13;
 public static final int OFERTA_COMERCIAL_ADJUNTA = 14;
-public static final int OFERTA_ENVIADA_A_PROFESIONAL = 15;
+public static final int OFERTA_POR_AUTORIZAR_PROFESIONAL_LOGISTICO = 15;
 public static final int OFERTA_COMERCIAL_DEVUELTA = 16;
-public static final int OFERTA_POR_AUTORIZAR = 17;
+public static final int OFERTA_POR_AUTORIZAR_JEFE_CERTIFICACION = 17;
 public static final int OFERTA_COMERCIAL_AUTORIZADA = 18;
 public static final int ENVIADA_AL_CLIENTE = 19;
 public static final int ACEPTADA_POR_EL_CLIENTE = 20;
@@ -105,6 +105,8 @@ public static final int PROGRAMACION_SERVICIO_EVALUACION = 24;
 public static final int PROGRAMA_AUDITORIA_Y_AUDITORIA_PRELIMINAR = 25;
 public static final int PRIORIDAD_APROBADA_POR_COMERCIAL = 26;
 public static final int PRIORIDAD_NO_APROBADA_POR_COMERCIAL = 27;
+public static final int OFERTA_POR_AUTORIZAR = 28;
+public static final int OFERTA_POR_AUTORIZAR_JEFE_VENTAS = 29;
 
 public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
         return SOLICITUD_DE_CERTIFICACION_CREADA;
@@ -154,10 +156,6 @@ public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
         return OFERTA_COMERCIAL_ADJUNTA;
     }
 
-    public  int getOFERTA_ENVIADA_A_PROFESIONAL() {
-        return OFERTA_ENVIADA_A_PROFESIONAL;
-    }
-
     public  int getOFERTA_COMERCIAL_DEVUELTA() {
         return OFERTA_COMERCIAL_DEVUELTA;
     }
@@ -198,4 +196,17 @@ public  int getSOLICITUD_DE_CERTIFICACION_CREADA() {
         return PRIORIDAD_NO_APROBADA_POR_COMERCIAL;
     }
 
+    public int getOFERTA_POR_AUTORIZAR_PROFESIONAL_LOGISTICO() {
+        return OFERTA_POR_AUTORIZAR_PROFESIONAL_LOGISTICO;
+    }
+
+    public int getOFERTA_POR_AUTORIZAR_JEFE_CERTIFICACION() {
+        return OFERTA_POR_AUTORIZAR_JEFE_CERTIFICACION;
+    }
+
+    public int getOFERTA_POR_AUTORIZAR_JEFE_VENTAS() {
+        return OFERTA_POR_AUTORIZAR_JEFE_VENTAS;
+    }
+
+    
 }

@@ -31,7 +31,7 @@ public class TipoAdjuntoPerfilImp implements TipoAdjuntoPerfilDao {
         List<TipoAdjuntoPerfil> lista = null;
         session = HibernateUtil.getSessionFactory().openSession();
         t = session.beginTransaction();
-        String hql="select t from TipoAdjuntoPerfil t INNER JOIN FETCH t.idTipoAdjunto inner join fetch t.idPerfil";
+        String hql="select t from TipoAdjuntoPerfil t INNER JOIN FETCH t.idTipoAdjunto inner join fetch t.idPerfil  p inner join t.idEstado";
         try{
 
            lista = session.createQuery(hql).list();
@@ -125,6 +125,33 @@ public class TipoAdjuntoPerfilImp implements TipoAdjuntoPerfilDao {
         }
         
         return lista;
+    }
+
+    @Override
+    public boolean buscaPermisoBorrar(int perfil , int estado, int tipoAdjunto) {
+        session = null;
+        t = null;
+        boolean encontrado = false;
+        int cant = 0;
+        String canti = null; 
+        session = HibernateUtil.getSessionFactory().openSession();
+        t = session.beginTransaction();
+        String hql="select CAST(count(t) As string)from TipoAdjuntoPerfil t INNER JOIN  t.idTipoAdjunto a  inner join t.idPerfil p inner join t.idEstado e where p.idPerfil = :perfil and e.idEstado = :estado and a.idTipoAdjunto = :tipoAdjunto";
+        try{
+
+           canti = (String) session.createQuery(hql).setParameter("perfil", perfil).setParameter("estado", estado).setParameter("tipoAdjunto", tipoAdjunto).uniqueResult();
+           cant = Integer.valueOf(canti);
+            t.commit();
+            session.close();
+                       if(cant > 0){
+               encontrado = true;
+           }
+        }catch (HibernateException e){
+            System.out.println(e.getMessage()+"error en lista TipoAdjuntoPerfil");
+            t.rollback();
+        }
+        
+        return encontrado;
     }
 
 }

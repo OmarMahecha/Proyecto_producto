@@ -27,7 +27,7 @@
 
                     <p:submenu label="SOLICITUDES" icon="ui-icon-document" >
                         <p:menuitem value="Ver Solicitudes" immediate="true" outcome="/faces/views/Solicitudes/solicitud.xhtml" /> 
-                        <p:menuitem value="Nueva Solicitud" immediate="true" outcome="/faces/views/Solicitudes/NuevaSolicitud.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR or usuarioBean.logueado.idPerfil.idPerfil == perfilBean.EJECUTIVO_COMERCIAL or usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ASISTENTE_COMERCIAL}" /> 
+                        <p:menuitem value="Nueva Solicitud" immediate="true" outcome="/faces/views/Solicitudes/NuevaSolicitud.xhtml" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR or usuarioBean.logueado.idPerfil.idPerfil == perfilBean.EJECUTIVO_COMERCIAL or usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ASISTENTE_COMERCIAL  or usuarioBean.logueado.idPerfil.idPerfil == perfilBean.JEFE_DE_VENTAS}" /> 
                     </p:submenu>
 
                     <p:submenu label="USUARIOS" icon="ui-icon-person" rendered="#{usuarioBean.logueado.idPerfil.idPerfil == perfilBean.ADMINISTRADOR}">

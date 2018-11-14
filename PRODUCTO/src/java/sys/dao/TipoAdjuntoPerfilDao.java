@@ -22,5 +22,7 @@ public interface TipoAdjuntoPerfilDao {
 
     public void deleteTipoAdjuntoPerfil(TipoAdjuntoPerfil tipoAdjuntoPerfil);
     
+    public boolean buscaPermisoBorrar(int tipoAdjunto, int estado, int perfil); 
+    
     public List<TipoAdjuntoPerfil> ListarTipoAdjuntoPorPerfil(int perfil, int estado, int soli);
 }
