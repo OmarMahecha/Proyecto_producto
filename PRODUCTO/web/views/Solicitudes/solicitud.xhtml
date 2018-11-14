@@ -500,54 +500,10 @@
                                 <h:outputText id="cTiempo" value="#{solicitudBean.calculoDeTiempo(soli.idSolicitud, soli.idEstadoActual.idEstado)}" />
                             </p:column>
                            <p:column headerText="Acciones">
-                            <p:commandButton icon="ui-icon-pin-w" update="formAdjuntarDocumento:datosAdjuntarDocumento" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAdjuntarDocumento').show();" title="Adjuntar documento a solicitud" style="margin:0 auto;" rendered="#{permisosAplicacionBean.adjuntar}">
-                                <f:setPropertyActionListener target="#{tipoAdjuntoBean.estado}" value="#{soli.idEstadoActual.idEstado}"/>
-                                <f:setPropertyActionListener target="#{tipoAdjuntoBean.soli}" value="#{soli.idSolicitud}"/>
-                                <f:setPropertyActionListener target="#{adjuntoBean.idSoli}" value="#{soli.idSolicitud}"/>
-                            </p:commandButton>
                             <p:commandButton icon="ui-icon-document" update="formAbrirAdjunto:datosAbrirAdjunto" actionListener="#{adjuntoBean.prepararNuevoAdjunto()}" oncomplete="PF('dialogAbrirAdjunto').show();" title="Ver Adjuntos" style="margin:0 auto;" rendered="#{permisosAplicacionBean.verAdjunto}">
                                 <f:setPropertyActionListener target="#{adjuntoBean.idSoli}" value="#{soli.idSolicitud}"/>
                                 <f:setPropertyActionListener target="#{adjuntoBean.estadoEliminar}" value="#{soli.idEstadoActual.idEstado}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnviaProf:datosEnviaProf" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnviaProf').show();" title="Enviar Revisión Preliminar de Solicitud de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.enviarArevisionPreliminar and ((soli.idEstadoActual.idEstado == estadoBean.SOLICITUD_DE_CERTIFICACION_CREADA  and !soli.esPrioridad) or (soli.idEstadoActual.idEstado == estadoBean.PRIORIDAD_APROBADA_POR_COMERCIAL or soli.idEstadoActual.idEstado == estadoBean.PRIORIDAD_NO_APROBADA_POR_COMERCIAL) or (soli.idEstadoActual.idEstado == estadoBean.DEVUELTA_POR_PROFESIONAL))}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-person" update="formAsignaProf:datosAsignaProf" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAsignaProf').show();" title="Asignar Profesional de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.asignarProf and soli.idEstadoActual.idEstado == estadoBean.ENVIADA_A_REVISION_PRELIMINAR }">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>                            
-                            <p:commandButton icon=" ui-icon-check" update="formRevPreTecnica:datosRevPreTecnica" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevPreTecnica').show();" title="Aprobación de Revisión Preliminar de Solicitud de Certificación" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaProf and (soli.idEstadoActual.idEstado == estadoBean.SOLICITUD_ASIGNADA or soli.idEstadoActual.idEstado == estadoBean.REENVIADA_A_REVISION_PRELIMINAR)}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnviaExp:datosEnviaExp" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnviaExp').show();" title="Enviar Solicitud a Experto" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaProf and (soli.idEstadoActual.idEstado == estadoBean.DOCUMENTACION_COMPLETA or soli.idEstadoActual.idEstado == estadoBean.DEVUELTA_POR_EXPERTO_EN_EL_AREA)}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-check" update="formRevSolicitud:datosRevSolicitud" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogRevSolicitud').show();" title="Revision Solicitud" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaExperto and (soli.idEstadoActual.idEstado == estadoBean.ENVIADA_A_EXPERTO_EN_EL_AREA or soli.idEstadoActual.idEstado == estadoBean.REENVIADA_A_EXPERTO_EN_EL_AREA)}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-arrowreturnthick-1-e" update="formEnvAprobOC:datosEnvAprobOC" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogEnvAprobOC').show();" title="Enviar Para Aprobación Oferta Comercial" style="margin:0 auto;" rendered="#{permisosAplicacionBean.enviarArevisionPreliminar and (soli.idEstadoActual.idEstado == estadoBean.COTIZACION_ASIGNADA or soli.idEstadoActual.idEstado == estadoBean.OFERTA_COMERCIAL_DEVUELTA)}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon=" ui-icon-check" update="formAprobOfPL:datosAprobOfPL" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfPL').show();" title="Aprobar Oferta Comercial Profesional Logistico" style="margin:0 auto;" rendered="#{permisosAplicacionBean.aprobacionProfesionalLogistico and (soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR or soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR_PROFESIONAL_LOGISTICO)}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon=" ui-icon-check" update="formAprobOfJC:datosAprobOfJC" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfJC').show();" title="Aprobar Oferta Comercial Jefe Certificacion" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaJefe and (soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR or soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR_JEFE_CERTIFICACION)}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon=" ui-icon-check" update="formAprobOfJV:datosAprobOfJV" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfJV').show();" title="Aprobar Oferta Comercial Jefe De Ventas" style="margin:0 auto;" rendered="#{permisosAplicacionBean.aprobarOfertaJefeVentas and (soli.idEstadoActual.idEstado == estadoBean.OFERTA_POR_AUTORIZAR_JEFE_VENTAS)}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-check" update="formAprobOfCL:datosAprobOfCL" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogAprobOfCL').show();" title="Enviar Para Aprobacion del Cliente" style="margin:0 auto;" rendered="#{permisosAplicacionBean.apruebaCliente and soli.idEstadoActual.idEstado == estadoBean.OFERTA_COMERCIAL_AUTORIZADA}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-calendar" update="formProgSE:datosProgSE" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgSE').show();" title="Programación Servicio de Evaluación" style="margin:0 auto;" rendered="false" >
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-print" update="formProgAud:datosProgAud" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogProgAud').show();" title="Enviar Programa de Auditoría y Auditoría Preliminar" style="margin:0 auto;" rendered="false">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
-                            <p:commandButton icon="ui-icon-check" update="formApruebaPrioridad:datosApruebaPrioridad" actionListener="#{solicitudBean.limpiaHistorico()}" oncomplete="PF('dialogApruebaPrioridad').show();" title="Aprobar Prioridad" style="margin:0 auto;" rendered="#{permisosAplicacionBean.aprobarPrioridad  and soli.idEstadoActual.idEstado == estadoBean.SOLICITUD_DE_CERTIFICACION_CREADA and soli.esPrioridad}">
-                                <f:setPropertyActionListener target="#{solicitudBean.solicitud}" value="#{soli}"/>
-                            </p:commandButton>
+                            </p:commandButton>                           
                             <p:commandButton icon="ui-icon-clock" update="formHistorico:datosHistorico" oncomplete="PF('dialogHistorico').show();" title="Ver Historico" style="margin:0 auto;" >
                                 <f:setPropertyActionListener target="#{historicoBean.idSolicitud}" value="#{soli.idSolicitud}"/>
                             </p:commandButton>                            
