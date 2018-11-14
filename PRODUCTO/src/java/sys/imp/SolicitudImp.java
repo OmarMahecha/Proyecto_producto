@@ -32,7 +32,7 @@ public class SolicitudImp implements SolicitudDao{
         String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion order by s.idSolicitud desc";
         try{
 
-           lista = session.createQuery(hql).setMaxResults(100).list();
+           lista = session.createQuery(hql).setMaxResults(800).list();
             t.commit();
             session.close();
         }catch (HibernateException e){
@@ -114,7 +114,7 @@ public class SolicitudImp implements SolicitudDao{
         String hql="SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion where s.idSolicitud= :id";
         try{
 
-           lista = session.createQuery(hql).setParameter("id", id).setMaxResults(100).list();
+           lista = session.createQuery(hql).setParameter("id", id).setMaxResults(800).list();
             t.commit();
             session.close();
         }catch (HibernateException e){
@@ -136,7 +136,7 @@ public class SolicitudImp implements SolicitudDao{
         //"SELECT s FROM Solicitud s LEFT JOIN FETCH s.idEstadoActual LEFT JOIN FETCH s.idUsuario u LEFT JOIN FETCH s.idProfesionalAsignado p LEFT JOIN FETCH s.idTipoCertificacion order by s.idSolicitud desc";
         try{
 
-           lista = session.createQuery(hql).setParameter("idUser", idUser).setMaxResults(100).list();
+           lista = session.createQuery(hql).setParameter("idUser", idUser).setMaxResults(800).list();
             t.commit();
             session.close();
         }catch (HibernateException e){

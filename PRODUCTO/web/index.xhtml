@@ -6,15 +6,21 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Producto</title>
+        <link rel="shortcut icon" href="resources/images/favicon.ico"></link>
     </h:head>
     <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onerror="#{context.getExternalContext().redirect('/SistemaDeLaboratorios/faces/Error.xhtml')}" onsuccess="PF('statusDialog').hide()" />
+
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
+                    <p:graphicImage name="images/cargando.gif" />
+                </p:dialog>
         <div class="container" style="margin-top: 8%;">
             <center>
             <h:form class="form-signin">
                 <h1 class="form-signin-heading text-center">LINEA DE PRODUCTO</h1>
                 
-                    <img src="resources/images/LOGO SM LARGO-01.png" width="400px"/><br/><br/>
+                    <img src="resources/images/LOGO SM ACTUALIZADO HORIZONTAL (PNG).png" width="400px"/><br/><br/>
                 
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
                 <h:inputText style="opacity: 1;" value="#{usuarioBean.usuario.usuario}" required="true" requiredMessage="Debe ingresar el usuario" class="form-control" pt:placeholder="Usuario" pt:required=""/><br/>
