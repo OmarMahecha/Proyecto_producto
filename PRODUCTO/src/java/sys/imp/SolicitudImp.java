@@ -51,8 +51,8 @@ public class SolicitudImp implements SolicitudDao{
        session = HibernateUtil.getSessionFactory().openSession();
        t = session.beginTransaction();
        session.save(solicitud);
-       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud creada con éxito",null));
        t.commit();
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Solicitud creada con éxito",null));
         }catch (HibernateException e){
             System.out.println(e.getMessage());
             t.rollback();

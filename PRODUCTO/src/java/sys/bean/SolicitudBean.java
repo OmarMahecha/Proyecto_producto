@@ -363,6 +363,8 @@ public class SolicitudBean implements Serializable {
     }
     
     public void aprobarProfesional() {
+        SolicitudDao sDao = new SolicitudImp();
+        sDao.updateSolicitud(solicitud);
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.DOCUMENTACION_COMPLETA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogRevPreTecnica').hide();");
