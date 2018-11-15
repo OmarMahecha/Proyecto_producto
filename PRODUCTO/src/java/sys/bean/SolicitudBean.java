@@ -416,17 +416,22 @@ public class SolicitudBean implements Serializable {
         RequestContext contextt = RequestContext.getCurrentInstance();
         contextt.execute("PF('dialogAprobOfPL').hide();");
     }
+         public void aprobarPrioridadComercial() {
+        this.nuevoHistoricoSolicitud(solicitud, EstadoBean.PRIORIDAD_APROBADA_POR_COMERCIAL, obs);
+        RequestContext contextt = RequestContext.getCurrentInstance();
+        contextt.execute("PF('dialogApruebaPrioridad').hide();");
+    }
     
      public void aprobarOfJefeVentas() {
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_AUTORIZADA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
-        contextt.execute("PF('dialogApruebaPrioridad').hide();");
+        contextt.execute("PF('dialogAprobOfJV').hide();");
     }
      
      public void devolverOfertaJefeVentas() {
         this.nuevoHistoricoSolicitud(solicitud, EstadoBean.OFERTA_COMERCIAL_DEVUELTA, obs);
         RequestContext contextt = RequestContext.getCurrentInstance();
-        contextt.execute("PF('dialogAprobOfPL').hide();");
+        contextt.execute("PF('dialogAprobOfJV').hide();");
     }
      
      
